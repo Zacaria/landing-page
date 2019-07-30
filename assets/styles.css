@@ -1,0 +1,38 @@
+html, body, a {
+    font-family: 'Fira Code', monospace;
+    background-color: #F9F9F9;
+    color: #657b83;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+}
+
+main {
+    line-height: 2rem;
+}
+
+img {
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    margin-top: 30px;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+a {
+    text-decoration: none;
+}
+
+@media (max-width: 640px) {
+    footer {
+        flex-direction: column;
+        line-height: 1.9rem;
+    }
+}
