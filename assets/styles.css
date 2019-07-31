@@ -11,6 +11,7 @@ html, body, a {
 
 main {
     line-height: 2rem;
+    font-size: 1.2rem;
 }
 
 img {
@@ -28,6 +29,7 @@ nav {
 
 a {
     text-decoration: none;
+    border-bottom: 1px solid #657b83;
 }
 
 @media (max-width: 640px) {
