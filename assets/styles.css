@@ -30,6 +30,7 @@ nav {
 a {
     text-decoration: none;
     border-bottom: 1px solid #657b83;
+    align-self: center;
 }
 
 @media (max-width: 640px) {
