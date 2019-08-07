@@ -12,6 +12,10 @@ html, body, a {
     justify-content: space-around;
 }
 
+h2 {
+    font-size: medium;
+}
+
 main {
     line-height: 2rem;
     font-size: 1.2rem;
