@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+}
+
 html, body, a {
     font-family: 'Fira Code', monospace;
     background-color: #F9F9F9;
@@ -6,7 +10,6 @@ html, body, a {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    height: 100%;
 }
 
 main {
@@ -14,10 +17,14 @@ main {
     font-size: 1.2rem;
 }
 
+@media (max-height: 685px) {
+    main {
+        margin: 40px 0;
+    }
+}
+
 img {
-    border-radius: 100%;
-    width: 100px;
-    height: 100px;
+    border-radius: 100px;
     margin-top: 30px;
 }
 
