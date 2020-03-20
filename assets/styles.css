@@ -7,6 +7,9 @@ html, body, a {
     background-color: #F9F9F9;
     color: #657b83;
     text-align: center;
+}
+
+body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
