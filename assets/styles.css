@@ -13,6 +13,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    min-height: 100vh;
 }
 
 h2 {
@@ -22,6 +23,11 @@ h2 {
 main {
     line-height: 2rem;
     font-size: 1.2rem;
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 @media (max-height: 685px) {
@@ -39,6 +45,7 @@ nav {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    flex: 1;
 }
 
 a {
