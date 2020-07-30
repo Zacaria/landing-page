@@ -1,4 +1,3 @@
-
 {
   "name": "havesomecode",
   "version": "1.0.0",
@@ -11,7 +10,8 @@
     "build": "npm run clean && cp -r client/. dist",
     "clean": "rm -rf dist"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "serverless-finch": "^2.6.0"
   }
 }
