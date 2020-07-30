@@ -9,9 +9,5 @@
   "scripts": {
     "build": "npm run clean && cp -r client/. dist",
     "clean": "rm -rf dist"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "serverless-finch": "^2.6.0"
   }
 }

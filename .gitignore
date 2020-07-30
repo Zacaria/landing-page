@@ -60,8 +60,7 @@ typings/
 # next.js build output
 .next
 
+# terraform directories
 .terraform
-# Serverless directories
-.serverless
 
 dist
