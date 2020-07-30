@@ -63,6 +63,6 @@ typings/
 .next
 
 # terraform directories
-.terraform
+**/.terraform
 
 dist
