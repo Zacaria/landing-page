@@ -1,0 +1,17 @@
+
+{
+  "name": "havesomecode",
+  "version": "1.0.0",
+  "description": "landing-page",
+  "main": "index.js",
+  "repository": "git@github.com:Zacaria/landing-page.git",
+  "author": "Zacaria <havesomecode@gmail.com>",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "npm run clean && cp -r client/. dist",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "serverless-finch": "^2.6.0"
+  }
+}
