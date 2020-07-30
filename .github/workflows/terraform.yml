@@ -2,7 +2,7 @@ name: 'Terraform'
 
 defaults:
   run:
-    working-directory: "deployments/terraform"
+    working-directory: "./deployments/terraform"
 on:
   push:
     branches:
