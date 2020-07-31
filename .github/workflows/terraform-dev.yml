@@ -65,10 +65,12 @@ jobs:
 
     - name: Build site
       run: rm -rf dist && cp -r client/. dist
+      working-directory: ./
 
     - name: Deploy site
       if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
       run: aws s3 sync dist s3://havesomecode-landing-site-bucket--stage-dev
+      working-directory: ./
       env:
         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
