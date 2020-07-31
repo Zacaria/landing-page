@@ -13,7 +13,7 @@ variable "app" {
 variable "stage" {
   description = "Stage where app should be deployed like dev, staging or prod."
   # default     = "prod"
-  type        = string
+  type = string
 }
 
 variable "artifact_dir" {
