@@ -15,7 +15,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: "./deployments/terraform"
+        working-directory: "./deployments/terraform/environments/dev"
 
     # Checkout the repository to the GitHub Actions runner
     steps:
