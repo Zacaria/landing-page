@@ -5,3 +5,7 @@ output "website_url" {
 output "s3_bucket" {
   value = "${var.app}-site-bucket--stage-${var.stage}"
 }
+
+output "fileset-results" {
+  value = fileset(path.module, "../../**")
+}

@@ -43,16 +43,16 @@ EOF
   }
 }
 
-resource "null_resource" "upload_web_resource" {
-  provisioner "local-exec" {
-    command = "aws s3 sync ${var.artifact_dir} s3://${var.app}-site-bucket--stage-${var.stage}"
-  }
+resource "aws_s3_bucket_object" "objects" {
+  for_each = fileset(path.module, var.artifact_dir)
+
+  bucket = "${var.app}-site-bucket--stage-${var.stage}"
+  key    = each.value
+  source = each.value
+
+  etag = filemd5("${path.module}/${each.value}")
 
   depends_on = [aws_s3_bucket.site_bucket]
-
-  triggers = {
-    always_run = "${timestamp()}"
-  }
 }
 
 resource "aws_acm_certificate" "certificate" {
@@ -112,7 +112,7 @@ resource "aws_cloudfront_distribution" "distribution" {
     ssl_support_method  = "sni-only"
   }
 
-  depends_on = [null_resource.upload_web_resource]
+  depends_on = [aws_s3_bucket_object.objects]
 }
 
 resource "aws_route53_zone" "zone" {

@@ -12,7 +12,7 @@ variable "app" {
 
 variable "stage" {
   description = "Stage where app should be deployed like dev, staging or prod."
-  default     = "prod"
+  # default     = "prod"
   type        = string
 }
 
@@ -29,11 +29,11 @@ variable "cert_arn" {
 }
 
 variable "domain" {
-  description = "Root domain e.g: exmaple.dev."
+  description = "Root domain e.g: exmaple.dev"
   default     = "havesomecode.io"
 }
 
 variable "cname" {
   description = "Name of CNAME record."
-  default     = "www"
+  # default     = "www"
 }
