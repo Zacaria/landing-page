@@ -8,6 +8,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "npm run clean && cp -r client/. dist",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "deploy:dev": "aws s3 sync dist s3://havesomecode-landing-site-bucket--stage-dev",
+    "deploy:prod": "aws s3 sync dist s3://havesomecode-landing-site-bucket--stage-prod"
   }
 }

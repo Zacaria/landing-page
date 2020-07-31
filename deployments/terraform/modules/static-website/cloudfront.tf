@@ -1,58 +1,6 @@
 provider "aws" {
-  profile = "default"
-  region  = var.region
-}
-
-provider "aws" {
   alias  = "virginia"
   region = "us-east-1"
-}
-
-resource "aws_s3_bucket" "site_bucket" {
-  bucket = "${var.app}-site-bucket--stage-${var.stage}"
-
-  force_destroy = true
-
-  acl = "public-read"
-
-  policy = <<EOF
-{
-  "Version": "2008-10-17",
-  "Statement": [
-    {
-      "Sid": "PublicReadForGetBucketObjects",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "*"
-      },
-      "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::${var.app}-site-bucket--stage-${var.stage}/*"
-    }
-  ]
-}
-EOF
-
-  tags = {
-    APP   = var.app
-    STAGE = var.stage
-  }
-
-  website {
-    index_document = "index.html"
-    error_document = "index.html"
-  }
-}
-
-resource "aws_s3_bucket_object" "objects" {
-  for_each = fileset(path.module, var.artifact_dir)
-
-  bucket = "${var.app}-site-bucket--stage-${var.stage}"
-  key    = each.value
-  source = each.value
-
-  etag = filemd5("${path.module}/${each.value}")
-
-  depends_on = [aws_s3_bucket.site_bucket]
 }
 
 resource "aws_acm_certificate" "certificate" {
@@ -112,21 +60,5 @@ resource "aws_cloudfront_distribution" "distribution" {
     ssl_support_method  = "sni-only"
   }
 
-  depends_on = [aws_s3_bucket_object.objects]
-}
-
-resource "aws_route53_zone" "zone" {
-  name = var.domain
-}
-
-resource "aws_route53_record" "cname" {
-  zone_id = aws_route53_zone.zone.zone_id
-  name    = var.cname
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
+  depends_on = [aws_acm_certificate.certificate]
 }

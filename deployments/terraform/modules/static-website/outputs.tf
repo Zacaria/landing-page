@@ -7,5 +7,5 @@ output "s3_bucket" {
 }
 
 output "fileset-results" {
-  value = fileset(path.module, "../../**")
+  value = fileset(path.module, "${var.artifact_dir}/**")
 }
