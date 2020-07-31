@@ -119,7 +119,7 @@ resource "aws_route53_zone" "zone" {
   name = var.domain
 }
 
-resource "aws_route53_record" "www" {
+resource "aws_route53_record" "cname" {
   zone_id = aws_route53_zone.zone.zone_id
   name    = var.cname
   type    = "A"
