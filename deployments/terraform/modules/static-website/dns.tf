@@ -2,7 +2,7 @@ resource "aws_route53_zone" "zone" {
   name = var.domain
 
   tags = {
-    Env = var.stage
+    ENV = var.stage
   }
 }
 

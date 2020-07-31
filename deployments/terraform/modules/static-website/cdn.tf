@@ -24,7 +24,7 @@ EOF
 
   tags = {
     APP   = var.app
-    STAGE = var.stage
+    ENV   = var.stage
   }
 
   website {

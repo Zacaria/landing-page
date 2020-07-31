@@ -61,4 +61,9 @@ resource "aws_cloudfront_distribution" "distribution" {
   }
 
   depends_on = [aws_acm_certificate.certificate]
+
+  tags = {
+    APP   = var.app
+    ENV   = var.stage
+  }
 }
