@@ -1,34 +1,38 @@
-name: 'Deploy Prod'
+name: Verify
 
 on:
   push:
-    branches:
-    - master
+    branches: [master]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  site:
-    name: 'Deploy site'
+  verify:
+    name: Verify static release
     runs-on: ubuntu-latest
-
-    # Checkout the repository to the GitHub Actions runner
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-    - name: Build site
-      run: make clean && make build
+      - name: Run acceptance tests
+        run: python3 tests/test_site.py -q
 
-    - name: Deploy site
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: make deploy-prod
-      env:
-        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Validate HTML and JavaScript
+        run: |
+          npx -y html-validate 'client/*.html' 'sketches/social-card-source.html'
+          node --check client/assets/site.js
+
+      - name: Validate design specification
+        run: npx -y @google/design.md lint DESIGN.md
+
+      - name: Build clean static output
+        run: |
+          make build
+          diff -rq client dist

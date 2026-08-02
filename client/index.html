@@ -1,125 +1,419 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta
-      name="keyword"
-      content="Havesomecode, official, Zacaria Chtatar, Zacaria, Chtatar, developer, reactjs, react, node, nodejs, rust, code, have, some, solve, js, javascript, Paris Zacaria Chtatar, Chtatar Zacaria, Chtatar"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Havesomecode official website, Landing page of Zacaria Chtatar, React and NodeJs developer. I solve problems. I build with code. And I like to keep it simple."
+      content="HaveSomeCode is Zacaria Chtatar’s corner of the web: software, side projects, talks, and questions worth following."
     />
-    <meta property="og:type" content="landing page" />
-    <meta
-      property="og:image"
-      content="https://www.havesomecode.io/assets/portrait-responsive/portrait_w_356.jpg"
-    />
-    <meta
-      property="og:title"
-      content="Zacaria Chtatar, React and NodeJs Developer"
-    />
-    <meta property="og:description" content="Landing page of Zacaria Chtatar" />
-    <meta property="og:site_name" content="havesomecode" />
-    <meta property="og:url" content="https://www.havesomecode.io" />
+    <meta name="author" content="Zacaria Chtatar" />
+    <meta name="theme-color" content="#f1eee6" />
 
-    <meta
-      property="twitter:title"
-      content="JavaScript developer Zacaria Chtatar"
-    />
-    <meta
-      property="twitter:image"
-      content="https://www.havesomecode.io/assets/portrait-responsive/portrait_w_356.jpg"
-    />
-    <meta
-      property="twitter:description"
-      content="@ChtatarZacaria landing page"
-    />
-    <meta
-      property="twitter:card"
-      content="JavaScript developer Zacaria Chtatar"
-    />
-    <meta property="twitter:creator" content="@ChtatarZacaria" />
-    <title>Zacaria Chtatar, React and NodeJs Developer</title>
+    <link rel="canonical" href="https://www.havesomecode.io/" />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap"
-      rel="stylesheet"
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="HaveSomeCode" />
+    <meta property="og:url" content="https://www.havesomecode.io/" />
+    <meta property="og:title" content="HaveSomeCode — Zacaria’s corner of the web" />
+    <meta
+      property="og:description"
+      content="Software, side projects, talks, and questions worth following."
     />
+    <meta property="og:image" content="https://www.havesomecode.io/assets/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="HaveSomeCode — Zacaria Chtatar’s corner of the web" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="HaveSomeCode — Zacaria’s corner of the web" />
+    <meta name="twitter:description" content="Software, side projects, talks, and questions worth following." />
+    <meta name="twitter:image" content="https://www.havesomecode.io/assets/social-card.png" />
+    <meta name="twitter:image:alt" content="HaveSomeCode — Zacaria Chtatar’s corner of the web" />
+
+    <title>Zacaria Chtatar — Software, side projects &amp; curiosity</title>
+
+    <script>document.documentElement.classList.add('js')</script>
+
+    <link rel="preload" href="assets/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="icon" href="assets/favicon.ico" sizes="any" />
 
-    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-
-    <script defer src="assets/email.js"></script>
-    <script defer src="assets/fontawesome/js/brands.min.js"></script>
-    <script defer src="assets/fontawesome/js/solid.min.js"></script>
-    <script defer src="assets/fontawesome/js/fontawesome.min.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Zacaria Chtatar",
+        "url": "https://www.havesomecode.io/",
+        "image": "https://www.havesomecode.io/assets/portrait-responsive/portrait-w_600.jpg",
+        "jobTitle": "Lead Developer",
+        "homeLocation": {
+          "@type": "Country",
+          "name": "France"
+        },
+        "knowsAbout": [
+          "Software engineering",
+          "API architecture",
+          "Rust",
+          "AI agents",
+          "Algorithm visualization"
+        ],
+        "sameAs": [
+          "https://github.com/Zacaria",
+          "https://www.linkedin.com/in/zacariachtatar/",
+          "https://www.youtube.com/watch?v=eSo3e3ugn5g"
+        ]
+      }
+    </script>
+    <script defer src="assets/site.js"></script>
   </head>
 
   <body>
-    <header>
-      <h1 title="Would you havesomecode ?">Hi, I'm Zacaria</h1>
-      <h2>NodeJs, Rust & React Developer @ Paris</h2>
-      <img
-        sizes="(max-width: 425px) 200px, (max-width: 1024px) 250px, 300px"
-        srcset="
-          assets/portrait-responsive/portrait-w_200.jpg 200w,
-          assets/portrait-responsive/portrait-w_381.jpg 381w,
-          assets/portrait-responsive/portrait-w_546.jpg 546w,
-          assets/portrait-responsive/portrait-w_600.jpg 600w
-        "
-        src="assets/portrait-responsive/portrait-w_600.jpg"
-        alt="Zacaria Chtatar portrait"
-        title="Would you havesomecode ?"
-      />
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="shell site-header" id="top">
+      <a class="brand" href="#top" aria-label="Zacaria Chtatar, home">Zacaria Chtatar</a>
+      <button class="menu" type="button" aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+      <nav class="nav-links" id="primary-navigation" aria-label="Primary navigation">
+        <a href="#projects" data-section-link>Projects</a>
+        <a href="#thinking" data-section-link>Questions</a>
+        <a href="#speaking" data-section-link>Speaking</a>
+        <a href="#about" data-section-link>About</a>
+        <a class="button button-small" href="https://cv.havesomecode.io/">Read my CV <span aria-hidden="true">↗</span></a>
+      </nav>
     </header>
-    <main>
-      I solve problems.
-      <br />
-      I build with code.
-      <br />
-      And I like to keep it simple.
+
+    <main id="main-content">
+      <div class="shell hero">
+        <div class="hero-copy">
+          <p class="eyebrow" data-reveal>Hello, I’m Zacaria.</p>
+          <h1>I like finding out how things really work.</h1>
+          <p class="hero-introduction" data-reveal>
+            I build software and lead teams. I also start side projects whenever a question refuses to leave me alone.
+            HaveSomeCode is where I share the ones that made it somewhere.
+          </p>
+          <div class="hero-actions" data-reveal>
+            <a class="button button-primary" href="#projects">See what I make <span aria-hidden="true">↓</span></a>
+            <a class="button" href="mailto:havesomecode@gmail.com">Say hello</a>
+          </div>
+          <p class="focus-line" data-reveal>SOFTWARE · SIDE PROJECTS · TALKS · QUESTIONS I’M STILL FOLLOWING</p>
+        </div>
+
+        <div class="hero-visual" data-pointer-field>
+          <span class="hero-watermark" aria-hidden="true">WHY?</span>
+          <figure class="decision-map" aria-labelledby="decision-map-caption" data-reveal>
+            <svg viewBox="0 0 520 660" aria-hidden="true">
+              <g class="decision-map__orbit">
+                <circle cx="260" cy="330" r="206" />
+                <circle cx="260" cy="330" r="142" />
+                <path d="M112 184 408 476" />
+                <path d="M408 184 112 476" />
+              </g>
+              <g class="decision-map__core">
+                <circle cx="260" cy="330" r="44" />
+                <text x="260" y="335">CURIOSITY</text>
+              </g>
+              <g class="decision-map__node" data-system-node="context" transform="translate(32 74)">
+                <rect width="134" height="52" />
+                <text x="14" y="22">01 / CONTEXT</text>
+                <text class="decision-map__note" x="14" y="40">WHAT IS THIS?</text>
+              </g>
+              <g class="decision-map__node" data-system-node="systems" transform="translate(354 104)">
+                <rect width="134" height="52" />
+                <text x="14" y="22">02 / SYSTEMS</text>
+                <text class="decision-map__note" x="14" y="40">HOW DOES IT MOVE?</text>
+              </g>
+              <g class="decision-map__node" data-system-node="people" transform="translate(32 536)">
+                <rect width="134" height="52" />
+                <text x="14" y="22">03 / PEOPLE</text>
+                <text class="decision-map__note" x="14" y="40">WHO CARES?</text>
+              </g>
+              <g class="decision-map__node" data-system-node="operations" transform="translate(354 536)">
+                <rect width="134" height="52" />
+                <text x="14" y="22">04 / OPERATIONS</text>
+                <text class="decision-map__note" x="14" y="40">CAN IT LAST?</text>
+              </g>
+            </svg>
+            <figcaption class="visually-hidden" id="decision-map-caption">
+              A map of the questions Zacaria follows through context, systems, people, and operations.
+            </figcaption>
+          </figure>
+          <figure class="portrait-frame" data-reveal>
+            <img
+              src="assets/portrait-responsive/portrait-w_600.jpg"
+              srcset="
+                assets/portrait-responsive/portrait-w_200.jpg 200w,
+                assets/portrait-responsive/portrait-w_381.jpg 381w,
+                assets/portrait-responsive/portrait-w_546.jpg 546w,
+                assets/portrait-responsive/portrait-w_600.jpg 600w
+              "
+              sizes="(max-width: 800px) 65vw, 380px"
+              width="600"
+              height="600"
+              loading="eager"
+              fetchpriority="high"
+              alt="Zacaria Chtatar, a Lead Developer based in France"
+            />
+            <figcaption>France · usually building something</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <section class="shell outcomes" aria-labelledby="world-title">
+        <h2 class="visually-hidden" id="world-title">A map of HaveSomeCode</h2>
+        <article class="outcome" data-reveal>
+          <strong>Make</strong>
+          <p>Small tools, visual experiments, and software I wanted to use.</p>
+        </article>
+        <article class="outcome" data-reveal>
+          <strong>Learn</strong>
+          <p>Rust, AI, systems, and whatever has my attention this week.</p>
+        </article>
+        <article class="outcome" data-reveal>
+          <strong>Share</strong>
+          <p>Talks and notes made to help an idea click for someone else.</p>
+        </article>
+        <article class="outcome" data-reveal>
+          <strong>Lead</strong>
+          <p>The harder questions where software, teams, and context meet.</p>
+        </article>
+      </section>
+
+      <section class="conversation-prompt" aria-labelledby="conversation-title" data-reveal>
+        <p class="kicker">An open door</p>
+        <div class="conversation-prompt__copy">
+          <h2 id="conversation-title">Building something that needs technical depth and a wider view?</h2>
+          <p>I’m always glad to hear about thoughtful products, difficult trade-offs, and teams ready for their next step.</p>
+        </div>
+        <a class="conversation-prompt__link" href="mailto:havesomecode@gmail.com">
+          Start a conversation <span aria-hidden="true">↗</span>
+        </a>
+      </section>
+
+      <section class="page-section projects-section" id="projects" aria-labelledby="projects-title">
+        <div class="shell">
+          <header class="section-heading" data-reveal>
+            <p class="kicker">From my desk</p>
+            <div>
+              <h2 id="projects-title">Things I made because I wanted them to exist.</h2>
+              <p>Some started with a practical annoyance. Others began with a question I wanted to see moving.</p>
+            </div>
+          </header>
+
+          <div class="project-list">
+            <article class="project-entry" data-project="float" data-reveal>
+              <div class="project-entry__copy">
+                <p class="project-index">01 / Desktop utility</p>
+                <h3>Float</h3>
+                <p>
+                  I kept losing reference images behind my editor. Float is the small app I wanted: pin an image,
+                  adjust its opacity, and get back to what I was doing.
+                </p>
+                <p class="project-stack">Rust · Tauri · macOS + Windows</p>
+                <div class="project-links">
+                  <a href="https://zacaria.github.io/float/" target="_blank" rel="noopener noreferrer">Visit Float <span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/Zacaria/float" target="_blank" rel="noopener noreferrer">Source <span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+              <a class="project-entry__media" href="https://zacaria.github.io/float/" target="_blank" rel="noopener noreferrer" aria-label="Open project: Float">
+                <img src="assets/projects/float.webp" width="1280" height="800" loading="lazy" alt="Float project site showing the always-on-top reference image app" />
+                <span>Open project <span aria-hidden="true">↗</span></span>
+              </a>
+            </article>
+
+            <article class="project-entry" data-project="pathfinding" data-reveal>
+              <div class="project-entry__copy">
+                <p class="project-index">02 / Interactive experiment</p>
+                <h3>Pathfinding</h3>
+                <p>
+                  I wanted to watch search algorithms make decisions instead of reading another diagram. This
+                  Rust/WASM playground lets you edit the grid, change the algorithm, and step through the search.
+                </p>
+                <p class="project-stack">Rust · WebAssembly · React</p>
+                <div class="project-links">
+                  <a href="https://pathfinding-client.vercel.app/" target="_blank" rel="noopener noreferrer">Try it <span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/Zacaria/pathfinding-client" target="_blank" rel="noopener noreferrer">Source <span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+              <a class="project-entry__media" href="https://pathfinding-client.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open experiment: Pathfinding">
+                <img src="assets/projects/pathfinding.webp" width="1280" height="800" loading="lazy" alt="Interactive pathfinding grid with an A-star search in progress" />
+                <span>Open experiment <span aria-hidden="true">↗</span></span>
+              </a>
+            </article>
+
+            <article class="project-entry" data-project="worktrees" data-reveal>
+              <div class="project-entry__copy">
+                <p class="project-index">03 / A deck for my team</p>
+                <h3>Worktrees with AI agents</h3>
+                <p>
+                  When several AI agents work at once, Git gets confusing quickly. I made this short deck for my team
+                  to explain how worktrees keep the work isolated and reviewable.
+                </p>
+                <p class="project-stack">Git · Worktrees · Codex · Slidev</p>
+                <div class="project-links">
+                  <a href="https://zacaria.github.io/havesome-worktrees/" target="_blank" rel="noopener noreferrer">View the slides <span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/Zacaria/havesome-worktrees" target="_blank" rel="noopener noreferrer">Source <span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+              <a class="project-entry__media" href="https://zacaria.github.io/havesome-worktrees/" target="_blank" rel="noopener noreferrer" aria-label="Open the deck: Worktrees with AI agents">
+                <img src="assets/projects/worktrees.webp" width="1280" height="720" loading="lazy" alt="Title slide for Git Worktrees with AI Agents and Codex" />
+                <span>Open the deck <span aria-hidden="true">↗</span></span>
+              </a>
+            </article>
+          </div>
+
+          <p class="github-invitation" data-reveal>
+            These are only the tidier ones. <a href="https://github.com/Zacaria" target="_blank" rel="noopener noreferrer">Everything else is on GitHub <span aria-hidden="true">↗</span></a>
+          </p>
+        </div>
+      </section>
+
+      <section class="page-section" id="thinking" aria-labelledby="thinking-title">
+        <div class="shell">
+          <header class="section-heading" data-reveal>
+            <p class="kicker">Questions I return to</p>
+            <div>
+              <h2 id="thinking-title">The questions are often more interesting than the tools.</h2>
+              <p>I tend to circle around the same ideas, whether I’m debugging a system or starting a side project.</p>
+            </div>
+          </header>
+
+          <div class="principles-layout" data-principles data-reveal>
+            <div class="principles">
+              <details class="principle" open
+                data-principle-item
+                data-index="01 / Look"
+                data-statement="I probably need to look a bit longer."
+                data-point-x="96"
+                data-point-y="174"
+              >
+                <summary>
+                  <span class="principle-label">01 / Look</span>
+                  <h3 class="principle-title">What is really happening?</h3>
+                </summary>
+                <p>I like tracing a problem through the whole system before deciding which part deserves to change.</p>
+              </details>
+              <details class="principle" open
+                data-principle-item
+                data-index="02 / Explain"
+                data-statement="Once it clicks, more people can work with it."
+                data-point-x="194"
+                data-point-y="126"
+              >
+                <summary>
+                  <span class="principle-label">02 / Explain</span>
+                  <h3 class="principle-title">Can we make it click?</h3>
+                </summary>
+                <p>I enjoy finding the diagram, example, or name that makes a complicated idea easier to carry.</p>
+              </details>
+              <details class="principle" open
+                data-principle-item
+                data-index="03 / People"
+                data-statement="People can do more when the system makes sense to them."
+                data-point-x="266"
+                data-point-y="82"
+              >
+                <summary>
+                  <span class="principle-label">03 / People</span>
+                  <h3 class="principle-title">Who needs to understand this?</h3>
+                </summary>
+                <p>Software becomes useful when the people around it can reason about it, question it, and change it.</p>
+              </details>
+              <details class="principle" open
+                data-principle-item
+                data-index="04 / Try"
+                data-statement="I’d rather try the smallest useful version."
+                data-point-x="332"
+                data-point-y="48"
+              >
+                <summary>
+                  <span class="principle-label">04 / Try</span>
+                  <h3 class="principle-title">What happens if we test it?</h3>
+                </summary>
+                <p>I would rather give an idea a fair experiment than argue about it in the abstract for too long.</p>
+              </details>
+            </div>
+
+            <aside class="principle-display" aria-live="polite" aria-label="Selected question">
+              <p class="principle-display__label" data-principle-index>01 / Look</p>
+              <p class="principle-display__statement" data-principle-statement>I probably need to look a bit longer.</p>
+              <svg viewBox="0 0 400 240" aria-hidden="true">
+                <path class="principle-display__grid" d="M52 28V196H370M52 154H370M52 112H370M52 70H370" />
+                <text x="52" y="222">UNDERSTANDING →</text>
+                <text x="-190" y="18" transform="rotate(-90)">USEFULNESS →</text>
+                <circle class="principle-display__point" cx="96" cy="174" r="9" data-principle-point />
+              </svg>
+              <p class="principle-display__note">Most ideas improve once someone actually tries them.</p>
+            </aside>
+          </div>
+
+          <aside class="naming-quote" aria-label="A small obsession" data-reveal>
+            <p class="kicker">A small obsession</p>
+            <blockquote>
+              “I have a weakness for good names. The right one can make an API contract, a meeting, or a half-formed
+              idea suddenly click.”
+            </blockquote>
+          </aside>
+        </div>
+      </section>
+
+      <section class="page-section" id="speaking" aria-labelledby="speaking-title">
+        <div class="shell speaking-layout">
+          <article class="talk-card" data-reveal>
+            <p class="kicker">API Days Paris · 2023</p>
+            <h2 id="speaking-title">Forget TypeScript. Choose Rust to build robust, fast, and cheap APIs.</h2>
+            <p>
+              I like the moment an idea finally makes sense to someone else. This talk was my practical argument for
+              using Rust where API reliability, performance, and cost matter.
+            </p>
+            <a href="https://www.youtube.com/watch?v=eSo3e3ugn5g" target="_blank" rel="noopener noreferrer">Watch the talk <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="about" id="about" aria-labelledby="about-title" data-reveal>
+            <p class="kicker">About</p>
+            <h2 id="about-title">I usually have one side project too many.</h2>
+            <p>
+              I’m Zacaria. I live in France, lead software teams, and often follow an idea long after it would have
+              been sensible to stop.
+            </p>
+            <p>
+              I like Rust, games, visual explanations, and small tools that remove tiny daily annoyances. At work I
+              think a lot about how systems and people affect each other. Side projects let me chase whatever has my
+              attention.
+            </p>
+            <p>I work comfortably in English. Away from software, I practise karate and keep finding new things to study.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="shell contact-layout" data-reveal>
+          <div>
+            <p class="kicker">Come say hello</p>
+            <h2 id="contact-title">I’m looking for Tech Lead challenges.</h2>
+            <p>
+              If you’re working on something difficult or genuinely interesting, I’d be happy to hear about it. Write
+              to me at <a href="mailto:havesomecode@gmail.com">havesomecode@gmail.com</a>.
+            </p>
+          </div>
+          <a class="button contact-button" href="mailto:havesomecode@gmail.com">Email me <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
     </main>
-    <nav>
-      <ul>
-        <!-- <li><a href="https://www.havesomecode.io">Home</a></li> -->
-        <li><a href="https://cv.havesomecode.io/">Resume</a></li>
-        <!-- <li><a href="https://www.havesomecode.io/about">About</a></li> -->
-      </ul>
-    </nav>
-    <div class="external-links">
-      <a title="Everyday dev on github" href="https://github.com/Zacaria"
-        ><i class="fab fa-github"></i
-      ></a>
-      <a
-        title="Lots of experimentations on codepen"
-        href="https://codepen.io/Muvaiah/"
-        ><i class="fab fa-codepen"></i
-      ></a>
-      <!-- <a title="React and Redux tutorials for fellow developers" href="https://codesandbox.io/u/Zacaria">Codesandbox</a> -->
-      <a
-        title="Developer profile on LinkedIn"
-        href="https://www.linkedin.com/in/zacariachtatar"
-        ><i class="fab fa-linkedin-in"></i
-      ></a>
-      <a title="Twitter profile" href="https://twitter.com/ChtatarZacaria"
-        ><i class="fab fa-twitter"></i
-      ></a>
-      <a
-        title="Stackoverflow profile"
-        href="https://stackoverflow.com/users/story/3283097"
-        ><i class="fab fa-stack-overflow"></i
-      ></a>
-    </div>
-    <div>
-      <!-- <h2>I love working with :</h2>
-        <div class="techs">
-            Javascript, Nodejs, React, Aws, Docker, Terraform, Graphql, Webpack, Sass
-        </div> -->
-    </div>
-    <footer>Made with ❤️ by HaveSomeCode, © 2024 All rights reserved.</footer>
+
+    <footer class="shell site-footer">
+      <div>
+        <strong>Zacaria Chtatar · HaveSomeCode</strong>
+        <span>Software, side projects, and questions worth following.</span>
+      </div>
+      <nav aria-label="Social and contact links">
+        <a href="https://cv.havesomecode.io/">CV</a>
+        <a href="https://www.linkedin.com/in/zacariachtatar/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/Zacaria" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="mailto:havesomecode@gmail.com">Email</a>
+      </nav>
+      <p>© <span id="currentYear"></span> Zacaria Chtatar</p>
+    </footer>
   </body>
 </html>

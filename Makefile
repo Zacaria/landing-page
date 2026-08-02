@@ -1,14 +1,17 @@
-.PHONY: clean
+.PHONY: clean build deploy-preview deploy-dev deploy-prod dev
 clean:
 	rm -rf dist
 
-build:
+build: clean
 	cp -r client/. dist
 
-deploy-prod:
-	aws s3 sync dist s3://havesomecode-landing-site-bucket--stage-prod
+deploy-preview: build
+	npx -y vercel@latest deploy --yes --project havesomecode-landing
 
-deploy-dev:
-	aws s3 sync dist s3://havesomecode-landing-site-bucket--stage-dev --metadata Header-X-Robots-Tag=noindex
+deploy-dev: deploy-preview
+
+deploy-prod: build
+	npx -y vercel@latest deploy --prod --yes --project havesomecode-landing
+
 dev:
 	npx http-server client

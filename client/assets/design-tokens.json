@@ -1,0 +1,268 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "$description": "Calm editorial clarity for strategic technical leadership.",
+  "color": {
+    "$type": "color",
+    "primary": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.09,
+          0.125,
+          0.098
+        ],
+        "hex": "#172019"
+      }
+    },
+    "secondary": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.275,
+          0.318,
+          0.282
+        ],
+        "hex": "#465148"
+      }
+    },
+    "muted": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.388,
+          0.435,
+          0.392
+        ],
+        "hex": "#636f64"
+      }
+    },
+    "tertiary": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.776,
+          0.31,
+          0.169
+        ],
+        "hex": "#c64f2b"
+      }
+    },
+    "tertiary-ink": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.663,
+          0.259,
+          0.133
+        ],
+        "hex": "#a94222"
+      }
+    },
+    "accent": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.122,
+          0.357,
+          0.278
+        ],
+        "hex": "#1f5b47"
+      }
+    },
+    "neutral": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.945,
+          0.933,
+          0.902
+        ],
+        "hex": "#f1eee6"
+      }
+    },
+    "surface": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.984,
+          0.98,
+          0.965
+        ],
+        "hex": "#fbfaf6"
+      }
+    },
+    "on-tertiary": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "hex": "#ffffff"
+      }
+    },
+    "accent-light": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.722,
+          0.843,
+          0.792
+        ],
+        "hex": "#b8d7ca"
+      }
+    },
+    "tertiary-light": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.941,
+          0.643,
+          0.537
+        ],
+        "hex": "#f0a489"
+      }
+    }
+  },
+  "spacing": {
+    "$type": "dimension",
+    "xs": {
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "sm": {
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "md": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    },
+    "lg": {
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      }
+    },
+    "xl": {
+      "$value": {
+        "value": 96,
+        "unit": "px"
+      }
+    }
+  },
+  "rounded": {
+    "$type": "dimension",
+    "none": {
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      }
+    }
+  },
+  "typography": {
+    "display-xl": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Newsreader",
+        "fontSize": {
+          "value": 6.25,
+          "unit": "rem"
+        },
+        "fontWeight": 500,
+        "lineHeight": 0.93,
+        "letterSpacing": {
+          "value": -0.34375,
+          "unit": "rem"
+        }
+      }
+    },
+    "display-lg": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Newsreader",
+        "fontSize": {
+          "value": 4.375,
+          "unit": "rem"
+        },
+        "fontWeight": 500,
+        "lineHeight": 0.98,
+        "letterSpacing": {
+          "value": -0.196875,
+          "unit": "rem"
+        }
+      }
+    },
+    "heading-md": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Newsreader",
+        "fontSize": {
+          "value": 1.9375,
+          "unit": "rem"
+        },
+        "fontWeight": 500,
+        "lineHeight": 1.05,
+        "letterSpacing": {
+          "value": -0.0678125,
+          "unit": "rem"
+        }
+      }
+    },
+    "body-lg": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Manrope",
+        "fontSize": {
+          "value": 1.125,
+          "unit": "rem"
+        },
+        "fontWeight": 400,
+        "lineHeight": 1.55,
+        "letterSpacing": {
+          "value": 0,
+          "unit": "rem"
+        }
+      }
+    },
+    "body-md": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Manrope",
+        "fontSize": {
+          "value": 1,
+          "unit": "rem"
+        },
+        "fontWeight": 400,
+        "lineHeight": 1.55,
+        "letterSpacing": {
+          "value": 0,
+          "unit": "rem"
+        }
+      }
+    },
+    "label": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "DM Mono",
+        "fontSize": {
+          "value": 0.6875,
+          "unit": "rem"
+        },
+        "fontWeight": 500,
+        "lineHeight": 1.3,
+        "letterSpacing": {
+          "value": 0.06875,
+          "unit": "rem"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.git
+.github
+.history
+.vercel
+dist
+gatsby-starter-minimal-blog
+submission
+sketches
+tests
+licenses
+AWARD-READINESS.md
+DESIGN.md
+README.md
+.htmlvalidate.json
+.DS_Store
+*.log

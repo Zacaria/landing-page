@@ -1,0 +1,52 @@
+{
+  "testedAt": "2026-08-02T12:27:44Z",
+  "auditTarget": "Live Vercel production custom domain over HTTPS",
+  "auditUrl": "https://www.havesomecode.io/",
+  "lighthouse": {
+    "mobile": {
+      "performance": 100,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "firstContentfulPaint": "0.9 s",
+      "largestContentfulPaint": "1.8 s",
+      "speedIndex": "0.9 s",
+      "totalBlockingTime": "0 ms",
+      "cumulativeLayoutShift": 0
+    },
+    "desktop": {
+      "performance": 100,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "firstContentfulPaint": "0.2 s",
+      "largestContentfulPaint": "0.4 s",
+      "speedIndex": "0.2 s",
+      "totalBlockingTime": "0 ms",
+      "cumulativeLayoutShift": 0
+    }
+  },
+  "sourcePayloadGzip": {
+    "html": "5.5 KB",
+    "css": "5.6 KB",
+    "javascript": "1.5 KB"
+  },
+  "awardRubricTarget": {
+    "awwwardsWeightedEstimate": 8.64,
+    "design": 8.5,
+    "usability": 9.0,
+    "creativity": 8.2,
+    "content": 9.0
+  },
+  "verification": {
+    "acceptanceTests": 27,
+    "htmlValidation": "pass",
+    "designTokenValidation": "pass",
+    "desktopVisual": "pass",
+    "mobile390pxVisual": "pass",
+    "deploymentRoot404Assets": "pass",
+    "noJavaScriptFallback": "pass",
+    "reducedMotionFallback": "pass",
+    "runtimeConsoleErrors": 0
+  }
+}
