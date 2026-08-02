@@ -178,6 +178,15 @@ class LandingPageAcceptanceTests(unittest.TestCase):
 
         self.assertEqual(seen_hosts, expected_hosts)
 
+    def test_cv_is_prominently_linked_from_the_header_and_footer(self) -> None:
+        source, page = parse_site()
+        cv_url = 'https://cv.havesomecode.io/'
+        cv_links = [link for link in page.links if link['attrs'].get('href') == cv_url]
+
+        self.assertEqual([link['text'] for link in cv_links], ['Read my CV ↗', 'CV'])
+        self.assertIn('button', str(cv_links[0]['attrs'].get('class', '')))
+        self.assertLess(source.index('Read my CV'), source.index('</header>'))
+
     def test_portrait_has_responsive_sources_and_descriptive_alt_text(self) -> None:
         _, page = parse_site()
         portrait = next(image for image in page.images if 'portrait' in image.get('src', ''))
