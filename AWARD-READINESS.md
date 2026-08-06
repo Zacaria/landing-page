@@ -69,9 +69,9 @@ The site before this rework was estimated against the official Awwwards weights:
 - Lighthouse desktop: **100 / 100 / 100 / 100**.
 - Total Blocking Time: **0 ms** on both audits.
 - Cumulative Layout Shift: **0** on both audits.
-- Acceptance suite: **27 tests passing**.
+- Acceptance suite: **30 tests passing**.
 - HTML validation, JavaScript syntax, design-token validation, clean build, and `client`/`dist` parity: **passing**.
-- Main HTML/CSS/JavaScript payload: **12.5 KB gzipped**.
+- Main HTML/CSS/JavaScript payload: **12.6 KiB gzipped**.
 - Runtime dependencies: **none**.
 
 The weighted 8.64 award score remains a reasoned readiness target rather than a jury result. Only an external jury can assign an official score or award.
@@ -82,7 +82,7 @@ The site should welcome visitors into Zacaria’s world without asking every sec
 
 1. **Hero — follow the question.** A bespoke map connects context, systems, people, and operations around the portrait and a simple curiosity-led introduction. Pointer response is subtle; the non-JavaScript state remains complete.
 2. **World index.** Make, Learn, Share, and Lead are doorways into the site rather than performance metrics.
-3. **Things made.** Float, Pathfinding, and a Worktrees deck appear as large editorial project chapters using captures from the real live projects. Copy explains why each exists rather than presenting it as an accomplishment.
+3. **Things made.** Float, Pathfinding, and Kibana Log Investigation MCP appear as large editorial project chapters using captures from the real live projects. Copy explains why each exists rather than presenting it as an accomplishment.
 4. **Question matrix.** Recurring questions become native disclosures with a small interactive map. Without JavaScript, every answer remains open and readable.
 5. **Speaking and About.** A public talk sits beside personal details, side-project habits, and current interests before the direct email invitation.
 

@@ -19,9 +19,9 @@ A warm editorial home for Zacaria Chtatar’s software, side projects, talks, an
 
 HaveSomeCode began as a professional portfolio full of outcomes and case studies. It was polished, but it sounded like a résumé. The final concept makes a deliberate channel choice: the CV carries evidence and chronology; the landing page welcomes people into Zacaria’s world.
 
-The opening decision field turns one persistent habit—asking why—into a map of context, systems, people, and operations. Four doorways introduce what Zacaria likes to make, learn, share, and lead. The main chapter features three real public projects: Float, an always-on-top image utility; an interactive Rust/WASM pathfinding visualizer; and a short deck about using Git worktrees with AI agents.
+The opening decision field turns one persistent habit—asking why—into a map of context, systems, people, and operations. Four doorways introduce what Zacaria likes to make, learn, share, and lead. The main chapter features three real public projects: Float, an always-on-top image utility; an interactive Rust/WASM pathfinding visualizer; and a read-only MCP for structured Kibana log investigations.
 
-The second interactive chapter is built from questions Zacaria returns to rather than leadership claims. A native-details interface lets visitors explore how he looks at systems, explanations, people, and experiments. The page closes with a public talk, personal interests, a direct Tech Lead invitation, and a visible email address.
+The second interactive chapter is built from questions Zacaria returns to rather than leadership claims. A native-details interface lets visitors explore how he looks at systems, explanations, people, and experiments. The page closes with a public talk, personal interests, a direct Lead Developer invitation, and a visible email address.
 
 The visual identity remains **Editorial Authority**: warm paper, dark ink, forest green, clay accents, square geometry, large Newsreader typography, and restrained technical labels. The tone is personal, curious, and calm.
 
@@ -31,7 +31,7 @@ The visual identity remains **Editorial Authority**: warm paper, dark ink, fores
    The site refuses the common personal-brand pattern of repeating résumé proof on every channel. Its content is selected to create recognition and curiosity.
 
 2. **Real things, not project placeholders**  
-   Float and Pathfinding are working public experiences. The Worktrees deck is live teaching material. Every project image is a capture from the actual project.
+   Float, Pathfinding, and Kibana Log Investigation MCP are working public experiences. Every project image is a capture from the actual project; the Kibana example uses explicitly synthetic data.
 
 3. **Curiosity as the visual language**  
    The hero map and question matrix make Zacaria’s habits visible without terminal chrome, decorative code, generic particles, or an unrelated 3D scene.
@@ -88,7 +88,7 @@ The full benchmark and source research are in [`../AWARD-READINESS.md`](../AWARD
 | Asset | Purpose |
 |---|---|
 | [`assets/awwwards-1600x1200.png`](assets/awwwards-1600x1200.png) | Exact 1600 × 1200 Awwwards principal image |
-| [`assets/cssda-1068x646.jpg`](assets/cssda-1068x646.jpg) | Exact 1068 × 646 CSSDA image; 89,383 bytes |
+| [`assets/cssda-1068x646.jpg`](assets/cssda-1068x646.jpg) | Exact 1068 × 646 CSSDA image; 81,499 bytes |
 | [`assets/desktop-hero.png`](assets/desktop-hero.png) | Desktop first viewport |
 | [`assets/mobile-hero.png`](assets/mobile-hero.png) | Mobile first viewport |
 | [`assets/project-float.png`](assets/project-float.png) | Real maker-project chapter |
@@ -127,8 +127,7 @@ make build
 ## Before a real submission
 
 - [ ] Deploy the current `dist/` build to production.
-- [ ] Apply the prepared CloudFront custom error response change in the infrastructure repository.
-- [ ] Verify the production URL after CDN invalidation.
+- [ ] Verify the production URL after the Vercel deployment.
 - [ ] Run Lighthouse against production over HTTPS.
 - [ ] Confirm every live project, email, CV, LinkedIn, GitHub, and talk destination from production.
 - [x] Confirm portrait ownership, project-capture reproduction rights, and human collaborators.
@@ -137,4 +136,4 @@ make build
 - [ ] Reconfirm each platform's current form limits and image specification at checkout.
 - [ ] Confirm the final title, description, credits, and exact platform screenshot from [`platform-copy.md`](platform-copy.md).
 
-No external award submission, payment, deployment, commit, push, or infrastructure apply has been performed.
+No external award submission, payment, push, or infrastructure apply has been performed.

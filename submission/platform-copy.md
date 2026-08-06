@@ -28,7 +28,7 @@ Prepared from the published Awwwards and CSS Design Awards requirements checked 
 - **Description:** An editorial corner for Zacaria Chtatar’s software, side projects, talks, and questions worth following. (**104/130 characters**)
 - **Suggested category:** Portfolio
 - **Suggested feature tags:** Animated · One Page · Typographic
-- **Screenshot:** [`assets/cssda-1068x646.jpg`](assets/cssda-1068x646.jpg), exactly 1068 × 646 px, 89,383 bytes—within the published 150 KB limit
+- **Screenshot:** [`assets/cssda-1068x646.jpg`](assets/cssda-1068x646.jpg), exactly 1068 × 646 px, 81,499 bytes—within the published 150 KB limit
 
 ## Credits and rights
 

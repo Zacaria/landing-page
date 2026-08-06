@@ -256,7 +256,9 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         source, page = parse_site()
         headings = [text for _, text in page.headings]
 
-        self.assertIn('I’m looking for Tech Lead challenges.', headings)
+        self.assertIn('I’m open to Lead Developer roles with a wider technical view.', headings)
+        for ambiguous_scope in ('lead teams', 'lead software teams', 'Tech Lead challenges'):
+            self.assertNotIn(ambiguous_scope, source)
         self.assertGreaterEqual(source.count('href="mailto:havesomecode@gmail.com"'), 2)
         self.assertIn('havesomecode@gmail.com', source)
 
@@ -300,14 +302,14 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         for node in ('context', 'systems', 'people', 'operations'):
             self.assertIn(f'data-system-node="{node}"', source)
         self.assertEqual(source.count('<article class="project-entry"'), 3)
-        for project in ('float', 'pathfinding', 'worktrees'):
+        for project in ('float', 'pathfinding', 'kibana'):
             self.assertIn(f'data-project="{project}"', source)
 
     def test_showable_projects_have_local_images_and_live_source_links(self) -> None:
         source, page = parse_site()
 
         self.assertNotIn('class="case-diagram', source)
-        for project in ('float', 'pathfinding', 'worktrees'):
+        for project in ('float', 'pathfinding', 'kibana'):
             asset = CLIENT / 'assets' / 'projects' / f'{project}.webp'
             self.assertTrue(asset.is_file(), asset)
             image = next(item for item in page.images if item.get('src') == f'assets/projects/{project}.webp')
@@ -315,16 +317,16 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         for href in (
             'https://zacaria.github.io/float/',
             'https://pathfinding-client.vercel.app/',
-            'https://zacaria.github.io/havesome-worktrees/',
+            'https://havesomecode.github.io/kibana-mcp-server/',
             'https://github.com/Zacaria/float',
             'https://github.com/Zacaria/pathfinding-client',
-            'https://github.com/Zacaria/havesome-worktrees',
+            'https://github.com/Havesomecode/kibana-mcp-server',
         ):
             self.assertIn(f'href="{href}"', source)
         for accessible_name in (
             'Open project: Float',
             'Open experiment: Pathfinding',
-            'Open the deck: Worktrees with AI agents',
+            'Open project: Kibana Log Investigation MCP',
         ):
             self.assertIn(f'aria-label="{accessible_name}"', source)
 
@@ -437,7 +439,7 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         sitemap = (CLIENT / 'sitemap.xml').read_text(encoding='utf-8')
 
         self.assertIn('<loc>https://www.havesomecode.io/</loc>', sitemap)
-        self.assertIn('<lastmod>2026-08-01</lastmod>', sitemap)
+        self.assertIn('<lastmod>2026-08-06</lastmod>', sitemap)
 
     def test_vercel_release_contract_is_explicit(self) -> None:
         self.assertTrue(VERCEL_CONFIG.is_file(), 'vercel.json must define the production release')
