@@ -154,8 +154,12 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         self.assertTrue({'top', 'projects', 'thinking', 'speaking', 'about', 'contact'} <= page.ids)
         for resume_proof in ('10M → 25M', 'Days → minutes', '7 pages in 2 days', '30+ consumers'):
             self.assertNotIn(resume_proof, source)
-        for doorway in ('Make', 'Learn', 'Share', 'Lead'):
-            self.assertIn(f'<strong>{doorway}</strong>', source)
+        for section_heading in (
+            'Things I made because I wanted them to exist.',
+            'The questions are often more interesting than the tools.',
+            'I usually have one side project too many.',
+        ):
+            self.assertIn(section_heading, source)
 
     def test_navigation_and_social_links_have_visible_names(self) -> None:
         _, page = parse_site()
@@ -184,7 +188,7 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         cv_links = [link for link in page.links if link['attrs'].get('href') == cv_url]
 
         self.assertEqual([link['text'] for link in cv_links], ['Read my CV ↗', 'CV'])
-        self.assertIn('button', str(cv_links[0]['attrs'].get('class', '')))
+        self.assertIn('nav-cv', str(cv_links[0]['attrs'].get('class', '')))
         self.assertLess(source.index('Read my CV'), source.index('</header>'))
 
     def test_portrait_has_responsive_sources_and_descriptive_alt_text(self) -> None:
@@ -220,20 +224,27 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         self.assertIn('currentYear', script)
 
     def test_mobile_navigation_keeps_links_available_without_javascript(self) -> None:
+        source, _ = parse_site()
         css = CSS_PATH.read_text(encoding='utf-8')
-        mobile = css.split('@media (max-width: 800px)', 1)[1].split('@media (max-width: 480px)', 1)[0]
+        script = JS_PATH.read_text(encoding='utf-8')
+        mobile = css.split('@media (max-width: 760px)', 1)[1].split('@media (max-width: 430px)', 1)[0]
 
-        self.assertRegex(mobile, r'\.nav-links\s*\{[^}]*display:\s*flex')
-        self.assertRegex(mobile, r'\.js \.menu\s*\{[^}]*display:\s*block')
+        self.assertNotIn("document.documentElement.classList.add('js')", source)
+        self.assertIn("document.documentElement.classList.add('js')", script)
+        self.assertRegex(css, r'\.nav-links\s*\{[^}]*display:\s*flex')
+        self.assertNotRegex(mobile, r'(?m)^\s*\.nav-links\s*\{[^}]*display:\s*none')
+        self.assertRegex(mobile, r'\.js \.menu\s*\{[^}]*display:\s*inline-flex')
         self.assertRegex(mobile, r'\.js \.nav-links\s*\{[^}]*display:\s*none')
+        self.assertRegex(mobile, r'\.js \.nav-links\.open\s*\{[^}]*display:\s*flex')
+        self.assertIn('@container (max-width: 860px)', css)
+
+    def test_open_mobile_navigation_scrolls_in_short_viewports(self) -> None:
+        css = CSS_PATH.read_text(encoding='utf-8')
+        mobile = css.split('@media (max-width: 760px)', 1)[1].split('@media (max-width: 430px)', 1)[0]
+
         self.assertRegex(
             mobile,
-            r'\.case-study,\s*\.case-study:nth-of-type\(even\)\s*\{[^}]*grid-template-columns:\s*1fr',
-        )
-        self.assertRegex(css, r'\.diagram-path path\s*\{[^}]*stroke-dashoffset:\s*0')
-        self.assertRegex(
-            css,
-            r'\.js\.motion-ready \.diagram-path path\s*\{[^}]*stroke-dashoffset:\s*600',
+            r'\.js \.nav-links\s*\{[^}]*max-height:\s*calc\(100dvh - 5\.25rem\)[^}]*overflow-y:\s*auto[^}]*flex-wrap:\s*nowrap',
         )
 
     def test_contact_focus_is_visible_and_visual_system_uses_no_gradients(self) -> None:
@@ -241,7 +252,7 @@ class LandingPageAcceptanceTests(unittest.TestCase):
 
         self.assertRegex(
             css,
-            r'\.contact-button:focus-visible\s*\{[^}]*outline-color:\s*white',
+            r'a:focus-visible,\s*button:focus-visible\s*\{[^}]*outline:\s*3px solid var\(--clay\)',
         )
         self.assertNotIn('gradient(', css)
 
@@ -262,30 +273,14 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         self.assertGreaterEqual(source.count('href="mailto:havesomecode@gmail.com"'), 2)
         self.assertIn('havesomecode@gmail.com', source)
 
-    def test_mid_page_conversation_prompt_precedes_projects_and_emails_directly(self) -> None:
-        source, page = parse_site()
-        css = CSS_PATH.read_text(encoding='utf-8')
-        mobile_css = css[
-            css.index('@media (max-width: 800px)'):css.index('@media (max-width: 480px)')
-        ]
-        headings = [text for _, text in page.headings]
+    def test_project_led_flow_avoids_conversion_scaffolding_and_keeps_direct_contact(self) -> None:
+        source, _ = parse_site()
 
-        self.assertIn('conversation-title', page.ids)
-        self.assertIn('Building something that needs technical depth and a wider view?', headings)
-        self.assertLess(source.index('class="conversation-prompt"'), source.index('id="projects"'))
-        self.assertGreater(source.index('class="conversation-prompt"'), source.index('class="shell outcomes"'))
-        self.assertIn(
-            'class="conversation-prompt__link" href="mailto:havesomecode@gmail.com"',
-            source,
-        )
+        self.assertLess(source.index('id="projects"'), source.index('id="thinking"'))
+        self.assertNotIn('class="conversation-prompt"', source)
+        self.assertNotIn('class="shell outcomes"', source)
         self.assertGreaterEqual(source.count('href="mailto:havesomecode@gmail.com"'), 3)
-        self.assertRegex(css, r'\.conversation-prompt\s*\{[^}]*display:\s*grid')
-        self.assertRegex(css, r'\.conversation-prompt__link:focus-visible\s*\{[^}]*outline-color:\s*var\(--ink\)')
-        self.assertRegex(css, r':focus-visible\s*\{[^}]*outline:\s*3px\s+solid[^}]*outline-offset:\s*4px')
-        self.assertRegex(mobile_css, r'\.conversation-prompt\s*\{[^}]*grid-template-columns:\s*1fr')
-        self.assertRegex(mobile_css, r'\.conversation-prompt__link\s*\{[^}]*grid-column:\s*auto')
-        self.assertIn('<section class="conversation-prompt" aria-labelledby="conversation-title" data-reveal>', source)
-        self.assertNotRegex(css, r'(?m)^\s*\[data-reveal\]\s*\{[^}]*opacity:\s*0')
+        self.assertIn('class="contact-link" href="mailto:havesomecode@gmail.com"', source)
 
     def test_reduced_motion_never_transitions_the_keyboard_focus_outline(self) -> None:
         css = CSS_PATH.read_text(encoding='utf-8')
@@ -295,15 +290,13 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         self.assertIn('animation: none !important', reduced_motion)
         self.assertNotIn('transition-duration:', reduced_motion)
 
-    def test_award_concept_uses_a_decision_map_and_real_showable_projects(self) -> None:
+    def test_authored_concept_is_project_led_and_uses_real_showable_projects(self) -> None:
         source, _ = parse_site()
 
-        self.assertIn('class="decision-map"', source)
-        for node in ('context', 'systems', 'people', 'operations'):
-            self.assertIn(f'data-system-node="{node}"', source)
-        self.assertEqual(source.count('<article class="project-entry"'), 3)
-        for project in ('float', 'pathfinding', 'kibana'):
-            self.assertIn(f'data-project="{project}"', source)
+        self.assertNotIn('class="decision-map"', source)
+        self.assertEqual(source.count('<article class="project'), 3)
+        for project in ('project-float', 'project-pathfinding', 'project-kibana'):
+            self.assertIn(f'data-od-id="{project}"', source)
 
     def test_showable_projects_have_local_images_and_live_source_links(self) -> None:
         source, page = parse_site()
@@ -330,44 +323,40 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         ):
             self.assertIn(f'aria-label="{accessible_name}"', source)
 
-    def test_mobile_decision_map_keeps_all_system_labels_visible(self) -> None:
+    def test_mobile_question_list_collapses_to_a_single_readable_column(self) -> None:
         source, _ = parse_site()
         css = CSS_PATH.read_text(encoding='utf-8')
 
-        self.assertIn('data-system-node="operations" transform="translate(354 536)"', source)
-        self.assertRegex(
-            css,
-            r"\[data-system-node='operations'\][^{]*\{[^}]*transform:\s*translate\(344px,\s*536px\)",
-        )
+        self.assertEqual(source.count('<li data-reveal data-od-id="question-'), 4)
+        mobile = css.split('@media (max-width: 760px)', 1)[1]
+        self.assertRegex(mobile, r'\.question-list li\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)')
+        self.assertRegex(mobile, r'\.question-list li > div\s*\{[^}]*grid-column:\s*1')
 
     def test_alternating_projects_preserve_media_scale(self) -> None:
         css = CSS_PATH.read_text(encoding='utf-8')
 
-        self.assertRegex(
-            css,
-            r'\.project-entry:nth-of-type\(even\)\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1\.1fr\)',
-        )
+        self.assertRegex(css, r'\.project-media\s*\{[^}]*grid-column:\s*6 / 13')
+        self.assertRegex(css, r'\.project-reverse \.project-media\s*\{[^}]*grid-column:\s*1 / 8')
+        self.assertRegex(css, r'\.project-media img\s*\{[^}]*aspect-ratio:\s*8 / 5')
 
-    def test_thinking_matrix_is_native_and_progressively_enhanced(self) -> None:
+    def test_thinking_section_is_native_static_content(self) -> None:
         source, _ = parse_site()
         script = JS_PATH.read_text(encoding='utf-8')
         css = CSS_PATH.read_text(encoding='utf-8')
 
-        self.assertIn('data-principles', source)
-        self.assertEqual(source.count('<details class="principle" open'), 4)
-        self.assertEqual(source.count('<summary>'), 4)
-        self.assertIn('aria-live="polite"', source)
-        self.assertIn('data-principle-statement', source)
-        self.assertIn("addEventListener('toggle'", script)
-        self.assertRegex(css, r'\.principle\s*\{[^}]*flex:\s*1')
-        self.assertRegex(css, r'\.principles-layout\s*\{[^}]*gap:\s*0')
+        self.assertIn('class="question-list"', source)
+        self.assertEqual(source.count('<li data-reveal data-od-id="question-'), 4)
+        self.assertNotIn('<details', source)
+        self.assertNotIn("addEventListener('toggle'", script)
+        self.assertRegex(css, r'\.question-list\s*\{[^}]*border-top:\s*1px solid var\(--fg\)')
 
     def test_progressive_motion_never_hides_content_without_javascript(self) -> None:
         source, _ = parse_site()
         css = CSS_PATH.read_text(encoding='utf-8')
         script = JS_PATH.read_text(encoding='utf-8')
 
-        self.assertIn("document.documentElement.classList.add('js')", source)
+        self.assertNotIn("document.documentElement.classList.add('js')", source)
+        self.assertIn("document.documentElement.classList.add('js')", script)
         self.assertIn('data-reveal', source)
         self.assertRegex(css, r'\.js\.motion-ready\s+\[data-reveal\][^{]*\{[^}]*opacity:\s*0')
         self.assertRegex(css, r'\.js\.motion-ready\s+\[data-reveal\]\.is-visible[^{]*\{[^}]*opacity:\s*1')
@@ -379,10 +368,12 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         source, _ = parse_site()
         css = CSS_PATH.read_text(encoding='utf-8')
 
-        self.assertIn('<h1>I like finding out how things really work.</h1>', source)
+        self.assertIn('<h1 id="hero-title" data-od-id="hero-title">', source)
+        hero_heading = source[source.index('<h1 id="hero-title"'):source.index('</h1>')]
+        self.assertNotIn('data-reveal', hero_heading)
         self.assertRegex(
             css,
-            r'\.hero\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1\.3fr\)\s+minmax\(390px,\s*0\.7fr\)',
+            r'\.hero\s*\{[^}]*grid-template-columns:\s*repeat\(12,\s*minmax\(0,\s*1fr\)\)',
         )
 
     def test_primary_navigation_tracks_the_current_section(self) -> None:
@@ -392,17 +383,17 @@ class LandingPageAcceptanceTests(unittest.TestCase):
 
         self.assertEqual(source.count('data-section-link'), 4)
         self.assertIn("setAttribute('aria-current', 'location')", script)
-        self.assertIn("[aria-current='location']", css)
+        self.assertIn('[aria-current="location"]', css)
 
     def test_css_encodes_identity_focus_and_responsive_behavior(self) -> None:
         css = CSS_PATH.read_text(encoding='utf-8')
 
-        for token in ('--paper:', '--ink:', '--green:', '--orange:'):
+        for token in ('--bg:', '--surface:', '--fg:', '--accent:', '--clay:'):
             self.assertIn(token, css)
-        self.assertNotIn('#fff1ec', css)
-        self.assertNotIn('#ffe5dc', css)
+        self.assertNotIn('border-radius', css)
+        self.assertNotIn('gradient(', css)
         self.assertIn(':focus-visible', css)
-        self.assertIn('@media (max-width: 800px)', css)
+        self.assertIn('@media (max-width: 760px)', css)
         self.assertIn('@media (prefers-reduced-motion: reduce)', css)
 
     def test_local_assets_referenced_by_the_page_exist(self) -> None:
