@@ -263,11 +263,18 @@ class LandingPageAcceptanceTests(unittest.TestCase):
 
         self.assertEqual(references - definitions, set())
 
-    def test_contact_invitation_is_direct_instead_of_rhetorical(self) -> None:
+    def test_contact_invitation_is_open_instead_of_role_seeking(self) -> None:
         source, page = parse_site()
         headings = [text for _, text in page.headings]
+        contact_start = source.index('<section class="contact-section"')
+        contact_end = source.index('</section>', contact_start)
+        contact = source[contact_start:contact_end]
 
-        self.assertIn('I’m open to Lead Developer roles with a wider technical view.', headings)
+        self.assertIn('If something here made you curious, come say hello.', headings)
+        for open_thread in ('work', 'an idea', 'a question', 'a conversation'):
+            self.assertIn(open_thread, contact)
+        for hiring_frame in ('Lead Developer roles', 'open to roles', 'job opportunities', 'hiring'):
+            self.assertNotIn(hiring_frame, contact)
         for ambiguous_scope in ('lead teams', 'lead software teams', 'Tech Lead challenges'):
             self.assertNotIn(ambiguous_scope, source)
         self.assertGreaterEqual(source.count('href="mailto:havesomecode@gmail.com"'), 2)
