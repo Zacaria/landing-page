@@ -6,110 +6,70 @@
     "primary": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0,
-          0,
-          0
-        ],
+        "components": [0, 0, 0],
         "hex": "#000000"
       }
     },
     "secondary": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.392,
-          0.392,
-          0.392
-        ],
+        "components": [0.392, 0.392, 0.392],
         "hex": "#646464"
       }
     },
     "accent": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0,
-          0,
-          0.933
-        ],
+        "components": [0, 0, 0.933],
         "hex": "#0000ee"
       }
     },
     "neutral": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          1,
-          1,
-          1
-        ],
+        "components": [1, 1, 1],
         "hex": "#ffffff"
       }
     },
     "surface": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.957,
-          0.957,
-          0.945
-        ],
+        "components": [0.957, 0.957, 0.945],
         "hex": "#f4f4f1"
       }
     },
     "dark-background": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.063,
-          0.067,
-          0.075
-        ],
+        "components": [0.063, 0.067, 0.075],
         "hex": "#101113"
       }
     },
     "dark-text": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.906,
-          0.914,
-          0.929
-        ],
+        "components": [0.906, 0.914, 0.929],
         "hex": "#e7e9ed"
       }
     },
     "dark-muted": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.643,
-          0.663,
-          0.698
-        ],
+        "components": [0.643, 0.663, 0.698],
         "hex": "#a4a9b2"
       }
     },
     "dark-link": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.549,
-          0.655,
-          1
-        ],
+        "components": [0.549, 0.655, 1],
         "hex": "#8ca7ff"
       }
     },
     "dark-surface": {
       "$value": {
         "colorSpace": "srgb",
-        "components": [
-          0.11,
-          0.118,
-          0.137
-        ],
+        "components": [0.11, 0.118, 0.137],
         "hex": "#1c1e23"
       }
     }
