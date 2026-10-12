@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "revision": "acc8aef874dc97e0a158a92ef92d9342c0bad67dbdd544280670fd6039ca642e",
+  "articles": [],
+  "projects": [
+    {
+      "slug": "float",
+      "title": "Float",
+      "description": "I kept losing reference images behind my editor. Float is the small app I wanted: pin an image, adjust its opacity, and get back to what I was doing.",
+      "href": "https://zacaria.github.io/float/",
+      "featured": true,
+      "order": 0
+    },
+    {
+      "slug": "pathfinding",
+      "title": "Pathfinding",
+      "description": "I wanted to watch search algorithms make decisions instead of reading another diagram. This Rust/WASM playground lets you edit the grid, change the algorithm, and step through the search.",
+      "href": "https://pathfinding-client.vercel.app/",
+      "featured": true,
+      "order": 1
+    },
+    {
+      "slug": "kibana-mcp",
+      "title": "Kibana Log Investigation MCP",
+      "description": "I wanted agents to investigate logs through small, read-only operations instead of clicking through Kibana. This MCP gives them a structured path from source discovery to focused queries.",
+      "href": "https://havesomecode.github.io/kibana-mcp-server/",
+      "featured": true,
+      "order": 2
+    }
+  ],
+  "site": {
+    "intro": "I build software and help teams make sense of difficult technical work. I also start side projects whenever a question refuses to leave me alone. HaveSomeCode is where I share the ones that made it somewhere.",
+    "bio": "I’m Zacaria. I live in France, work as a Lead Developer, and often follow an idea long after it would have been sensible to stop.\n\nAt Club Med, I helped scale a public API platform from 10M to 25M requests/day in production so it could support more traffic.\n\nI like Rust, games, visual explanations, and small tools that remove tiny daily annoyances. At work I think a lot about how systems and people affect each other. Side projects let me chase whatever has my attention.\n\nI work comfortably in English. Away from software, I practise karate and keep finding new things to study.",
+    "contact": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/Zacaria"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/zacariachtatar/"
+      },
+      {
+        "label": "Email",
+        "href": "mailto:havesomecode@gmail.com"
+      },
+      {
+        "label": "CV",
+        "href": "https://cv.havesomecode.io/"
+      }
+    ],
+    "selectedSlugs": []
+  },
+  "navigation": [
+    {
+      "label": "Blog",
+      "href": "/#posts",
+      "visible": true,
+      "order": 0
+    },
+    {
+      "label": "Projects",
+      "href": "/#projects",
+      "visible": true,
+      "order": 1
+    },
+    {
+      "label": "Search",
+      "href": "/#search",
+      "visible": true,
+      "order": 2
+    },
+    {
+      "label": "Topics",
+      "href": "/#topics",
+      "visible": true,
+      "order": 3
+    },
+    {
+      "label": "About",
+      "href": "/#about",
+      "visible": true,
+      "order": 4
+    },
+    {
+      "label": "Contact",
+      "href": "/#contact",
+      "visible": true,
+      "order": 5
+    }
+  ]
+}

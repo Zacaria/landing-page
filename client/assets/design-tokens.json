@@ -1,97 +1,42 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
-  "$description": "Calm editorial clarity for strategic technical leadership.",
+  "$description": "A compact monospace personal publication with explicit appearance controls.",
   "color": {
     "$type": "color",
     "primary": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.09,
-          0.125,
-          0.098
+          0,
+          0,
+          0
         ],
-        "hex": "#172019"
+        "hex": "#000000"
       }
     },
     "secondary": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.275,
-          0.318,
-          0.282
-        ],
-        "hex": "#465148"
-      }
-    },
-    "muted": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.388,
-          0.435,
+          0.392,
+          0.392,
           0.392
         ],
-        "hex": "#636f64"
-      }
-    },
-    "tertiary": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.776,
-          0.31,
-          0.169
-        ],
-        "hex": "#c64f2b"
-      }
-    },
-    "tertiary-ink": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.663,
-          0.259,
-          0.133
-        ],
-        "hex": "#a94222"
+        "hex": "#646464"
       }
     },
     "accent": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.122,
-          0.357,
-          0.278
+          0,
+          0,
+          0.933
         ],
-        "hex": "#1f5b47"
+        "hex": "#0000ee"
       }
     },
     "neutral": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.945,
-          0.933,
-          0.902
-        ],
-        "hex": "#f1eee6"
-      }
-    },
-    "surface": {
-      "$value": {
-        "colorSpace": "srgb",
-        "components": [
-          0.984,
-          0.98,
-          0.965
-        ],
-        "hex": "#fbfaf6"
-      }
-    },
-    "on-tertiary": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
@@ -102,26 +47,70 @@
         "hex": "#ffffff"
       }
     },
-    "accent-light": {
+    "surface": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.722,
-          0.843,
-          0.792
+          0.957,
+          0.957,
+          0.945
         ],
-        "hex": "#b8d7ca"
+        "hex": "#f4f4f1"
       }
     },
-    "tertiary-light": {
+    "dark-background": {
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.941,
-          0.643,
-          0.537
+          0.063,
+          0.067,
+          0.075
         ],
-        "hex": "#f0a489"
+        "hex": "#101113"
+      }
+    },
+    "dark-text": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.906,
+          0.914,
+          0.929
+        ],
+        "hex": "#e7e9ed"
+      }
+    },
+    "dark-muted": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.643,
+          0.663,
+          0.698
+        ],
+        "hex": "#a4a9b2"
+      }
+    },
+    "dark-link": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.549,
+          0.655,
+          1
+        ],
+        "hex": "#8ca7ff"
+      }
+    },
+    "dark-surface": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.11,
+          0.118,
+          0.137
+        ],
+        "hex": "#1c1e23"
       }
     }
   },
@@ -135,7 +124,7 @@
     },
     "sm": {
       "$value": {
-        "value": 12,
+        "value": 16,
         "unit": "px"
       }
     },
@@ -147,13 +136,7 @@
     },
     "lg": {
       "$value": {
-        "value": 48,
-        "unit": "px"
-      }
-    },
-    "xl": {
-      "$value": {
-        "value": 96,
+        "value": 32,
         "unit": "px"
       }
     }
@@ -165,102 +148,57 @@
         "value": 0,
         "unit": "px"
       }
+    },
+    "search": {
+      "$value": {
+        "value": 6,
+        "unit": "px"
+      }
     }
   },
   "typography": {
-    "display-xl": {
+    "heading": {
       "$type": "typography",
       "$value": {
-        "fontFamily": "Newsreader",
+        "fontFamily": "Geist Mono",
         "fontSize": {
-          "value": 6.25,
+          "value": 1.25,
           "unit": "rem"
         },
-        "fontWeight": 500,
-        "lineHeight": 0.93,
+        "fontWeight": 700,
         "letterSpacing": {
-          "value": -0.34375,
-          "unit": "rem"
+          "value": 0.025,
+          "unit": "em"
         }
       }
     },
-    "display-lg": {
+    "body": {
       "$type": "typography",
       "$value": {
-        "fontFamily": "Newsreader",
+        "fontFamily": "Geist Mono",
         "fontSize": {
-          "value": 4.375,
-          "unit": "rem"
-        },
-        "fontWeight": 500,
-        "lineHeight": 0.98,
-        "letterSpacing": {
-          "value": -0.196875,
-          "unit": "rem"
-        }
-      }
-    },
-    "heading-md": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Newsreader",
-        "fontSize": {
-          "value": 1.9375,
-          "unit": "rem"
-        },
-        "fontWeight": 500,
-        "lineHeight": 1.05,
-        "letterSpacing": {
-          "value": -0.0678125,
-          "unit": "rem"
-        }
-      }
-    },
-    "body-lg": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Manrope",
-        "fontSize": {
-          "value": 1.125,
+          "value": 0.875,
           "unit": "rem"
         },
         "fontWeight": 400,
-        "lineHeight": 1.55,
         "letterSpacing": {
           "value": 0,
-          "unit": "rem"
+          "unit": "em"
         }
       }
     },
-    "body-md": {
+    "article": {
       "$type": "typography",
       "$value": {
-        "fontFamily": "Manrope",
+        "fontFamily": "Geist Mono",
         "fontSize": {
-          "value": 1,
+          "value": 0.9375,
           "unit": "rem"
         },
         "fontWeight": 400,
-        "lineHeight": 1.55,
         "letterSpacing": {
           "value": 0,
-          "unit": "rem"
-        }
-      }
-    },
-    "label": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "DM Mono",
-        "fontSize": {
-          "value": 0.6875,
-          "unit": "rem"
-        },
-        "fontWeight": 500,
-        "lineHeight": 1.3,
-        "letterSpacing": {
-          "value": 0.06875,
-          "unit": "rem"
+          "unit": "em"
         }
       }
     }

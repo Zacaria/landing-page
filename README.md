@@ -1,50 +1,36 @@
-# HaveSomeCode landing page
+# HaveSomeCode public site
 
-Static personal landing page for Zacaria Chtatar. The production source is in `client/`; `dist/` is the clean build output.
+Static personal publication for Zacaria Chtatar. The owner edits constrained content in Notion; the separately protected service promotes explicitly approved immutable snapshots. This repository renders only `content/published.json`. It needs no Notion credentials or runtime service access, and ships useful verified public defaults with no approved articles.
 
-## Local development
+## Develop and verify
 
 ```sh
+npm ci --ignore-scripts
 make dev
 ```
 
-## Validation and build
+`make dev` builds and serves `dist/`. The renderer is `scripts/render.mjs`, validation is `scripts/schema.mjs`, static assets/utility pages are in `client/`. No canonical homepage is hand-edited in `client/`; the build generates it from the snapshot. Invalid content or missing/unsafe media fails the build without replacing last-known-good output.
 
 ```sh
-python3 tests/test_site.py -v
-npx -y html-validate 'client/*.html'
-npx -y @google/design.md lint DESIGN.md
+npm test
 make build
+npm run lint
+npm run format:check
+npm run test:browser
+npx -y @google/design.md lint DESIGN.md
+git diff --check
 ```
 
-`make build` removes the previous output before copying `client/` to `dist/`.
+Browser tests use `/usr/bin/brave-browser`; set `HSC_BROWSER_EXECUTABLE` for an installed alternative. The loopback-only harness contains synthetic fixtures for published block/search/topic tests. No test fixture, preview, source JSON or private DTO is copied to production output. Browser captures and JSON results live in ignored `.local/`.
 
-## Visual identity
+## Content and preview contract
 
-- `DESIGN.md` is the normative Editorial Authority design specification.
-- `client/assets/design-tokens.json` is its W3C DTCG export.
-- `client/assets/social-card.png` is the 1200×630 social preview; its editable source is `sketches/social-card-source.html`.
-- `sketches/` preserves the three visual directions evaluated before production implementation.
-- `client/assets/fonts/` contains the self-hosted WOFF2 type system; SIL Open Font License notices are in `licenses/`.
+Read `docs/public-renderer.md` for exact DTO/digest rules, safe media/link policies, exports and preview integration. `DESIGN.md` is the accepted reference-first Geist Mono / white-black-blue design, with explicit Light/Dark/Auto controls. The self-hosted Geist font's SIL OFL is in `licenses/`.
 
-## Award-readiness
+The committed snapshot preserves the live approved intro, Club Med scale sentence, real projects, talk, CV and contacts. Articles/topics remain honestly empty. Prior sketches, award submissions and their scorecards describe the earlier design, not this candidate. The existing editorial-scout privacy page is intentionally byte-identical.
 
-- `AWARD-READINESS.md` records current award criteria, recent references, design constraints, and the target rubric.
-- `submission/README.md` contains jury-facing copy, measured scores, submission assets, and the final deployment checklist.
-- `submission/scorecard.json` is the machine-readable Lighthouse and verification summary.
+## Release
 
-## Deployment
+The existing public project is `havesomecode-landing` on Vercel, production domain `www.havesomecode.io`; apex remains the Gandi-managed redirect. `vercel.json` builds `dist/` and enables clean article URLs. The GitHub workflow verifies only; it performs no publication/deployment.
 
-The production project is `havesomecode-landing` on Vercel. `www.havesomecode.io` is its production domain; the apex domain remains a Gandi-managed redirect to `www`.
-
-```sh
-make deploy-preview
-# After reviewing the preview and completing validation:
-make deploy-prod
-```
-
-The tracked GitHub workflow performs verification only. Vercel owns production delivery; the landing page no longer uses repository AWS credentials or S3 deployment commands.
-
-## Generate responsive images
-
-https://responsivebreakpoints.com/
+The existing review/integration/release chain must accept the exact signed candidate before a release worker uses the preserved deployment commands. Renderer/style vendoring must retain the manifest and exact bytes. This implementation does not deploy or publish drafts.

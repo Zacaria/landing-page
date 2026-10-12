@@ -1,0 +1,21 @@
+{
+  "name": "havesomecode-public-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/verify-renderer.mjs && node --test tests/public.test.mjs && python3 tests/test_site.py -v",
+    "test:browser": "playwright test",
+    "lint": "html-validate 'dist/**/*.html' && node --check client/assets/site.js && node --check client/assets/theme-init.js && node --check scripts/render.mjs && node --check scripts/schema.mjs && node --check scripts/build.mjs",
+    "format:check": "prettier --check scripts/*.mjs tests/*.mjs playwright.config.mjs client/assets/site.js client/assets/theme-init.js client/assets/styles.css content/published.json package.json"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "html-validate": "11.16.2",
+    "prettier": "3.9.10"
+  }
+}

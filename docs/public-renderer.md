@@ -1,0 +1,40 @@
+# Published site and protected-preview contract
+
+## Source and authority
+
+The accepted architecture is the signed service spec `35096fa5964fd2591a44f1685a096e0a1125e71e:docs/2026-10-12-notion-cms.md`, attached to task t_4fe0a2c6. The service owns authentication, source-version selection, owner-only release authorization, durable promotion/CAS/replay protection and delivery. This repository consumes only published projections and makes no Notion/runtime request.
+
+`d6b5d8c` first preserves the attached verified two-file live baseline. `content/published.json` now contains that approved public prose and real projects, with zero articles. Existing canonical Git/source destinations, CV, talk, contact and privacy remain useful.
+
+## Public schema v1
+
+Canonical validator: `scripts/schema.mjs`. Root fields are exactly `schemaVersion`, `revision`, `articles`, `projects`, `site`, `navigation`. An article has schemaVersion, slug, title, excerpt, version, publishedAt, topics, seo `{title,description}`, blocks `{kind,spans,language?,asset?}`. Rich spans accept text, bold/italic/code/strike flags and a safe href. No arbitrary HTML, script, private block/source IDs, context or draft DTO fields.
+
+Project: `{slug,title,description,href,image?,featured,order}`. Site: `{intro,bio,contact:[{label,href}],selectedSlugs}`. Navigation: `{label,href,visible,order}`. Selection must name existing published article slugs. Images are optional for projects but required for image blocks. Unsafe/unknown data, duplicate slugs/topics/selections, unsupported blocks, missing assets and wrong digest pins fail closed.
+
+Digests match the service canonical JSON order in `server/cms.ts`: article content `{schemaVersion,slug,title,excerpt,topics,seo,blocks}`; version is SHA256 of JSON.stringify(content). Article projection adds version then publishedAt. Site content `{schemaVersion,projects,site,navigation,articles}`; revision is its digest. Optional false rich-text flags are omitted during canonicalization. `pinSnapshot` is an offline integrity helper, not release authorization. ISO timestamps have UTC millisecond precision. Limits match the service; the UI additionally rejects dangling selected slugs, invalid calendar timestamps and private control-plane link destinations.
+
+## Exact shared renderer
+
+Vendor these files without editing their bytes and retain a per-file SHA256 manifest:
+
+- `scripts/render.mjs` and `scripts/schema.mjs` (Node >=22; no runtime package dependencies).
+- `client/assets/styles.css`, `client/assets/theme-init.js`, `client/assets/site.js`.
+- `client/assets/fonts/geist-mono.woff2` and `licenses/geist-mono-OFL.txt`.
+- `content/published.json` as the verified public baseline for homepage/About/navigation/project preview context.
+
+Exports: `renderIndex(snapshot,{preview:true})`, `renderArticle(article,snapshot,{preview:true})`, `renderArticleBody(article)`. Full renderers return HTML documents, not React JSX. The protected service must authorize before supplying any selected draft DTO, derive public-shaped fields and pins without private IDs/URLs, and never put that DTO into public Git/output. Preview has no canonical URL or publication date, and displays PRIVATE PREVIEW / Not published. That rendering option is not an access-control boundary; the caller owns effective authorization. Media must be frozen local hash-addressed copies or visibly blocked by the service before rendering. Unsupported draft content must surface warnings rather than be silently dropped.
+
+Serve assets at identical absolute paths. A private preview response must retain external theme-init/site scripts, CSS and font bytes; do not embed the document into an unrelated styled page. Index navigation always points at public routes; preview linkage may be separately protected but cannot expose draft endpoints. Tests prove exact article-body equality and identical assets in public/private variants. No public fixture/preview route exists.
+
+## Build and failure behavior
+
+`make build` reads the canonical public snapshot, validates hashes and structure, renders all pages, verifies each frozen asset's SHA256 and image signature, and stages an allowlisted static tree before replacement. It never copies the snapshot JSON, source modules, tests, fixtures, secrets or private content. Missing/malformed snapshots and failed media verification leave last-known-good output unchanged and fail the command, so deployment must not proceed. Missing provider configuration is irrelevant: the committed public snapshot is sufficient. Notion outage cannot alter the deployed output.
+
+Articles become `/blog/<slug>.html`, served by Vercel cleanUrls as `/blog/<slug>`. Sitemap entries derive only from published articles. Rebuild removes unpublished/stale article files. Asset paths are `/content/assets/<SHA256>.(png|jpg|webp|gif)`, at most 10MiB; symlinked/mismatched/executable formats are rejected. Existing assets are code-owned; media ingestion/SSRF protection belong to the service.
+
+## Verification and next release step
+
+Run `npm ci --ignore-scripts`, `npm test`, `make build`, `npm run lint`, `npm run format:check`, `npm run test:browser`, design-spec lint and `git diff --check`. Browser tests use installed Brave; CI may set `HSC_BROWSER_EXECUTABLE` or install Playwright Chromium. Synthetic fixtures exist only in tests and the loopback harness, never the production snapshot/output.
+
+The pre-created reviewer t_23f1b1dc consumes the signed UI candidate and service candidate. Integrator freezes the combined candidate and checks vendored hashes/build/preview parity; release remains the existing chain. This UI task performs no deployment, live Notion/provider writes, draft publication or release-triggering push.

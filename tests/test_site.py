@@ -1,484 +1,123 @@
-from __future__ import annotations
-
-import json
-import re
-import struct
-import unittest
+"""Static production acceptance checks; generated pages are authoritative."""
 from html.parser import HTMLParser
 from pathlib import Path
-from typing import Any, Optional
-from urllib.parse import urlparse
-
+import json
+import subprocess
+import unittest
+from urllib.parse import urlsplit, unquote
 
 ROOT = Path(__file__).resolve().parents[1]
-CLIENT = ROOT / 'client'
-HTML_PATH = CLIENT / 'index.html'
-CSS_PATH = CLIENT / 'assets' / 'styles.css'
-JS_PATH = CLIENT / 'assets' / 'site.js'
-VERCEL_CONFIG = ROOT / 'vercel.json'
-VERCEL_IGNORE = ROOT / '.vercelignore'
-DEPLOY_WORKFLOW = ROOT / '.github' / 'workflows' / 'deploy-prod.yml'
-MAKEFILE = ROOT / 'Makefile'
+OUTPUT = ROOT / 'dist'
 
 
-class SiteParser(HTMLParser):
-    def __init__(self) -> None:
+class Page(HTMLParser):
+    def __init__(self, source):
         super().__init__()
-        self.title = ''
-        self._in_title = False
-        self.headings: list[tuple[str, str]] = []
-        self._heading_tag: Optional[str] = None
-        self._heading_parts: list[str] = []
-        self.meta: list[dict[str, str]] = []
-        self.links: list[dict[str, Any]] = []
-        self._anchor: Optional[dict[str, Any]] = None
-        self.ids: set[str] = set()
-        self.images: list[dict[str, str]] = []
-        self.scripts: list[dict[str, str]] = []
-        self.json_ld: list[str] = []
-        self._json_ld_parts: Optional[list[str]] = None
-
-    def handle_starttag(self, tag: str, attrs: list[tuple[str, Optional[str]]]) -> None:
-        data = {key: value or '' for key, value in attrs}
-        if data.get('id'):
-            self.ids.add(data['id'])
-        if tag == 'title':
-            self._in_title = True
-        elif tag in {'h1', 'h2', 'h3'}:
-            self._heading_tag = tag
-            self._heading_parts = []
-        elif tag == 'meta':
-            self.meta.append(data)
-        elif tag == 'a':
-            self._anchor = {'attrs': data, 'text_parts': []}
-        elif tag == 'img':
-            self.images.append(data)
-        elif tag == 'script':
-            self.scripts.append(data)
-            if data.get('type') == 'application/ld+json':
-                self._json_ld_parts = []
-
-    def handle_endtag(self, tag: str) -> None:
-        if tag == 'title':
-            self._in_title = False
-        elif tag == self._heading_tag:
-            text = ' '.join(''.join(self._heading_parts).split())
-            self.headings.append((tag, text))
-            self._heading_tag = None
-        elif tag == 'a' and self._anchor is not None:
-            self._anchor['text'] = ' '.join(''.join(self._anchor['text_parts']).split())
-            self.links.append(self._anchor)
-            self._anchor = None
-        elif tag == 'script' and self._json_ld_parts is not None:
-            self.json_ld.append(''.join(self._json_ld_parts))
-            self._json_ld_parts = None
-
-    def handle_data(self, data: str) -> None:
-        if self._in_title:
-            self.title += data
-        if self._heading_tag:
-            self._heading_parts.append(data)
-        if self._anchor is not None:
-            self._anchor['text_parts'].append(data)
-        if self._json_ld_parts is not None:
-            self._json_ld_parts.append(data)
-
-
-def parse_site() -> tuple[str, SiteParser]:
-    source = HTML_PATH.read_text(encoding='utf-8')
-    parser = SiteParser()
-    parser.feed(source)
-    parser.close()
-    return source, parser
-
-
-def meta_content(parser: SiteParser, key: str, value: str) -> Optional[str]:
-    for item in parser.meta:
-        if item.get(key) == value:
-            return item.get('content')
-    return None
-
-
-class LandingPageAcceptanceTests(unittest.TestCase):
-    def test_brand_positioning_is_visible_in_title_and_hero(self) -> None:
-        _, page = parse_site()
-        h1 = [text for tag, text in page.headings if tag == 'h1']
-
-        self.assertEqual(page.title.strip(), 'Zacaria Chtatar — Software, side projects & curiosity')
-        self.assertEqual(h1, ['I like finding out how things really work.'])
-
-    def test_metadata_describes_technical_leadership(self) -> None:
-        _, page = parse_site()
-
-        description = meta_content(page, 'name', 'description')
-        og_title = meta_content(page, 'property', 'og:title')
-        twitter_card = meta_content(page, 'name', 'twitter:card')
-
-        self.assertIsNotNone(description)
-        self.assertIn('corner of the web', description or '')
-        self.assertEqual(og_title, 'HaveSomeCode — Zacaria’s corner of the web')
-        self.assertEqual(twitter_card, 'summary_large_image')
-
-    def test_fonts_are_self_hosted_without_a_third_party_render_chain(self) -> None:
-        source, _ = parse_site()
-        error_page = (CLIENT / '404.html').read_text(encoding='utf-8')
-        css = CSS_PATH.read_text(encoding='utf-8')
-
-        self.assertNotIn('fonts.googleapis.com', source)
-        self.assertNotIn('fonts.gstatic.com', source)
-        self.assertNotIn('fonts.googleapis.com', error_page)
-        self.assertNotIn('fonts.gstatic.com', error_page)
-        self.assertGreaterEqual(css.count('@font-face'), 4)
-        for filename in ('newsreader.woff2', 'manrope.woff2', 'dm-mono-regular.woff2', 'dm-mono-medium.woff2'):
-            self.assertTrue((CLIENT / 'assets' / 'fonts' / filename).is_file(), filename)
-
-    def test_social_metadata_uses_a_branded_large_image(self) -> None:
-        _, page = parse_site()
-        social_image = meta_content(page, 'property', 'og:image')
-        social_source = (ROOT / 'sketches' / 'social-card-source.html').read_text(encoding='utf-8')
-
-        self.assertEqual(social_image, 'https://www.havesomecode.io/assets/social-card.png')
-        image_path = CLIENT / 'assets' / 'social-card.png'
-        self.assertTrue(image_path.exists())
-        with image_path.open('rb') as image:
-            image.seek(16)
-            dimensions = struct.unpack('>II', image.read(8))
-        self.assertEqual(dimensions, (1200, 630))
-        self.assertIn('Software, side projects &amp; questions worth following.', social_source)
-        for resume_proof in ('10M', '25M', '7 pages', '30+'):
-            self.assertNotIn(resume_proof, social_source)
-
-    def test_world_sections_include_the_approved_scale_sentence_without_a_metrics_dashboard(self) -> None:
-        source, page = parse_site()
-
-        self.assertTrue({'top', 'projects', 'thinking', 'speaking', 'about', 'contact'} <= page.ids)
-        self.assertIn(
-            'At Club Med, I helped scale a public API platform from 10M to 25M requests/day in production so it could support more traffic.',
-            source,
-        )
-        self.assertNotIn('tested capacity', source.lower())
-        for resume_proof in ('Days → minutes', '7 pages in 2 days', '30+ consumers'):
-            self.assertNotIn(resume_proof, source)
-        for section_heading in (
-            'Things I made because I wanted them to exist.',
-            'The questions are often more interesting than the tools.',
-            'I usually have one side project too many.',
-        ):
-            self.assertIn(section_heading, source)
-
-    def test_navigation_and_social_links_have_visible_names(self) -> None:
-        _, page = parse_site()
-        expected_hosts = {
-            'cv.havesomecode.io',
-            'www.linkedin.com',
-            'github.com',
-            'www.youtube.com',
-        }
-        seen_hosts: set[str] = set()
-
-        for link in page.links:
-            attrs = link['attrs']
-            text = str(link['text'])
-            href = str(attrs.get('href', ''))
-            host = urlparse(href).hostname
-            if host in expected_hosts:
-                seen_hosts.add(host)
-                self.assertTrue(text or attrs.get('aria-label'), f'Link {href} has no accessible name')
-
-        self.assertEqual(seen_hosts, expected_hosts)
-
-    def test_cv_is_prominently_linked_from_the_header_and_footer(self) -> None:
-        source, page = parse_site()
-        cv_url = 'https://cv.havesomecode.io/'
-        cv_links = [link for link in page.links if link['attrs'].get('href') == cv_url]
-
-        self.assertEqual([link['text'] for link in cv_links], ['Read my CV ↗', 'CV'])
-        self.assertIn('nav-cv', str(cv_links[0]['attrs'].get('class', '')))
-        self.assertLess(source.index('Read my CV'), source.index('</header>'))
-
-    def test_portrait_has_responsive_sources_and_descriptive_alt_text(self) -> None:
-        _, page = parse_site()
-        portrait = next(image for image in page.images if 'portrait' in image.get('src', ''))
-
-        self.assertIn('Zacaria Chtatar', portrait.get('alt', ''))
-        self.assertIn('portrait-w_200.jpg', portrait.get('srcset', ''))
-        self.assertIn('portrait-w_600.jpg', portrait.get('srcset', ''))
-        self.assertEqual(portrait.get('loading'), 'eager')
-        self.assertEqual(portrait.get('fetchpriority'), 'high')
-
-    def test_json_ld_identifies_zacaria_and_public_profiles(self) -> None:
-        _, page = parse_site()
-        self.assertEqual(len(page.json_ld), 1)
-        data = json.loads(page.json_ld[0])
-
-        self.assertEqual(data['@type'], 'Person')
-        self.assertEqual(data['name'], 'Zacaria Chtatar')
-        self.assertIn('https://github.com/Zacaria', data['sameAs'])
-        self.assertIn('https://www.linkedin.com/in/zacariachtatar/', data['sameAs'])
-
-    def test_mobile_navigation_uses_external_script_and_accessible_state(self) -> None:
-        source, page = parse_site()
-        scripts = [script.get('src') for script in page.scripts]
-
-        self.assertIn('assets/site.js', scripts)
-        self.assertRegex(source, r'<button[^>]+class="menu"[^>]+aria-expanded="false"')
-        self.assertTrue(JS_PATH.exists())
-        script = JS_PATH.read_text(encoding='utf-8')
-        self.assertIn("setAttribute('aria-expanded'", script)
-        self.assertIn("textContent = open ? 'Close' : 'Menu'", script)
-        self.assertIn('currentYear', script)
-
-    def test_mobile_navigation_keeps_links_available_without_javascript(self) -> None:
-        source, _ = parse_site()
-        css = CSS_PATH.read_text(encoding='utf-8')
-        script = JS_PATH.read_text(encoding='utf-8')
-        mobile = css.split('@media (max-width: 760px)', 1)[1].split('@media (max-width: 430px)', 1)[0]
-
-        self.assertNotIn("document.documentElement.classList.add('js')", source)
-        self.assertIn("document.documentElement.classList.add('js')", script)
-        self.assertRegex(css, r'\.nav-links\s*\{[^}]*display:\s*flex')
-        self.assertNotRegex(mobile, r'(?m)^\s*\.nav-links\s*\{[^}]*display:\s*none')
-        self.assertRegex(mobile, r'\.js \.menu\s*\{[^}]*display:\s*inline-flex')
-        self.assertRegex(mobile, r'\.js \.nav-links\s*\{[^}]*display:\s*none')
-        self.assertRegex(mobile, r'\.js \.nav-links\.open\s*\{[^}]*display:\s*flex')
-        self.assertIn('@container (max-width: 860px)', css)
-
-    def test_open_mobile_navigation_scrolls_in_short_viewports(self) -> None:
-        css = CSS_PATH.read_text(encoding='utf-8')
-        mobile = css.split('@media (max-width: 760px)', 1)[1].split('@media (max-width: 430px)', 1)[0]
-
-        self.assertRegex(
-            mobile,
-            r'\.js \.nav-links\s*\{[^}]*max-height:\s*calc\(100dvh - 5\.25rem\)[^}]*overflow-y:\s*auto[^}]*flex-wrap:\s*nowrap',
-        )
-
-    def test_contact_focus_is_visible_and_visual_system_uses_no_gradients(self) -> None:
-        css = CSS_PATH.read_text(encoding='utf-8')
-
-        self.assertRegex(
-            css,
-            r'a:focus-visible,\s*button:focus-visible\s*\{[^}]*outline:\s*3px solid var\(--clay\)',
-        )
-        self.assertNotIn('gradient(', css)
-
-    def test_every_css_custom_property_reference_has_a_definition(self) -> None:
-        css = CSS_PATH.read_text(encoding='utf-8')
-        definitions = set(re.findall(r'(--[a-z0-9-]+)\s*:', css))
-        references = set(re.findall(r'var\((--[a-z0-9-]+)', css))
-
-        self.assertEqual(references - definitions, set())
-
-    def test_contact_invitation_is_open_instead_of_role_seeking(self) -> None:
-        source, page = parse_site()
-        headings = [text for _, text in page.headings]
-        contact_start = source.index('<section class="contact-section"')
-        contact_end = source.index('</section>', contact_start)
-        contact = source[contact_start:contact_end]
-
-        self.assertIn('If something here made you curious, come say hello.', headings)
-        for open_thread in ('work', 'an idea', 'a question', 'a conversation'):
-            self.assertIn(open_thread, contact)
-        for hiring_frame in ('Lead Developer roles', 'open to roles', 'job opportunities', 'hiring'):
-            self.assertNotIn(hiring_frame, contact)
-        for ambiguous_scope in ('lead teams', 'lead software teams', 'Tech Lead challenges'):
-            self.assertNotIn(ambiguous_scope, source)
-        self.assertGreaterEqual(source.count('href="mailto:havesomecode@gmail.com"'), 2)
-        self.assertIn('havesomecode@gmail.com', source)
-
-    def test_project_led_flow_avoids_conversion_scaffolding_and_keeps_direct_contact(self) -> None:
-        source, _ = parse_site()
-
-        self.assertLess(source.index('id="projects"'), source.index('id="thinking"'))
-        self.assertNotIn('class="conversation-prompt"', source)
-        self.assertNotIn('class="shell outcomes"', source)
-        self.assertGreaterEqual(source.count('href="mailto:havesomecode@gmail.com"'), 3)
-        self.assertIn('class="contact-link" href="mailto:havesomecode@gmail.com"', source)
-
-    def test_reduced_motion_never_transitions_the_keyboard_focus_outline(self) -> None:
-        css = CSS_PATH.read_text(encoding='utf-8')
-        reduced_motion = css[css.index('@media (prefers-reduced-motion: reduce)'):]
-
-        self.assertIn('transition: none !important', reduced_motion)
-        self.assertIn('animation: none !important', reduced_motion)
-        self.assertNotIn('transition-duration:', reduced_motion)
-
-    def test_authored_concept_is_project_led_and_uses_real_showable_projects(self) -> None:
-        source, _ = parse_site()
-
-        self.assertNotIn('class="decision-map"', source)
-        self.assertEqual(source.count('<article class="project'), 3)
-        for project in ('project-float', 'project-pathfinding', 'project-kibana'):
-            self.assertIn(f'data-od-id="{project}"', source)
-
-    def test_showable_projects_have_local_images_and_live_source_links(self) -> None:
-        source, page = parse_site()
-
-        self.assertNotIn('class="case-diagram', source)
-        for project in ('float', 'pathfinding', 'kibana'):
-            asset = CLIENT / 'assets' / 'projects' / f'{project}.webp'
-            self.assertTrue(asset.is_file(), asset)
-            image = next(item for item in page.images if item.get('src') == f'assets/projects/{project}.webp')
-            self.assertTrue(image.get('alt'))
-        for href in (
-            'https://zacaria.github.io/float/',
-            'https://pathfinding-client.vercel.app/',
-            'https://havesomecode.github.io/kibana-mcp-server/',
-            'https://github.com/Zacaria/float',
-            'https://github.com/Zacaria/pathfinding-client',
-            'https://github.com/Havesomecode/kibana-mcp-server',
-        ):
-            self.assertIn(f'href="{href}"', source)
-        for accessible_name in (
-            'Open project: Float',
-            'Open experiment: Pathfinding',
-            'Open project: Kibana Log Investigation MCP',
-        ):
-            self.assertIn(f'aria-label="{accessible_name}"', source)
-
-    def test_mobile_question_list_collapses_to_a_single_readable_column(self) -> None:
-        source, _ = parse_site()
-        css = CSS_PATH.read_text(encoding='utf-8')
-
-        self.assertEqual(source.count('<li data-reveal data-od-id="question-'), 4)
-        mobile = css.split('@media (max-width: 760px)', 1)[1]
-        self.assertRegex(mobile, r'\.question-list li\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)')
-        self.assertRegex(mobile, r'\.question-list li > div\s*\{[^}]*grid-column:\s*1')
-
-    def test_alternating_projects_preserve_media_scale(self) -> None:
-        css = CSS_PATH.read_text(encoding='utf-8')
-
-        self.assertRegex(css, r'\.project-media\s*\{[^}]*grid-column:\s*6 / 13')
-        self.assertRegex(css, r'\.project-reverse \.project-media\s*\{[^}]*grid-column:\s*1 / 8')
-        self.assertRegex(css, r'\.project-media img\s*\{[^}]*aspect-ratio:\s*8 / 5')
-
-    def test_thinking_section_is_native_static_content(self) -> None:
-        source, _ = parse_site()
-        script = JS_PATH.read_text(encoding='utf-8')
-        css = CSS_PATH.read_text(encoding='utf-8')
-
-        self.assertIn('class="question-list"', source)
-        self.assertEqual(source.count('<li data-reveal data-od-id="question-'), 4)
-        self.assertNotIn('<details', source)
-        self.assertNotIn("addEventListener('toggle'", script)
-        self.assertRegex(css, r'\.question-list\s*\{[^}]*border-top:\s*1px solid var\(--fg\)')
-
-    def test_progressive_motion_never_hides_content_without_javascript(self) -> None:
-        source, _ = parse_site()
-        css = CSS_PATH.read_text(encoding='utf-8')
-        script = JS_PATH.read_text(encoding='utf-8')
-
-        self.assertNotIn("document.documentElement.classList.add('js')", source)
-        self.assertIn("document.documentElement.classList.add('js')", script)
-        self.assertIn('data-reveal', source)
-        self.assertRegex(css, r'\.js\.motion-ready\s+\[data-reveal\][^{]*\{[^}]*opacity:\s*0')
-        self.assertRegex(css, r'\.js\.motion-ready\s+\[data-reveal\]\.is-visible[^{]*\{[^}]*opacity:\s*1')
-        self.assertIn('IntersectionObserver', script)
-        self.assertIn("matchMedia('(prefers-reduced-motion: reduce)')", script)
-        self.assertIn("classList.add('motion-ready')", script)
-
-    def test_lcp_headline_is_never_delayed_by_motion(self) -> None:
-        source, _ = parse_site()
-        css = CSS_PATH.read_text(encoding='utf-8')
-
-        self.assertIn('<h1 id="hero-title" data-od-id="hero-title">', source)
-        hero_heading = source[source.index('<h1 id="hero-title"'):source.index('</h1>')]
-        self.assertNotIn('data-reveal', hero_heading)
-        self.assertRegex(
-            css,
-            r'\.hero\s*\{[^}]*grid-template-columns:\s*repeat\(12,\s*minmax\(0,\s*1fr\)\)',
-        )
-
-    def test_primary_navigation_tracks_the_current_section(self) -> None:
-        source, _ = parse_site()
-        script = JS_PATH.read_text(encoding='utf-8')
-        css = CSS_PATH.read_text(encoding='utf-8')
-
-        self.assertEqual(source.count('data-section-link'), 4)
-        self.assertIn("setAttribute('aria-current', 'location')", script)
-        self.assertIn('[aria-current="location"]', css)
-
-    def test_css_encodes_identity_focus_and_responsive_behavior(self) -> None:
-        css = CSS_PATH.read_text(encoding='utf-8')
-
-        for token in ('--bg:', '--surface:', '--fg:', '--accent:', '--clay:'):
-            self.assertIn(token, css)
-        self.assertNotIn('border-radius', css)
-        self.assertNotIn('gradient(', css)
-        self.assertIn(':focus-visible', css)
-        self.assertIn('@media (max-width: 760px)', css)
-        self.assertIn('@media (prefers-reduced-motion: reduce)', css)
-
-    def test_local_assets_referenced_by_the_page_exist(self) -> None:
-        _, page = parse_site()
-        referenced: set[str] = set()
-
-        for image in page.images:
-            referenced.add(image.get('src', ''))
-            for candidate in image.get('srcset', '').split(','):
-                path = candidate.strip().split(' ')[0]
-                if path:
-                    referenced.add(path)
-        for script in page.scripts:
-            if script.get('src'):
-                referenced.add(script['src'])
-
-        for path in referenced:
-            if not path or urlparse(path).scheme:
+        self.ids = []
+        self.links = []
+        self.assets = []
+        self.feed(source)
+
+    def handle_starttag(self, tag, attrs):
+        values = dict(attrs)
+        if 'id' in values:
+            self.ids.append(values['id'])
+        if tag == 'a' and 'href' in values:
+            self.links.append(values['href'])
+        if tag in ('img', 'script') and 'src' in values:
+            self.assets.append(values['src'])
+        if tag == 'link' and values.get('rel') in ('stylesheet', 'preload', 'icon'):
+            self.assets.append(values['href'])
+
+
+class PublicSiteAcceptance(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        subprocess.run(['node', 'scripts/build.mjs'], cwd=ROOT, check=True, capture_output=True)
+        cls.source = (OUTPUT / 'index.html').read_text()
+        cls.page = Page(cls.source)
+
+    def test_production_is_honestly_empty(self):
+        snapshot = json.loads((ROOT / 'content/published.json').read_text())
+        self.assertEqual(snapshot['articles'], [])
+        self.assertIn('No notes published yet.', self.source)
+        self.assertNotIn('Synthetic renderer fixture', self.source)
+        self.assertNotIn('datetime=', self.source)
+
+    def test_reference_identity_and_theme_are_explicit(self):
+        self.assertIn('HAVESOMECODE', self.source)
+        for choice in ('Light', 'Dark', 'Auto'):
+            self.assertIn('>' + choice + '</button>', self.source)
+        css = (OUTPUT / 'assets/styles.css').read_text()
+        self.assertIn('Geist Mono', css)
+        self.assertIn('prefers-reduced-motion', css)
+        self.assertNotIn('Newsreader', css)
+        self.assertNotIn('Manrope', css)
+
+    def test_approved_about_sentence_stays_without_a_metrics_dashboard(self):
+        self.assertIn('At Club Med, I helped scale a public API platform from 10M to 25M requests/day in production so it could support more traffic.', self.source)
+        for excluded in ('Days → minutes', '7 pages in 2 days', '30+ consumers', 'tested capacity'):
+            self.assertNotIn(excluded, self.source)
+
+    def test_required_public_destinations_are_preserved(self):
+        for href in ('https://zacaria.github.io/float/', 'https://pathfinding-client.vercel.app/',
+                     'https://havesomecode.github.io/kibana-mcp-server/', 'https://github.com/Zacaria/float',
+                     'https://github.com/Zacaria/pathfinding-client', 'https://github.com/Havesomecode/kibana-mcp-server',
+                     'https://www.youtube.com/watch?v=eSo3e3ugn5g', 'https://cv.havesomecode.io/',
+                     'https://www.linkedin.com/in/zacariachtatar/', 'mailto:havesomecode@gmail.com',
+                     '/linkedin-editorial-scout-privacy'):
+            self.assertIn(href, self.page.links)
+
+    def test_all_local_links_assets_and_anchors_resolve(self):
+        self.assertEqual(len(self.page.ids), len(set(self.page.ids)))
+        for href in self.page.links:
+            url = urlsplit(href)
+            if url.netloc or url.scheme:
                 continue
-            self.assertTrue((CLIENT / path).exists(), f'Missing local asset: {path}')
+            if url.path in ('', '/') and url.fragment:
+                self.assertIn(url.fragment, self.page.ids, href)
+            elif url.path:
+                local = OUTPUT / unquote(url.path).lstrip('/')
+                self.assertTrue(local.exists() or local.with_suffix('.html').exists(), href)
+        for href in self.page.assets:
+            self.assertTrue((OUTPUT / href.lstrip('/')).is_file(), href)
 
-    def test_legacy_pages_are_useful_instead_of_empty(self) -> None:
-        not_found = (CLIENT / '404.html').read_text(encoding='utf-8')
-        about = (CLIENT / 'about.html').read_text(encoding='utf-8')
-
-        self.assertIn('Page not found', not_found)
-        self.assertIn('href="/"', not_found)
-        self.assertIn('href="/assets/styles.css"', not_found)
-        self.assertIn('href="/assets/favicon.ico"', not_found)
+    def test_legacy_about_redirect_privacy_and_404_remain(self):
+        about = (OUTPUT / 'about.html').read_text()
         self.assertIn('url=/#about', about)
-        self.assertIn('Continue to the about section', about)
-
-    def test_sitemap_records_the_current_rework(self) -> None:
-        sitemap = (CLIENT / 'sitemap.xml').read_text(encoding='utf-8')
-
-        self.assertIn('<loc>https://www.havesomecode.io/</loc>', sitemap)
-        self.assertIn('<lastmod>2026-08-06</lastmod>', sitemap)
-
-    def test_vercel_release_contract_is_explicit(self) -> None:
-        self.assertTrue(VERCEL_CONFIG.is_file(), 'vercel.json must define the production release')
-        self.assertTrue(VERCEL_IGNORE.is_file(), '.vercelignore must keep review artifacts out of uploads')
-
-        config = json.loads(VERCEL_CONFIG.read_text(encoding='utf-8'))
-        self.assertEqual(config['buildCommand'], 'make build')
-        self.assertEqual(config['outputDirectory'], 'dist')
+        config = json.loads((ROOT / 'vercel.json').read_text())
+        self.assertIn({'source': '/about', 'destination': '/#about', 'permanent': True}, config['redirects'])
         self.assertTrue(config['cleanUrls'])
+        privacy = (OUTPUT / 'linkedin-editorial-scout-privacy.html').read_bytes()
+        self.assertEqual(privacy, (ROOT / 'client/linkedin-editorial-scout-privacy.html').read_bytes())
+        self.assertIn('noindex', (OUTPUT / '404.html').read_text())
 
-        redirects = {(item['source'], item['destination'], item['permanent']) for item in config['redirects']}
-        self.assertIn(('/about', '/#about', True), redirects)
+    def test_no_private_projection_or_fixture_is_packaged(self):
+        paths = [str(p.relative_to(OUTPUT)) for p in OUTPUT.rglob('*') if p.is_file()]
+        for value in paths:
+            self.assertNotIn('published.json', value)
+            self.assertNotIn('fixture', value)
+            self.assertNotIn('preview', value)
+            self.assertNotIn('.env', value)
+        for private in ('notionPageId', 'sourceVersion', 'Evidence and context', 'NOTION_TOKEN', 'api/admin', 'Draft/Blog'):
+            self.assertNotIn(private, self.source)
+        js = (OUTPUT / 'assets/site.js').read_text()
+        self.assertNotIn('fetch(', js)
 
-        catch_all = next(item for item in config['headers'] if item['source'] == '/(.*)')
-        headers = {item['key']: item['value'] for item in catch_all['headers']}
-        self.assertEqual(headers['Strict-Transport-Security'], 'max-age=63072000; includeSubDomains; preload')
-        self.assertEqual(headers['X-Content-Type-Options'], 'nosniff')
+    def test_security_headers_and_verification_only_workflow_remain(self):
+        config = json.loads((ROOT / 'vercel.json').read_text())
+        headers = {h['key']: h['value'] for group in config['headers'] for h in group['headers']}
         self.assertEqual(headers['X-Frame-Options'], 'DENY')
-        self.assertEqual(headers['Referrer-Policy'], 'same-origin')
-        self.assertEqual(headers['Permissions-Policy'], 'camera=(), microphone=(), geolocation=()')
+        self.assertEqual(headers['X-Content-Type-Options'], 'nosniff')
+        self.assertIn('includeSubDomains', headers['Strict-Transport-Security'])
+        workflow = (ROOT / '.github/workflows/deploy-prod.yml').read_text()
+        for unsafe in ('AWS_ACCESS_KEY', 'aws s3', 'deploy --prod'):
+            self.assertNotIn(unsafe, workflow)
 
-        ignored = set(VERCEL_IGNORE.read_text(encoding='utf-8').splitlines())
-        self.assertTrue(
-            {'submission', 'sketches', 'tests', 'licenses', '.history', 'gatsby-starter-minimal-blog'} <= ignored
-        )
-
-    def test_delivery_path_uses_vercel_without_legacy_aws_credentials(self) -> None:
-        workflow = DEPLOY_WORKFLOW.read_text(encoding='utf-8')
-        makefile = MAKEFILE.read_text(encoding='utf-8')
-        delivery = workflow + makefile
-
-        self.assertNotIn('AWS_ACCESS_KEY', delivery)
-        self.assertNotIn('aws s3', delivery)
-        self.assertIn('permissions:\n  contents: read', workflow)
-        self.assertIn('deploy-prod: build', makefile)
-        self.assertIn('vercel@latest deploy --prod --yes', makefile)
+    def test_font_is_local_and_licensed(self):
+        self.assertEqual((OUTPUT / 'assets/fonts/geist-mono.woff2').read_bytes()[:4], b'wOF2')
+        self.assertIn('SIL OPEN FONT LICENSE', (ROOT / 'licenses/geist-mono-OFL.txt').read_text())
+        self.assertEqual((OUTPUT / 'assets/fonts/licenses/geist-mono-OFL.txt').read_bytes(), (ROOT / 'licenses/geist-mono-OFL.txt').read_bytes())
 
 
 if __name__ == '__main__':

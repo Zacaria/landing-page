@@ -66,5 +66,11 @@ typings/
 **/.terraform
 
 dist
+dist.staging
+dist.previous
+.local/
+test-results/
+playwright-report/
+__pycache__/
 .vercel
 .env*

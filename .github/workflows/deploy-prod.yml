@@ -21,18 +21,17 @@ jobs:
         with:
           node-version: 22
 
-      - name: Run acceptance tests
-        run: python3 tests/test_site.py -q
+      - name: Install pinned verification dependencies
+        run: npm ci --ignore-scripts
 
-      - name: Validate HTML and JavaScript
+      - name: Run acceptance tests
+        run: npm test
+
+      - name: Build and validate static output
         run: |
-          npx -y html-validate 'client/*.html' 'sketches/social-card-source.html'
-          node --check client/assets/site.js
+          make build
+          npm run lint
+          npm run format:check
 
       - name: Validate design specification
         run: npx -y @google/design.md lint DESIGN.md
-
-      - name: Build clean static output
-        run: |
-          make build
-          diff -rq client dist
