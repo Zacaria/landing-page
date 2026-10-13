@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "files": {
-    "scripts/render.mjs": "84f8709ec5c6755d9ca2a057ff580f10ae094e1155f349fff631b9719061eb75",
+    "scripts/render.mjs": "9897f734c4a3054e590f5b2a3d17c1848647e36f362aaca4ee826e90755cacf6",
     "scripts/schema.mjs": "6073feec23de0aafac91b75a8ed80acff1c908ccbd9f7aac68aaa34dd82abbcc",
-    "client/assets/styles.css": "d6df77eb52ca64645e0cf2e1036c336383b8108adb121fcc45e0fd56d8b7da91",
+    "client/assets/styles.css": "6c3aed6ae41f2642210a0035a78b9fe8360b1aea41fb24d53933260f480bf74a",
     "client/assets/theme-init.js": "cec4efa59224e55d99cddec8166bd6659af8ee52d587647627e11d4bfe54228a",
     "client/assets/site.js": "cc53d62bb1daca53488f0bb9fd4f9c5a7b8786866979fa4d0dd7b05a8e3b2884",
     "client/assets/fonts/geist-mono.woff2": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",

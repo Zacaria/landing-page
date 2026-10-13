@@ -417,9 +417,15 @@ main {
   min-height: 24px;
 }
 .bottom-note {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
   font-size: 10px;
   color: var(--muted);
-  margin: 24px 0;
+  margin: 0;
 }
 .skip {
   position: absolute;
@@ -611,15 +617,14 @@ dialog button {
 }
 
 .theme-control {
-  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .theme-label {
-  display: block;
   font-size: 11px;
   line-height: 16px;
-  letter-spacing: 0.06em;
-  margin-bottom: 6px;
-  color: var(--fg);
+  color: var(--muted);
 }
 .theme-options {
   display: flex;
@@ -627,19 +632,18 @@ dialog button {
 }
 .theme-choice {
   font: inherit;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 20px;
   min-height: 44px;
-  padding: 8px;
-  background: var(--surface);
-  color: var(--fg);
-  border: 1px solid var(--border);
+  min-width: 44px;
+  padding: 0 6px;
+  background: transparent;
+  color: var(--muted);
+  border: 0;
   cursor: pointer;
 }
 .theme-choice[aria-pressed="true"] {
-  color: var(--link);
-  border-color: var(--link);
-  box-shadow: inset 0 0 0 1px var(--link);
+  color: var(--fg);
   text-decoration: underline;
   text-underline-offset: 3px;
 }

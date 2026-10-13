@@ -87,7 +87,7 @@ export function renderArticleBody(article) {
   if (list) output += `</${list}>`;
   return output;
 }
-const theme = `<div class="theme-control" role="group" aria-label="Appearance"><span class="theme-label">APPEARANCE</span><div class="theme-options">${[
+const theme = `<div class="theme-control" role="group" aria-label="Appearance"><span class="theme-label">Theme:</span><div class="theme-options">${[
   ["light", "Light"],
   ["dark", "Dark"],
   ["system", "Auto"],
@@ -109,7 +109,7 @@ function header(snapshot, article) {
     .filter((p) => p.featured)
     .map((p) => anchor(p.href, escape(p.title)))
     .join("")}</div>
-  <header id="top"><div class="identity">${article ? '<p class="brand-line">' : "<h1>"}<a href="/">HAVESOMECODE<span class="cursor" aria-hidden="true"></span></a>${article ? "</p>" : "</h1>"}<p class="domain">havesomecode.io</p><p class="author">Zacaria Chtatar / Lead Developer</p>${theme}</div><nav aria-label="Main navigation">${snapshot.navigation
+  <header id="top"><div class="identity">${article ? '<p class="brand-line">' : "<h1>"}<a href="/">HAVESOMECODE<span class="cursor" aria-hidden="true"></span></a>${article ? "</p>" : "</h1>"}<p class="domain">havesomecode.io</p><p class="author">Zacaria Chtatar / Lead Developer</p></div><nav aria-label="Main navigation">${snapshot.navigation
     .filter((n) => n.visible)
     .sort((a, b) => a.order - b.order)
     .map((n) => anchor(n.href, `[ ${escape(n.label.toUpperCase())} ]`))
@@ -133,7 +133,7 @@ function rail(snapshot) {
     .join("")}</aside>`;
 }
 function footer() {
-  return `<footer class="footer"><div><strong>EXPLORE</strong><a href="/#posts">Notes</a><a href="/#search">Search</a><a href="/#topics">Topics</a></div><div><strong>MAKE &amp; TRY</strong><a href="/#projects">Projects</a><a href="/#thinking">Questions</a><a href="/#speaking">Talks</a></div><div><strong>CONNECT</strong><a href="https://cv.havesomecode.io/">CV</a><a href="https://github.com/Zacaria">GitHub</a><a href="/linkedin-editorial-scout-privacy">Editorial scout privacy</a></div></footer><p class="bottom-note">Zacaria Chtatar · HaveSomeCode</p>`;
+  return `<footer class="footer"><div><strong>EXPLORE</strong><a href="/#posts">Notes</a><a href="/#search">Search</a><a href="/#topics">Topics</a></div><div><strong>MAKE &amp; TRY</strong><a href="/#projects">Projects</a><a href="/#thinking">Questions</a><a href="/#speaking">Talks</a></div><div><strong>CONNECT</strong><a href="https://cv.havesomecode.io/">CV</a><a href="https://github.com/Zacaria">GitHub</a><a href="/linkedin-editorial-scout-privacy">Editorial scout privacy</a></div><div class="bottom-note"><p>Zacaria Chtatar · HaveSomeCode</p>${theme}</div></footer>`;
 }
 function document(title, description, path, content, snapshot, options) {
   return `<!doctype html>

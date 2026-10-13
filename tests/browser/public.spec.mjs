@@ -16,6 +16,22 @@ for (const width of [1440, 768, 390, 320]) {
     await page.goto("/");
     await expect(page.locator("#no-articles")).toBeVisible();
     await expect(page.locator(".post[data-search]")).toHaveCount(0);
+    await expect(page.locator("header .theme-control")).toHaveCount(0);
+    await expect(page.locator("footer .theme-control")).toHaveCount(1);
+    const choices = await page.locator(".theme-choice").evaluateAll((buttons) =>
+      buttons.map((button) => {
+        const style = getComputedStyle(button);
+        const rect = button.getBoundingClientRect();
+        return {
+          transparent: style.backgroundColor === "rgba(0, 0, 0, 0)",
+          borderless: style.borderTopWidth === "0px",
+          touchTarget: rect.width >= 44 && rect.height >= 44,
+        };
+      }),
+    );
+    expect(choices).toEqual(
+      Array(3).fill({ transparent: true, borderless: true, touchTarget: true }),
+    );
     const before = await page.evaluate(() => ({
       sw: document.documentElement.scrollWidth,
       cw: document.documentElement.clientWidth,
@@ -168,6 +184,8 @@ test("private fixture preview uses exact public body, with noindex and no public
   await page.goto("/blog/test-renderer");
   const html = await page.locator(".article-body").innerHTML();
   await page.goto("/private-fixture-preview");
+  await expect(page.locator("header .theme-control")).toHaveCount(0);
+  await expect(page.locator("footer .theme-control")).toHaveCount(1);
   expect(await page.locator(".article-body").innerHTML()).toBe(html);
   await expect(page.locator(".preview-banner")).toHaveText(
     "PRIVATE PREVIEW · Not published",

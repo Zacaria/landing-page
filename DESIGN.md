@@ -83,7 +83,7 @@ The prototype's original CSS and licensed embedded Geist font were extracted, no
 
 The outer frame is 1280px; the inside article/topic columns are separate from the 160px outside project rail. At 1199px the rail becomes project shortcuts; at 850px content/sidebar stack. At 520px projects stack. Keep content readable at 320px without document overflow; long code scrolls within its own block.
 
-Appearance choices remain visible, carry aria-pressed, persist when storage works, and Auto follows device changes. No-JavaScript Auto uses the OS preference through CSS. Focus is visible and reduced motion disables smooth scrolling.
+Appearance choices sit in the subdued footer beside the site credit, not in the identity/header or as a primary call to action (owner revision, 13 October 2026). Keep their transparent, borderless text styling and 44px touch targets. They carry aria-pressed, persist when storage works, and Auto follows device changes. No-JavaScript Auto uses the OS preference through CSS. Focus is visible and reduced motion disables smooth scrolling.
 
 ## Honest content
 
