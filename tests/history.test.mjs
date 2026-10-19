@@ -7,7 +7,7 @@ import { build } from "../scripts/build.mjs";
 import { mkdir, mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 
-test("static build retains historical attribution and fails closed without replacing good output", async () => {
+test("static build retains original dates without attribution and fails closed without replacing good output", async () => {
   await mkdir(".local", { recursive: true });
   const dir = await mkdtemp(path.resolve(".local/history-build-"));
   try {
@@ -21,14 +21,15 @@ test("static build retains historical attribution and fails closed without repla
       path.join(output, "blog/older-import.html"),
       "utf8",
     );
-    assert.match(article, /Originally published on LinkedIn/);
-    assert.match(
+    assert.doesNotMatch(
       article,
-      /Published on HaveSomeCode: <time datetime="2026-10-01/,
+      /Originally published|Published on HaveSomeCode|Adapted from|Adaptation|datetime="2026-10-01/i,
     );
+    assert.ok(!article.includes(s.articles[0].originalPublication.url));
+    assert.match(article, /datetime="2026-03-01T10:00:00.000Z"/);
     assert.match(
       await readFile(path.join(output, "index.html"), "utf8"),
-      /2026-03-01<\/time> · LinkedIn/,
+      /2026-03-01<\/time>/,
     );
     s.articles[0].originalPublication.publishedAt = "9999-01-01T00:00:00.000Z";
     await writeFile(snapshotPath, JSON.stringify(s));
@@ -42,7 +43,7 @@ test("static build retains historical attribution and fails closed without repla
   }
 });
 
-test("notes sort by attributed original dates, not import time, alongside ordinary notes", () => {
+test("notes sort by plain original dates, not import time, alongside ordinary notes", () => {
   const s = historical();
   validateSnapshot(s);
   const html = renderIndex(s);
@@ -54,32 +55,29 @@ test("notes sort by attributed original dates, not import time, alongside ordina
     html.indexOf('href="/blog/newer-import"') <
       html.indexOf('href="/blog/older-import"'),
   );
-  assert.match(
-    html,
-    /datetime="2026-03-01T10:00:00.000Z">2026-03-01<\/time> · LinkedIn/,
-  );
-  assert.doesNotMatch(html, /datetime="2026-10-01/);
+  assert.match(html, /datetime="2026-03-01T10:00:00.000Z">2026-03-01<\/time>/);
+  assert.doesNotMatch(html, /datetime="2026-10-01|<\/time> · LinkedIn/);
 });
 
-test("article distinguishes LinkedIn origin from actual website release; preview hides only website time", () => {
+test("article and preview show one original date while provenance and actual release remain stored", () => {
   const s = historical(),
     a = s.articles[0];
+  const before = structuredClone(a);
   const html = renderArticle(a, s);
-  assert.ok(html.includes(`href="${a.originalPublication.url}"`));
-  assert.match(html, /Originally published on LinkedIn/);
-  assert.match(html, /datetime="2026-03-01T10:00:00.000Z"/);
-  assert.match(
-    html,
-    /Published on HaveSomeCode: <time datetime="2026-10-01T00:00:00.000Z"/,
-  );
   const preview = renderArticle(a, s, { preview: true });
-  assert.match(preview, /Originally published on LinkedIn/);
-  assert.match(preview, /datetime="2026-03-01T10:00:00.000Z"/);
-  assert.doesNotMatch(
-    preview,
-    /Published on HaveSomeCode|datetime="2026-10-01|rel="canonical"/,
-  );
+  for (const view of [html, preview]) {
+    assert.ok(!view.includes(a.originalPublication.url));
+    assert.match(view, /datetime="2026-03-01T10:00:00.000Z"/);
+    assert.equal((view.match(/<time /g) || []).length, 1);
+    assert.doesNotMatch(
+      view,
+      /Originally published|Published on HaveSomeCode|Adapted from|Adaptation|datetime="2026-10-01/i,
+    );
+  }
+  assert.doesNotMatch(preview, /rel="canonical"/);
   assert.match(preview, /PRIVATE PREVIEW · Not published/);
+  assert.deepEqual(a, before);
+  assert.equal(a.publishedAt, "2026-10-01T00:00:00.000Z");
 });
 
 test("original metadata participates in canonical content pins and rejects tampering", () => {
