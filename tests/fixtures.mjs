@@ -63,3 +63,36 @@ export function fixture() {
   snapshot.site.selectedSlugs = [article.slug];
   return pinSnapshot(snapshot);
 }
+
+export function historicalFixture() {
+  const s = fixture();
+  s.site.selectedSlugs = [];
+  const a = s.articles[0];
+  s.articles = [a];
+  a.slug = "older-import";
+  a.title = "Older import";
+  a.publishedAt = "2026-10-01T00:00:00.000Z";
+  a.originalPublication = {
+    publishedAt: "2026-03-01T10:00:00.000Z",
+    url: "https://www.linkedin.com/posts/example_activity-1234567890123456789-example",
+  };
+  s.articles.push({
+    ...structuredClone(a),
+    slug: "newer-import",
+    title: "Newer import",
+    publishedAt: "2026-09-01T00:00:00.000Z",
+    originalPublication: {
+      ...a.originalPublication,
+      publishedAt: "2026-04-01T10:00:00.000Z",
+    },
+  });
+  const ordinary = {
+    ...structuredClone(a),
+    slug: "ordinary",
+    title: "Ordinary note",
+    publishedAt: "2026-05-01T00:00:00.000Z",
+  };
+  delete ordinary.originalPublication;
+  s.articles.push(ordinary);
+  return pinSnapshot(s);
+}

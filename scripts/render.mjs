@@ -145,8 +145,25 @@ ${options.preview ? '<meta name="robots" content="noindex, nofollow" />' : `<lin
 <script src="/assets/theme-init.js"></script><script defer src="/assets/site.js"></script></head><body>
 <a class="skip" href="#main-content">Skip to content</a><div class="outer"><div class="site">${options.preview ? '<p class="preview-banner" role="status">PRIVATE PREVIEW · Not published</p>' : ""}${header(snapshot, path !== "/")}<main id="main-content">${content}${sidebar(snapshot)}</main>${footer()}</div>${rail(snapshot)}</div></body></html>\n`;
 }
+function noteDate(article) {
+  return article.originalPublication?.publishedAt ?? article.publishedAt;
+}
+function time(date) {
+  return `<time datetime="${escape(date)}">${escape(date.slice(0, 10))}</time>`;
+}
+function articleMeta(article, preview) {
+  const original = article.originalPublication;
+  if (preview && !original) return "";
+  const origin = original
+    ? `${anchor(original.url, "Originally published on LinkedIn", ' rel="noopener noreferrer"')}: ${time(original.publishedAt)}`
+    : "";
+  const website = preview
+    ? ""
+    : `${original ? "Published on HaveSomeCode: " : ""}${time(article.publishedAt)}`;
+  return `<p class="article-meta">${[origin, website].filter(Boolean).join("<br />")}${article.topics.length ? ` · ${escape(article.topics.join(", "))}` : ""}</p>`;
+}
 function row(article) {
-  return `<li class="post" data-search="${escape(`${article.title} ${article.excerpt} ${article.topics.join(" ")}`)}" data-topics="${escape(JSON.stringify(article.topics))}">${anchor(`/blog/${article.slug}`, escape(article.title))}<span class="meta"><time datetime="${article.publishedAt}">${article.publishedAt.slice(0, 10)}</time>${article.topics.length ? ` · ${escape(article.topics.join(", "))}` : ""}</span></li>`;
+  return `<li class="post" data-search="${escape(`${article.title} ${article.excerpt} ${article.topics.join(" ")}`)}" data-topics="${escape(JSON.stringify(article.topics))}">${anchor(`/blog/${article.slug}`, escape(article.title))}<span class="meta">${time(noteDate(article))}${article.originalPublication ? " · LinkedIn" : ""}${article.topics.length ? ` · ${escape(article.topics.join(", "))}` : ""}</span></li>`;
 }
 function projects(snapshot) {
   return `<section class="products" id="projects">${separator}<p class="section-label">PROJECTS</p><h2>THINGS I MADE BECAUSE I WANTED THEM TO EXIST.</h2><p>Some started with a practical annoyance. Others began with a question I wanted to see moving.</p><div class="subhead">TOOLS &amp; EXPERIMENTS</div><div class="product-grid">${[
@@ -191,7 +208,7 @@ function talk() {
 export function renderIndex(snapshot, options = {}) {
   validateSnapshot(snapshot);
   const articles = [...snapshot.articles].sort((a, b) =>
-    b.publishedAt.localeCompare(a.publishedAt),
+    noteDate(b).localeCompare(noteDate(a)),
   );
   const selected = snapshot.site.selectedSlugs.map((slug) =>
     articles.find((a) => a.slug === slug),
@@ -209,7 +226,7 @@ export function renderIndex(snapshot, options = {}) {
 export function renderArticle(article, snapshot, options = {}) {
   validateSnapshot(snapshot);
   validateArticle(article);
-  const content = `<article class="reading"><a href="/#posts">← All notes</a><p class="section-label">${options.preview ? "PRIVATE PREVIEW" : "NOTE"}</p><h1>${escape(article.title)}</h1>${options.preview ? "" : `<p class="article-meta"><time datetime="${article.publishedAt}">${article.publishedAt.slice(0, 10)}</time>${article.topics.length ? ` · ${escape(article.topics.join(", "))}` : ""}</p>`}<p class="lede">${escape(article.excerpt)}</p><div class="article-body">${renderArticleBody(article)}</div><a class="more" href="/#posts">Back to all notes →</a></article>`;
+  const content = `<article class="reading"><a href="/#posts">← All notes</a><p class="section-label">${options.preview ? "PRIVATE PREVIEW" : "NOTE"}</p><h1>${escape(article.title)}</h1>${articleMeta(article, options.preview)}<p class="lede">${escape(article.excerpt)}</p><div class="article-body">${renderArticleBody(article)}</div><a class="more" href="/#posts">Back to all notes →</a></article>`;
   return document(
     article.seo.title,
     article.seo.description,

@@ -97,6 +97,34 @@ function unique(items, key, path) {
 function digest(value) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
 }
+export function validateOriginalPublication(value, latest = Date.now()) {
+  object(
+    value,
+    ["publishedAt", "url"],
+    ["publishedAt", "url"],
+    "originalPublication",
+  );
+  const date = value.publishedAt;
+  if (
+    typeof date !== "string" ||
+    !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(date) ||
+    !Number.isFinite(Date.parse(date)) ||
+    new Date(date).toISOString() !== date ||
+    Date.parse(date) < 0 ||
+    !Number.isFinite(latest) ||
+    Date.parse(date) > Math.min(Date.now(), latest)
+  )
+    fail("originalPublication.publishedAt");
+  // A provenance link is a public post, not a private CMS URL or a profile.
+  if (
+    !safeHref(value.url) ||
+    !/^https:\/\/(?:www\.)?linkedin\.com\/(?:posts\/[a-zA-Z0-9_-]+|feed\/update\/urn:li:activity:\d+)\/?$/.test(
+      value.url,
+    )
+  )
+    fail("originalPublication.url");
+  return { publishedAt: date, url: value.url };
+}
 function articleContent(a) {
   return {
     schemaVersion: 1,
@@ -118,6 +146,14 @@ function articleContent(a) {
       ...("language" in b ? { language: b.language } : {}),
       ...("asset" in b ? { asset: b.asset } : {}),
     })),
+    ...("originalPublication" in a
+      ? {
+          originalPublication: validateOriginalPublication(
+            a.originalPublication,
+            Date.parse(a.publishedAt),
+          ),
+        }
+      : {}),
   };
 }
 function snapshotContent(s) {
@@ -173,6 +209,7 @@ export function validateArticle(article) {
       "topics",
       "seo",
       "blocks",
+      "originalPublication",
     ],
     [
       "schemaVersion",
@@ -201,6 +238,11 @@ export function validateArticle(article) {
     new Date(article.publishedAt).toISOString() !== article.publishedAt
   )
     fail("article.publishedAt");
+  if ("originalPublication" in article)
+    validateOriginalPublication(
+      article.originalPublication,
+      Date.parse(article.publishedAt),
+    );
   list(article.topics, 20, "article.topics");
   article.topics.forEach((t) => text(t, 80, "article.topics"));
   unique(article.topics, (t) => t, "article.topics");

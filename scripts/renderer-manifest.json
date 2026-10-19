@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "files": {
-    "scripts/render.mjs": "9897f734c4a3054e590f5b2a3d17c1848647e36f362aaca4ee826e90755cacf6",
-    "scripts/schema.mjs": "6073feec23de0aafac91b75a8ed80acff1c908ccbd9f7aac68aaa34dd82abbcc",
+    "scripts/render.mjs": "206c2d200111062514a1ed3af54c60a4583fdbcaeace7b1166f9b6e674f0113a",
+    "scripts/schema.mjs": "7e89c1a33f5d8a36d421173bc8748ae355788ff06262c90cf2fe2a051807b0bb",
     "client/assets/styles.css": "6c3aed6ae41f2642210a0035a78b9fe8360b1aea41fb24d53933260f480bf74a",
     "client/assets/theme-init.js": "cec4efa59224e55d99cddec8166bd6659af8ee52d587647627e11d4bfe54228a",
     "client/assets/site.js": "cc53d62bb1daca53488f0bb9fd4f9c5a7b8786866979fa4d0dd7b05a8e3b2884",

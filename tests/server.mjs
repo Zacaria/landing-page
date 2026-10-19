@@ -3,7 +3,7 @@ import http from "node:http";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { renderIndex, renderArticle } from "../scripts/render.mjs";
-import { fixture } from "./fixtures.mjs";
+import { fixture, historicalFixture } from "./fixtures.mjs";
 const root = path.resolve("dist");
 const types = {
   ".html": "text/html; charset=utf-8",
@@ -15,6 +15,23 @@ const types = {
 };
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://127.0.0.1");
+  if (url.pathname === "/history-fixture") {
+    res.setHeader("Content-Type", types[".html"]);
+    return res.end(renderIndex(historicalFixture()));
+  }
+  if (
+    ["/history-fixture/article", "/history-fixture/preview"].includes(
+      url.pathname,
+    )
+  ) {
+    const s = historicalFixture();
+    res.setHeader("Content-Type", types[".html"]);
+    return res.end(
+      renderArticle(s.articles[0], s, {
+        preview: url.pathname.endsWith("/preview"),
+      }),
+    );
+  }
   if (url.pathname === "/fixture" || url.pathname === "/fixture/") {
     res.setHeader("Content-Type", types[".html"]);
     return res.end(renderIndex(fixture()));
