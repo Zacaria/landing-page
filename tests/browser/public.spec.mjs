@@ -14,7 +14,25 @@ for (const width of [1440, 768, 390, 320]) {
     const requests = [];
     page.on("request", (r) => requests.push(r.url()));
     await page.goto("/");
-    await expect(page.locator("#no-articles")).toBeVisible();
+    await expect(
+      page.locator("#no-articles, #posts, #search, #topics"),
+    ).toHaveCount(0);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Zacaria Chtatar",
+    );
+    await expect(
+      page.locator("header a[href='https://cv.havesomecode.io/']"),
+    ).toBeVisible();
+    const sections = await page
+      .locator("main > section")
+      .evaluateAll((els) => els.map((el) => el.id));
+    expect(sections).toEqual(["about", "projects", "speaking", "contact"]);
+    for (const href of [
+      "https://zacaria.github.io/float/",
+      "https://pathfinding-client.vercel.app/",
+      "https://havesomecode.github.io/kibana-mcp-server/",
+    ])
+      await expect(page.locator(`a[href="${href}"]`)).toHaveCount(1);
     await expect(page.locator(".post[data-search]")).toHaveCount(0);
     await expect(page.locator("header .theme-control")).toHaveCount(0);
     await expect(page.locator("footer .theme-control")).toHaveCount(1);
@@ -38,15 +56,9 @@ for (const width of [1440, 768, 390, 320]) {
       font: getComputedStyle(document.body).fontFamily,
     }));
     expect(before.sw).toBeLessThanOrEqual(before.cw);
-    expect(before.font).toContain("Geist Mono");
-    for (const label of [
-      "Blog",
-      "Projects",
-      "Search",
-      "Topics",
-      "About",
-      "Contact",
-    ]) {
+    expect(before.font).toContain("Geist");
+    expect(before.font).not.toContain("Geist Mono");
+    for (const label of ["Projects", "About", "Contact"]) {
       const link = page
         .getByRole("navigation", { name: "Main navigation" })
         .getByRole("link", { name: `[ ${label.toUpperCase()} ]`, exact: true });
@@ -73,6 +85,44 @@ for (const width of [1440, 768, 390, 320]) {
     ).toBeTruthy();
   });
 }
+test("Uncommon identity uses editorial serif, below-hero navigation and local fonts", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => document.fonts.load('700 16px "Geist"'));
+  for (const mode of ["light", "dark"]) {
+    await page.locator(`.theme-choice[data-mode="${mode}"]`).click();
+    const style = await page.evaluate(() => {
+      const root = getComputedStyle(document.documentElement);
+      return {
+        background: root.getPropertyValue("--background").trim(),
+        accent: root.getPropertyValue("--accent").trim(),
+        nameFont: getComputedStyle(document.querySelector("h1")).fontFamily,
+        navFont: getComputedStyle(document.querySelector("nav")).fontFamily,
+        navTop: document.querySelector(".topline").getBoundingClientRect().top,
+        heroBottom: document.querySelector(".hero").getBoundingClientRect()
+          .bottom,
+        marker: getComputedStyle(document.querySelector("main h2"), "::before")
+          .content,
+        fonts: [
+          document.fonts.check('16px "Geist"'),
+          document.fonts.check('700 16px "Geist"'),
+          document.fonts.check('16px "Instrument Serif"'),
+          document.fonts.check('italic 16px "Instrument Serif"'),
+        ],
+      };
+    });
+    expect(style.background).toBe(mode === "light" ? "#f5f3ed" : "#0b0b0c");
+    expect(style.accent).toBe(mode === "light" ? "#526500" : "#d4ff4f");
+    expect(style.nameFont).toContain("Instrument Serif");
+    expect(style.nameFont).not.toContain("Mono");
+    expect(style.navFont).toContain("Geist Mono");
+    expect(style.marker).toContain("section");
+    expect(style.fonts).toEqual([true, true, true, true]);
+    expect(style.navTop).toBeGreaterThanOrEqual(style.heroBottom - 1);
+  }
+});
 test("Light/Dark persistence, Auto preference changes and keyboard controls", async ({
   page,
 }) => {
@@ -206,7 +256,8 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
   });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:8793/");
-  await expect(page.locator("#no-articles")).toBeVisible();
+  await expect(page.locator("#about")).toBeVisible();
+  await expect(page.locator("#posts, #search, #topics")).toHaveCount(0);
   expect(
     await page
       .locator("html")

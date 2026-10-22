@@ -40,7 +40,7 @@ class PublicSiteAcceptance(unittest.TestCase):
     def test_production_is_honestly_empty(self):
         snapshot = json.loads((ROOT / 'content/published.json').read_text())
         self.assertEqual(snapshot['articles'], [])
-        self.assertIn('No notes published yet.', self.source)
+        self.assertNotIn('No notes published yet.', self.source)
         self.assertNotIn('Synthetic renderer fixture', self.source)
         self.assertNotIn('datetime=', self.source)
 
@@ -116,6 +116,11 @@ class PublicSiteAcceptance(unittest.TestCase):
 
     def test_font_is_local_and_licensed(self):
         self.assertEqual((OUTPUT / 'assets/fonts/geist-mono.woff2').read_bytes()[:4], b'wOF2')
+        for name in ('geist-regular.woff2', 'geist-bold.woff2'):
+            self.assertEqual((OUTPUT / 'assets/fonts' / name).read_bytes()[:4], b'wOF2')
+        for name in ('instrument-serif-regular.woff2', 'instrument-serif-italic.woff2'):
+            self.assertEqual((OUTPUT / 'assets/fonts' / name).read_bytes()[:4], b'wOF2')
+        self.assertIn('SIL OPEN FONT LICENSE', (ROOT / 'licenses/instrument-serif-OFL.txt').read_text())
         self.assertIn('SIL OPEN FONT LICENSE', (ROOT / 'licenses/geist-mono-OFL.txt').read_text())
         self.assertEqual((OUTPUT / 'assets/fonts/licenses/geist-mono-OFL.txt').read_bytes(), (ROOT / 'licenses/geist-mono-OFL.txt').read_bytes())
 

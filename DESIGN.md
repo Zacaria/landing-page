@@ -1,34 +1,34 @@
 ---
 version: alpha
-name: Reference-first HaveSomeCode
-description: A compact monospace personal publication with explicit appearance controls.
+name: HaveSomeCode — Uncommon editorial
+description: Monumental editorial serif, technical metadata, fine rules and restrained chartreuse accents.
 colors:
-  primary: "#000000"
-  secondary: "#646464"
-  accent: "#0000EE"
-  neutral: "#FFFFFF"
-  surface: "#F4F4F1"
-  dark-background: "#101113"
-  dark-text: "#E7E9ED"
-  dark-muted: "#A4A9B2"
-  dark-link: "#8CA7FF"
-  dark-surface: "#1C1E23"
+  primary: "#23231f"
+  secondary: "#68675f"
+  accent: "#d4ff4f"
+  neutral: "#f5f3ed"
+  surface: "#eeece5"
+  dark-background: "#0b0b0c"
+  dark-text: "#ece8e1"
+  dark-muted: "#a29e97"
+  dark-link: "#d4ff4f"
+  dark-surface: "#121214"
 typography:
   heading:
-    fontFamily: Geist Mono
-    fontSize: 1.25rem
-    fontWeight: 700
-    lineHeight: 1.3
-    letterSpacing: 0.025em
+    fontFamily: Instrument Serif
+    fontSize: 7.5rem
+    fontWeight: 400
+    lineHeight: 0.95
+    letterSpacing: "-0.02em"
   body:
-    fontFamily: Geist Mono
-    fontSize: 0.875rem
+    fontFamily: Geist
+    fontSize: 1.0625rem
     fontWeight: 400
     lineHeight: 1.7
     letterSpacing: 0em
   article:
-    fontFamily: Geist Mono
-    fontSize: 0.9375rem
+    fontFamily: Geist
+    fontSize: 1.0625rem
     fontWeight: 400
     lineHeight: 1.8
     letterSpacing: 0em
@@ -55,7 +55,7 @@ components:
     padding: "{spacing.md}"
   link:
     backgroundColor: "{colors.neutral}"
-    textColor: "{colors.accent}"
+    textColor: "{colors.primary}"
     typography: "{typography.body}"
     rounded: "{rounded.none}"
     padding: "{spacing.xs}"
@@ -71,23 +71,34 @@ components:
     typography: "{typography.body}"
     rounded: "{rounded.none}"
     padding: "{spacing.sm}"
+  accent-marker:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.primary}"
+    rounded: "{rounded.search}"
+    padding: "{spacing.xs}"
+  quiet-copy:
+    backgroundColor: "{colors.neutral}"
+    textColor: "{colors.secondary}"
+    typography: "{typography.body}"
 ---
 
 ## Accepted identity
 
-The owner accepted the reference-first Flavio-inspired appearance and explicit Light / Dark / Auto controls. This replaces Editorial Authority for the public homepage and articles. Use Geist Mono throughout, white/black/blue, uppercase cursor-mark identity, bracketed right-aligned navigation, search-first notes, compact dash-bulleted rows with inline dates/topics, pale selected-note blocks, tilde separators, and separate topics/About sidebar and outside project rail.
+On 22 October 2026, the owner replaced the CV/Sandstone direction with `https://webdev.teknium.io/#react` (Uncommon Web), then accepted a HaveSomeCode adaptation. Keep the recruiter-focused content cleanup: name, hands-on role, professional evidence and direct CV/contact access before personal experiments. This accepts the reference direction, not a production release or article publication.
 
-The prototype's original CSS and licensed embedded Geist font were extracted, not copied from the external reference website. The local font and SIL OFL are retained in client/assets/fonts and licenses. No network font dependency is needed.
+Use Instrument Serif for the name and large section/project titles, including an italic accent; Geist Sans for reading; Geist Mono for compact metadata and numbering. Capture the real reference at desktop/mobile dimensions and compare its bottom-weighted hero, below-hero navigation, restrained surfaces and thin rules—not only its palette. Locally bundle licensed fonts; no network font dependency. Keep the attached CV private and do not turn the homepage into its chronology.
+
+The inspected reference is a custom HTML/CSS/JavaScript shell; `#react` is a catalogue section, not proof of a React host or an installable shadcn theme. Reuse the working static renderer rather than adding a framework solely for styling. Retain background/foreground/primary/muted/accent/border roles compatible with component theming. Dark colors follow the reference; the light variant uses the same hierarchy with readable dark text and an olive link accent. See `docs/font-provenance.md` for exact font sources and licenses.
 
 ## Composition and behavior
 
-The outer frame is 1280px; the inside article/topic columns are separate from the 160px outside project rail. At 1199px the rail becomes project shortcuts; at 850px content/sidebar stack. At 520px projects stack. Keep content readable at 320px without document overflow; long code scrolls within its own block.
+Use a left-aligned editorial frame up to 1200px, a large bottom-weighted hero with small role metadata, a monumental serif name and a subtle original static dotted texture. Keep CV/contact visible before the navigation band; do not require animation to read or act. Avoid fake stats, terminal theatre, dashboard ornaments or the reference's huge catalogue. Present each project once in a compact ruled list with purpose, working destination and source. Main navigation sits beneath the hero without a sticky overlay. Fit 320px without horizontal document overflow; code scrolls inside its own block.
 
 Appearance choices sit in the subdued footer beside the site credit, not in the identity/header or as a primary call to action (owner revision, 13 October 2026). Keep their transparent, borderless text styling and 44px touch targets. They carry aria-pressed, persist when storage works, and Auto follows device changes. No-JavaScript Auto uses the OS preference through CSS. Focus is visible and reduced motion disables smooth scrolling.
 
 ## Honest content
 
-No articles are currently approved. The committed snapshot contains only verified existing public content, including the approved Club Med scale sentence, projects, CV, talk, profile/contact links and preserved privacy destination. Show empty notes/topics rather than draft titles, fabricated dates, sponsors, courses or publishing history. Published notes alone participate in search and topic filtering.
+No articles are currently approved. The committed snapshot contains only verified existing public content, including the approved Club Med scale sentence, projects, CV, talk, profile/contact links and preserved privacy destination. Omit notes, search, topics and their navigation links when their published content is absent; restore them automatically when published data exists. Never fill gaps with draft titles, fabricated dates, sponsors, courses or publishing history. Published notes alone participate in search and topic filtering.
 
 ## Rendering boundary
 

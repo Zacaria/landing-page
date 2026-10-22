@@ -1,13 +1,20 @@
 {
   "schemaVersion": 1,
   "files": {
-    "scripts/render.mjs": "df463523217d9c3bdc8fea0bdeaa0b4edffba802a2872b56fb9e85dbbde4a485",
+    "scripts/render.mjs": "05059c5199201b9c35f3d4fb12f3f0bd822bfc66171924e1c22d2d119dd34d86",
     "scripts/schema.mjs": "7e89c1a33f5d8a36d421173bc8748ae355788ff06262c90cf2fe2a051807b0bb",
-    "client/assets/styles.css": "6c3aed6ae41f2642210a0035a78b9fe8360b1aea41fb24d53933260f480bf74a",
+    "client/assets/styles.css": "9ca89ecd9bd277360fa0cd1d23e71e22ced762f5de4b7e221a4a1afa5bb51ce1",
+    "client/assets/design-tokens.json": "7997e6d8b09646b6586ec54ec415a88b3f3538d9e972b6f110d5102af6faf977",
     "client/assets/theme-init.js": "cec4efa59224e55d99cddec8166bd6659af8ee52d587647627e11d4bfe54228a",
     "client/assets/site.js": "cc53d62bb1daca53488f0bb9fd4f9c5a7b8786866979fa4d0dd7b05a8e3b2884",
     "client/assets/fonts/geist-mono.woff2": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+    "client/assets/fonts/geist-regular.woff2": "12e7c80de776bc74044973a26bb96842ca4bfe9e16fc6128fa5c6420e8e1d8fc",
+    "client/assets/fonts/geist-bold.woff2": "25c8b03dbf9668157bfb8448c0a8aa234d8c85222499295845035acbae184870",
+    "client/assets/fonts/instrument-serif-regular.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "client/assets/fonts/instrument-serif-italic.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
     "licenses/geist-mono-OFL.txt": "17a3dc24a665b5fc448aa6997ced191fafd7424244d2e85608c4026e86324d53",
-    "content/published.json": "61e3062897ff5c1bc36f455cda1287aca0c97048a593e41c120e294825575295"
+    "licenses/geist-OFL.txt": "930853ee1daa68554d9e35c8a9175affb74f699fad9a5da6ee5ebe76379d9137",
+    "licenses/instrument-serif-OFL.txt": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
+    "content/published.json": "55fcf6419d97cae7ad3fec40c2a3b9bbbe479812e87b628b0b9ec3d4ca3343a6"
   }
 }

@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
-  "revision": "acc8aef874dc97e0a158a92ef92d9342c0bad67dbdd544280670fd6039ca642e",
+  "revision": "5cc6bea5e4402dbcc75a495e5678a35476d614158a2a0924560ccc5b4f9bb9bd",
   "articles": [],
   "projects": [
     {
       "slug": "float",
       "title": "Float",
-      "description": "I kept losing reference images behind my editor. Float is the small app I wanted: pin an image, adjust its opacity, and get back to what I was doing.",
+      "description": "A small desktop tool to keep a reference image above the editor, with adjustable opacity.",
       "href": "https://zacaria.github.io/float/",
       "featured": true,
-      "order": 0
+      "order": 2
     },
     {
       "slug": "pathfinding",
       "title": "Pathfinding",
-      "description": "I wanted to watch search algorithms make decisions instead of reading another diagram. This Rust/WASM playground lets you edit the grid, change the algorithm, and step through the search.",
+      "description": "A Rust/WebAssembly playground for exploring search algorithms: edit a grid, choose an algorithm and follow its decisions step by step.",
       "href": "https://pathfinding-client.vercel.app/",
       "featured": true,
       "order": 1
@@ -22,15 +22,15 @@
     {
       "slug": "kibana-mcp",
       "title": "Kibana Log Investigation MCP",
-      "description": "I wanted agents to investigate logs through small, read-only operations instead of clicking through Kibana. This MCP gives them a structured path from source discovery to focused queries.",
+      "description": "Read-only Kibana tools for AI agents, from discovering log sources to running focused queries. A personal project for structured log investigation.",
       "href": "https://havesomecode.github.io/kibana-mcp-server/",
       "featured": true,
-      "order": 2
+      "order": 0
     }
   ],
   "site": {
-    "intro": "I build software and help teams make sense of difficult technical work. I also start side projects whenever a question refuses to leave me alone. HaveSomeCode is where I share the ones that made it somewhere.",
-    "bio": "I’m Zacaria. I live in France, work as a Lead Developer, and often follow an idea long after it would have been sensible to stop.\n\nAt Club Med, I helped scale a public API platform from 10M to 25M requests/day in production so it could support more traffic.\n\nI like Rust, games, visual explanations, and small tools that remove tiny daily annoyances. At work I think a lot about how systems and people affect each other. Side projects let me chase whatever has my attention.\n\nI work comfortably in English. Away from software, I practise karate and keep finding new things to study.",
+    "intro": "At Club Med, I helped scale a public API platform from 10M to 25M requests/day in production so it could support more traffic.",
+    "bio": "My work combines hands-on development, architecture, delivery and mentoring. TypeScript, Node.js, React and distributed systems are part of that work; the product and the people using it come first.\n\nOutside work, I explore Rust, visual explanations and small tools. I work comfortably in English and practise karate.",
     "contact": [
       {
         "label": "GitHub",

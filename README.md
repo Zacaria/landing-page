@@ -25,9 +25,9 @@ Browser tests use `/usr/bin/brave-browser`; set `HSC_BROWSER_EXECUTABLE` for an 
 
 ## Content and preview contract
 
-Read `docs/public-renderer.md` for exact DTO/digest rules, safe media/link policies, exports and preview integration. `DESIGN.md` is the accepted reference-first Geist Mono / white-black-blue design, with explicit Light/Dark/Auto controls. The self-hosted Geist font's SIL OFL is in `licenses/`.
+Read `docs/public-renderer.md` for exact DTO/digest rules, safe media/link policies, exports and preview integration. `DESIGN.md` is the Uncommon Web-inspired Instrument Serif / Geist / Geist Mono design, with explicit Light/Dark/Auto controls. The self-hosted Geist font's SIL OFL is in `licenses/`.
 
-The committed snapshot preserves the live approved intro, Club Med scale sentence, real projects, talk, CV and contacts. Articles/topics remain honestly empty. Prior sketches, award submissions and their scorecards describe the earlier design, not this candidate. The existing editorial-scout privacy page is intentionally byte-identical.
+The public snapshot keeps the approved Club Med scale sentence, real projects, talk, CV and contacts, with a tighter recruiter-focused introduction. Empty article/search/topic sections and their navigation are omitted until published content exists. Prior sketches, award submissions and their scorecards describe the earlier design, not this candidate. The existing editorial-scout privacy page is intentionally byte-identical.
 
 ## Release
 

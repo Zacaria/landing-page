@@ -8,6 +8,8 @@ The accepted architecture is the signed service spec `35096fa5964fd2591a44f1685a
 
 ## Public schema v1
 
+Homepage correction (22 October 2026): show professional context before personal experiments, keep CV/contact directly available, render projects once, and omit empty notes/search/topics plus their links. Preserve all existing real destinations and the date-only article contract. This presentation release does not authorize Notion publication, private-service activation or preview renderer updates; reconcile new shared pins before future CMS delivery.
+
 Canonical validator: `scripts/schema.mjs`. Root fields are exactly `schemaVersion`, `revision`, `articles`, `projects`, `site`, `navigation`. An article has schemaVersion, slug, title, excerpt, version, publishedAt, topics, seo `{title,description}`, blocks `{kind,spans,language?,asset?}`. Rich spans accept text, bold/italic/code/strike flags and a safe href. No arbitrary HTML, script, private block/source IDs, context or draft DTO fields.
 
 Project: `{slug,title,description,href,image?,featured,order}`. Site: `{intro,bio,contact:[{label,href}],selectedSlugs}`. Navigation: `{label,href,visible,order}`. Selection must name existing published article slugs. Images are optional for projects but required for image blocks. Unsafe/unknown data, duplicate slugs/topics/selections, unsupported blocks, missing assets and wrong digest pins fail closed.
@@ -23,6 +25,7 @@ Vendor these files without editing their bytes and retain a per-file SHA256 mani
 - `scripts/render.mjs` and `scripts/schema.mjs` (Node >=22; no runtime package dependencies).
 - `client/assets/styles.css`, `client/assets/theme-init.js`, `client/assets/site.js`.
 - `client/assets/fonts/geist-mono.woff2` and `licenses/geist-mono-OFL.txt`.
+- `client/assets/fonts/geist-regular.woff2` and `geist-bold.woff2`, with `licenses/geist-OFL.txt`; `instrument-serif-regular.woff2` and `instrument-serif-italic.woff2`, with `licenses/instrument-serif-OFL.txt`. The latest identity follows Uncommon Web, superseding the interrupted Sandstone candidate. Font origins are recorded in `docs/font-provenance.md`.
 - `content/published.json` as the verified public baseline for homepage/About/navigation/project preview context.
 
 Exports: `renderIndex(snapshot,{preview:true})`, `renderArticle(article,snapshot,{preview:true})`, `renderArticleBody(article)`. Full renderers return HTML documents, not React JSX. The protected service must authorize before supplying any selected draft DTO, derive public-shaped fields and pins without private IDs/URLs, and never put that DTO into public Git/output. Preview has no canonical URL or website publication date, and displays PRIVATE PREVIEW / Not published. Historical previews show only the original date, matching the public article date without exposing provenance. That rendering option is not an access-control boundary; the caller owns effective authorization. Media must be frozen local hash-addressed copies or visibly blocked by the service before rendering. Unsupported draft content must surface warnings rather than be silently dropped.

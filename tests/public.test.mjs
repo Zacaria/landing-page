@@ -31,7 +31,7 @@ test("baseline is verified public content and has no invented article history", 
   validateSnapshot(baseline);
   assert.equal(baseline.articles.length, 0);
   const html = renderIndex(baseline);
-  assert.match(html, /No notes published yet/);
+  assert.doesNotMatch(html, /No notes published yet/);
   assert.match(
     html,
     /At Club Med, I helped scale a public API platform from 10M to 25M requests\/day in production so it could support more traffic\./,
@@ -48,6 +48,45 @@ test("baseline is verified public content and has no invented article history", 
   assert.doesNotMatch(
     html,
     /2000-01|Synthetic|data-article|Design preview|Draft/,
+  );
+});
+test("recruiter homepage puts professional context first without empty or repeated sections", () => {
+  const html = renderIndex(baseline);
+  assert.match(html, /<h1>Zacaria <em>Chtatar<\/em><\/h1>/);
+  assert.ok(html.indexOf('id="about"') < html.indexOf('id="projects"'));
+  assert.match(
+    html.slice(0, html.indexOf("<main")),
+    /https:\/\/cv.havesomecode.io\//,
+  );
+  for (const id of ["posts", "search", "topics", "thinking"])
+    assert.ok(!html.includes(`id="${id}"`) && !html.includes(`/#${id}`), id);
+  assert.doesNotMatch(
+    html,
+    /project-rail|rail-mobile|announcement|No notes|Topics will appear/,
+  );
+  for (const project of baseline.projects) {
+    assert.equal(
+      html.split(`href="${project.href}"`).length - 1,
+      1,
+      project.slug,
+    );
+    assert.equal(html.split(project.description).length - 1, 1, project.slug);
+  }
+  const s = fixture();
+  assert.match(renderIndex(s), /id="search"/);
+  assert.match(renderIndex(s), /id="posts"/);
+  assert.match(renderIndex(s), /id="topics"/);
+  s.articles.forEach((a) => {
+    a.topics = [];
+  });
+  const topicless = renderIndex(pinSnapshot(s));
+  assert.doesNotMatch(topicless, /id="topics"|\/#topics/);
+  assert.match(topicless, /id="posts"/);
+  const noProjects = structuredClone(baseline);
+  noProjects.projects = [];
+  assert.doesNotMatch(
+    renderIndex(pinSnapshot(noProjects)),
+    /id="projects"|\/#projects/,
   );
 });
 test("all four configurable categories render and ordered visibility is honored", () => {
