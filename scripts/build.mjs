@@ -83,13 +83,33 @@ export async function build({
         recursive: true,
       },
     );
+    await cp(
+      path.join(root, "client/appearance-fonts"),
+      path.join(stage, "appearance-fonts"),
+      { recursive: true },
+    );
+    await cp(
+      path.join(root, "client/appearance-fallback.css"),
+      path.join(stage, "appearance-fallback.css"),
+    );
     for (const page of [
       "404.html",
       "about.html",
       "linkedin-editorial-scout-privacy.html",
       "robots.txt",
-    ])
-      await cp(path.join(root, "client", page), path.join(stage, page));
+    ]) {
+      const source = path.join(root, "client", page);
+      if (page.endsWith(".html")) {
+        const html = await readFile(source, "utf8");
+        await writeFile(
+          path.join(stage, page),
+          html.replace(
+            "</head>",
+            '<link rel="stylesheet" href="/appearance-fallback.css" /><link rel="stylesheet" href="/api/appearance?target=site" /><script src="/assets/theme-init.js"></script></head>',
+          ),
+        );
+      } else await cp(source, path.join(stage, page));
+    }
     await writeFile(path.join(stage, "index.html"), index);
     if (articles.length) await mkdir(path.join(stage, "blog"));
     for (const [slug, html] of articles)

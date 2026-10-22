@@ -15,6 +15,10 @@ const types = {
 };
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://127.0.0.1");
+  if (url.pathname === "/api/appearance") {
+    res.setHeader("Content-Type", "text/css");
+    return res.end(await readFile(path.join(root, "appearance-fallback.css")));
+  }
   if (url.pathname === "/history-fixture") {
     res.setHeader("Content-Type", types[".html"]);
     return res.end(renderIndex(historicalFixture()));

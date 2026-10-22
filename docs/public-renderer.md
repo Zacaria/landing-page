@@ -24,6 +24,25 @@ Vendor these files without editing their bytes and retain a per-file SHA256 mani
 - `client/assets/styles.css`, `client/assets/theme-init.js`, `client/assets/site.js`.
 - `client/assets/fonts/geist-mono.woff2` and `licenses/geist-mono-OFL.txt`.
 - `content/published.json` as the verified public baseline for homepage/About/navigation/project preview context.
+- `scripts/appearance.mjs`, `appearance/catalogue.json`, `client/appearance-fallback.css`, and every file under `client/appearance-fonts/` (including licenses). Preserve these absolute `/appearance-fonts/<file>` URLs.
+
+### Public appearance (independent of content digests)
+
+`appearanceCss(choice, target = "site")` is a pure CSS generator. Choice is exactly `{theme,band,type}`: one of the 40 approved catalogue IDs, band `soft|accent|contrast`, type `geist|uncommon`. Default is `{theme:"teknium",band:"soft",type:"uncommon"}`. Unknown/extra fields or targets fail closed. `geist` uses Geist Sans headings/body and Geist Mono utility tokens; `uncommon` substitutes licensed Instrument Serif normal/italic headings. Bands style the site announcement or CV header only. Screen CSS maps semantic tokens to existing `--bg,--fg,--link,--muted,--border,--surface` or `--resume-*` variables with `!important`. Reader root `data-theme="light|dark"` always wins over device preference; absent/Auto follows `prefers-color-scheme`. CV output, including fonts and header styling, is wholly inside `@media screen`, leaving existing print/PDF CSS untouched.
+
+Public pages load blocking fallback CSS followed by `/api/appearance?target=site`. Protected previews omit that public endpoint: the admin must serve its own authenticated CSS URL after the fallback. Preview callers must not substitute a public endpoint. Article bodies, source snapshots and digest construction are unchanged.
+
+`content/appearance.json` starts with actual default choices for both consumers and is the sole mutable settings document. It is intentionally not pinned in the renderer manifest or copied into static output: the owner's existing CAS token updates that file in public master, and the next API request reads the change without an application rebuild. Neither choice nor top-level settings permits extra keys. Font responses under `/appearance-fonts/` permit CORS `*` so the public CSS can also be consumed from the CV origin.
+
+`api/appearance.mjs` accepts GET/HEAD with target `site|cv` (default site), fetches only the fixed public GitHub raw `content/appearance.json` URL with timestamp cache-busting, a 2-second full-read deadline, no redirects/credentials/cache and an 8192-byte ceiling. Settings are exactly `{site:choice,cv:choice}`; both choices validate before use. Responses set `Cache-Control: no-store`, credential-free CORS `*`, and exposed `X-Appearance-Status: selected|fallback|invalid-settings|invalid-target|invalid-method`. Network/outage/missing initial file returns default CSS with `fallback`; invalid settings return HTTP 502, invalid target HTTP 400, unsupported method HTTP 405. No admin API, secret or arbitrary URL is accepted. Static builds copy only fonts/licenses and fallback, never settings/catalogue/source modules. Vercel separately runs the API function.
+
+Regenerate the checked-in default fallback after generator changes:
+
+```sh
+node --input-type=module -e 'import {writeFile} from "node:fs/promises"; import {appearanceCss,DEFAULT_APPEARANCE} from "./scripts/appearance.mjs"; await writeFile("client/appearance-fallback.css",appearanceCss(DEFAULT_APPEARANCE));'
+```
+
+Refresh SHA256 values in `scripts/renderer-manifest.json` only after final formatting and fallback regeneration; `npm test` verifies every pinned byte plus fallback/generator parity.
 
 Exports: `renderIndex(snapshot,{preview:true})`, `renderArticle(article,snapshot,{preview:true})`, `renderArticleBody(article)`. Full renderers return HTML documents, not React JSX. The protected service must authorize before supplying any selected draft DTO, derive public-shaped fields and pins without private IDs/URLs, and never put that DTO into public Git/output. Preview has no canonical URL or website publication date, and displays PRIVATE PREVIEW / Not published. Historical previews show only the original date, matching the public article date without exposing provenance. That rendering option is not an access-control boundary; the caller owns effective authorization. Media must be frozen local hash-addressed copies or visibly blocked by the service before rendering. Unsupported draft content must surface warnings rather than be silently dropped.
 

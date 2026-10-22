@@ -80,7 +80,10 @@ class PublicSiteAcceptance(unittest.TestCase):
                 local = OUTPUT / unquote(url.path).lstrip('/')
                 self.assertTrue(local.exists() or local.with_suffix('.html').exists(), href)
         for href in self.page.assets:
-            self.assertTrue((OUTPUT / href.lstrip('/')).is_file(), href)
+            if href == '/api/appearance?target=site':
+                self.assertTrue((ROOT / 'api/appearance.mjs').is_file())
+            else:
+                self.assertTrue((OUTPUT / href.lstrip('/')).is_file(), href)
 
     def test_legacy_about_redirect_privacy_and_404_remain(self):
         about = (OUTPUT / 'about.html').read_text()
@@ -89,7 +92,10 @@ class PublicSiteAcceptance(unittest.TestCase):
         self.assertIn({'source': '/about', 'destination': '/#about', 'permanent': True}, config['redirects'])
         self.assertTrue(config['cleanUrls'])
         privacy = (OUTPUT / 'linkedin-editorial-scout-privacy.html').read_bytes()
-        self.assertEqual(privacy, (ROOT / 'client/linkedin-editorial-scout-privacy.html').read_bytes())
+        appearance = b'<link rel="stylesheet" href="/appearance-fallback.css" /><link rel="stylesheet" href="/api/appearance?target=site" /><script src="/assets/theme-init.js"></script>'
+        self.assertEqual(privacy.replace(appearance, b''), (ROOT / 'client/linkedin-editorial-scout-privacy.html').read_bytes())
+        for page in ('about.html', '404.html', 'linkedin-editorial-scout-privacy.html'):
+            self.assertIn(appearance, (OUTPUT / page).read_bytes())
         self.assertIn('noindex', (OUTPUT / '404.html').read_text())
 
     def test_no_private_projection_or_fixture_is_packaged(self):

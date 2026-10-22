@@ -38,7 +38,7 @@ for (const width of [1440, 768, 390, 320]) {
       font: getComputedStyle(document.body).fontFamily,
     }));
     expect(before.sw).toBeLessThanOrEqual(before.cw);
-    expect(before.font).toContain("Geist Mono");
+    expect(before.font).toContain("Geist Sans");
     for (const label of [
       "Blog",
       "Projects",
