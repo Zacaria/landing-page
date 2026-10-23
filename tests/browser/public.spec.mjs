@@ -27,6 +27,19 @@ for (const width of [1440, 768, 390, 320]) {
       .locator("main > section")
       .evaluateAll((els) => els.map((el) => el.id));
     expect(sections).toEqual(["about", "projects", "speaking", "contact"]);
+    await expect(page.locator("#speaking h2")).toHaveText("Talks & learning");
+    await expect(page.locator("#speaking .post")).toHaveCount(3);
+    await expect(page.locator("#speaking .section-label")).toHaveText(
+      "HaveSome…",
+    );
+    for (const href of [
+      "https://havesomecode.github.io/havesome-oidc/",
+      "https://zacaria.github.io/havesome-worktrees/",
+      "https://www.youtube.com/watch?v=eSo3e3ugn5g",
+      "https://havesome-rust-apidays.surge.sh/",
+      "https://github.com/Zacaria/zacaria#links",
+    ])
+      await expect(page.locator(`#speaking a[href="${href}"]`)).toHaveCount(1);
     for (const href of [
       "https://zacaria.github.io/float/",
       "https://pathfinding-client.vercel.app/",
@@ -74,10 +87,16 @@ for (const width of [1440, 768, 390, 320]) {
       path: `${captures}/home-dark-${width}.png`,
       fullPage: true,
     });
+    await page.locator("#speaking").screenshot({
+      path: `${captures}/learning-dark-${width}.png`,
+    });
     await page.getByRole("button", { name: "Light", exact: true }).click();
     await page.screenshot({
       path: `${captures}/home-light-${width}.png`,
       fullPage: true,
+    });
+    await page.locator("#speaking").screenshot({
+      path: `${captures}/learning-light-${width}.png`,
     });
     expect(errors).toEqual([]);
     expect(

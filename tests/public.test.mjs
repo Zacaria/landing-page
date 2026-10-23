@@ -89,6 +89,30 @@ test("recruiter homepage puts professional context first without empty or repeat
     /id="projects"|\/#projects/,
   );
 });
+test("HaveSome learning replaces Speaking with three unique entries and the complete archive", () => {
+  const html = renderIndex(baseline);
+  const section = html.match(
+    /<section[^>]*id="speaking"[^>]*>([\s\S]*?)<\/section>/,
+  )?.[1];
+  assert.ok(section);
+  assert.match(section, /<h2>Talks &amp; learning<\/h2>/);
+  assert.match(section, /HaveSome…/);
+  assert.equal((section.match(/<li class="post">/g) || []).length, 3);
+  for (const href of [
+    "https://havesomecode.github.io/havesome-oidc/",
+    "https://zacaria.github.io/havesome-worktrees/",
+    "https://www.youtube.com/watch?v=eSo3e3ugn5g",
+    "https://havesome-rust-apidays.surge.sh/",
+    "https://github.com/Zacaria/zacaria#links",
+  ])
+    assert.equal(html.split(`href="${href}"`).length - 1, 1, href);
+  assert.match(section, /Interactive guide · 2026/);
+  assert.match(section, /Slides · 2026/);
+  assert.match(section, /API Days Paris · 2023/);
+  assert.match(section, /All presentations →/);
+  assert.doesNotMatch(section, /product-grid|<article|<iframe|<h2>Speaking/);
+  assert.equal((html.match(/id="speaking"/g) || []).length, 1);
+});
 test("all four configurable categories render and ordered visibility is honored", () => {
   const s = fixture();
   s.site.intro = "Changed introduction";

@@ -166,7 +166,7 @@ function projects(snapshot) {
     .join("")}</div></section>`;
 }
 function talk() {
-  return `<section class="updates" id="speaking"><h2>Speaking</h2><ul class="post-list"><li class="post"><a href="https://www.youtube.com/watch?v=eSo3e3ugn5g">Forget TypeScript. Choose Rust to build robust, fast, and cheap APIs.</a><span class="meta">API Days Paris · 2023</span></li></ul></section>`;
+  return `<section class="updates" id="speaking"><h2>Talks &amp; learning</h2><p class="section-label">HaveSome…</p><ul class="post-list"><li class="post"><a href="https://havesomecode.github.io/havesome-oidc/">HaveSome OIDC</a><span class="meta">Interactive guide · 2026</span><p>OAuth 2.0, OIDC and PKCE through a guided flow and a hands-on practice lab.</p></li><li class="post"><a href="https://zacaria.github.io/havesome-worktrees/">HaveSome Worktrees</a><span class="meta">Slides · 2026</span><p>Isolating and reviewing work with Git worktrees, AI agents and Codex.</p></li><li class="post"><a href="https://www.youtube.com/watch?v=eSo3e3ugn5g">Rust APIs</a><span class="meta">API Days Paris · 2023</span><p>Forget TypeScript. Choose Rust to build robust, fast, and cheap APIs.</p><a class="source-link" href="https://havesome-rust-apidays.surge.sh/" aria-label="View Rust APIs slides">Slides →</a></li></ul><a class="more" href="https://github.com/Zacaria/zacaria#links">All presentations →</a></section>`;
 }
 export function renderIndex(snapshot, options = {}) {
   validateSnapshot(snapshot);

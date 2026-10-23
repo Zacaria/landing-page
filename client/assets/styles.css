@@ -445,6 +445,18 @@ main > section > h2::before {
   left: 0;
   color: var(--muted-foreground);
 }
+.updates > .section-label {
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+.updates .post + .post {
+  margin-top: 20px;
+}
+.updates .post p {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--muted-foreground);
+}
 .more {
   display: inline-block;
   margin-top: 20px;
