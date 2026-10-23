@@ -12,6 +12,15 @@
   ],
   "headers": [
     {
+      "source": "/assets/fonts/:font(geist-regular|geist-bold|geist-mono|instrument-serif-regular|instrument-serif-italic).woff2",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
@@ -36,5 +45,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/appearance.mjs": {
+      "regions": ["cdg1"]
+    }
+  }
 }

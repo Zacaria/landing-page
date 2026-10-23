@@ -84,6 +84,7 @@ export async function build({
       },
     );
     for (const page of [
+      "appearance-fallback.css",
       "404.html",
       "about.html",
       "linkedin-editorial-scout-privacy.html",

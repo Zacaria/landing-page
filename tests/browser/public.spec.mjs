@@ -132,8 +132,8 @@ test("Uncommon identity uses editorial serif, below-hero navigation and local fo
         ],
       };
     });
-    expect(style.background).toBe(mode === "light" ? "#f5f3ed" : "#0b0b0c");
-    expect(style.accent).toBe(mode === "light" ? "#526500" : "#d4ff4f");
+    expect(style.background).toBe(mode === "light" ? "#f7f5ef" : "#0b0b0c");
+    expect(style.accent).toBe(mode === "light" ? "#4b5e12" : "#d4ff4f");
     expect(style.nameFont).toContain("Instrument Serif");
     expect(style.nameFont).not.toContain("Mono");
     expect(style.navFont).toContain("Geist Mono");

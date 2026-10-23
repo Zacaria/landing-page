@@ -2,7 +2,7 @@
 
 ## Source and authority
 
-The accepted architecture is the signed service spec `35096fa5964fd2591a44f1685a096e0a1125e71e:docs/2026-10-12-notion-cms.md`, attached to task t_4fe0a2c6. The service owns authentication, source-version selection, owner-only release authorization, durable promotion/CAS/replay protection and delivery. This repository consumes only published projections and makes no Notion/runtime request.
+The accepted content architecture is the signed service spec `35096fa5964fd2591a44f1685a096e0a1125e71e:docs/2026-10-12-notion-cms.md`, attached to task t_4fe0a2c6. The service owns authentication, source-version selection, owner-only release authorization, durable promotion/CAS/replay protection and delivery. Article content consumes only published projections and makes no Notion/runtime content request. The separate appearance reader below has no publication capability.
 
 `d6b5d8c` first preserves the attached verified two-file live baseline. `content/published.json` now contains that approved public prose and real projects, with zero articles. Existing canonical Git/source destinations, CV, talk, contact and privacy remain useful.
 
@@ -41,6 +41,16 @@ Serve assets at identical absolute paths. A private preview response must retain
 Articles become `/blog/<slug>.html`, served by Vercel cleanUrls as `/blog/<slug>`. Sitemap entries derive only from published articles. Rebuild removes unpublished/stale article files. Asset paths are `/content/assets/<SHA256>.(png|jpg|webp|gif)`, at most 10MiB; symlinked/mismatched/executable formats are rejected. Existing assets are code-owned; media ingestion/SSRF protection belong to the service.
 
 ## Verification and next release step
+
+### Appearance settings
+
+`api/appearance.mjs` reads only `public.appearance_settings`, fixed singleton `id='appearance'`, using a server-only SELECT role through the native Neon HTTPS SQL protocol. `HSC_APPEARANCE_DATABASE_URL` never enters browser bundles. The admin alone owns authenticated/CSRF-protected CAS writes; article publication stores and source snapshots are unchanged. Git retains code, the 40 public palettes and licensed fonts, not active settings commits.
+
+Site and CV selections are independent. Defaults are `{theme:"teknium",band:"soft",type:"uncommon"}`. `scripts/appearance.mjs` maps site palettes to the current Uncommon CSS tokens and recolors only the existing `.hero`; it does not restore the obsolete announcement, sidebar rail or prior homepage. CV rules remain under `@media screen`, scoped to `body.resume-app`; print remains outside this override. Both reuse the already-frozen `/assets/fonts/` files, with CORS limited to the five required font filenames. Reader Light/Dark/Auto remains independent of owner palette selection.
+
+Public HTML loads the source-generated `appearance-fallback.css` before the dynamic stylesheet. Protected preview HTML omits the public dynamic endpoint. Success is cached for 60 seconds in the browser/shared cache, so a saved choice can take that window to appear. Missing configuration, an empty row or unavailable transport returns uncached default CSS; malformed settings return 502/no-store. The response envelope is limited to 16,384 bytes, document to 8,192 bytes with exact SHA256 and fatal UTF-8 validation, and the entire transport/body has a two-second deadline. No redirects or caller-supplied SQL/host are allowed. Only this function is placed in `cdg1`, near the dedicated Frankfurt database.
+
+This blocking stylesheet adds latency on a cold request. Deployment must retain the owner's condition: compare actual first paint against source configuration, including sleeping Neon and warm browser/CDN caches. If overhead is excessive, use source configuration and keep the admin workshop preview-only. Synthetic SQL/browser tests do not establish production performance, and a function deadline does not bound an indefinitely stalled browser stylesheet request.
 
 Run `npm ci --ignore-scripts`, `npm test`, `make build`, `npm run lint`, `npm run format:check`, `npm run test:browser`, design-spec lint and `git diff --check`. Browser tests use installed Brave; CI may set `HSC_BROWSER_EXECUTABLE` or install Playwright Chromium. Synthetic fixtures exist only in tests and the loopback harness, never the production snapshot/output.
 

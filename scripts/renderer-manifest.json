@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "files": {
-    "scripts/render.mjs": "7191764061becd1b5404a24c7bd481224c44cde5f2d4e288fc8c354d64fa4c21",
+    "scripts/render.mjs": "5531a067db9f2feb15d3798af168036809af5c983c13f3f745c1daf6a590b151",
     "scripts/schema.mjs": "7e89c1a33f5d8a36d421173bc8748ae355788ff06262c90cf2fe2a051807b0bb",
     "client/assets/styles.css": "5a175e9883780e1b9a8b70d17093291888e73ccdc7d77c57b3c8b3549c3b2ad5",
     "client/assets/design-tokens.json": "7997e6d8b09646b6586ec54ec415a88b3f3538d9e972b6f110d5102af6faf977",
@@ -15,6 +15,9 @@
     "licenses/geist-mono-OFL.txt": "17a3dc24a665b5fc448aa6997ced191fafd7424244d2e85608c4026e86324d53",
     "licenses/geist-OFL.txt": "930853ee1daa68554d9e35c8a9175affb74f699fad9a5da6ee5ebe76379d9137",
     "licenses/instrument-serif-OFL.txt": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
-    "content/published.json": "55fcf6419d97cae7ad3fec40c2a3b9bbbe479812e87b628b0b9ec3d4ca3343a6"
+    "content/published.json": "55fcf6419d97cae7ad3fec40c2a3b9bbbe479812e87b628b0b9ec3d4ca3343a6",
+    "scripts/appearance.mjs": "109b5681e6a49ed4318971d89e84dd51b7226f6e6b28a624f6f01bbfc9bee27c",
+    "appearance/catalogue.json": "8b32f175931264a4c7377e1fc61b148c3a51dceea88daf28c0878537f2aabcb9",
+    "client/appearance-fallback.css": "14bc565a9a6a1f034e0da48534efbc382ffce0205f937b4822d345e556b6953b"
   }
 }

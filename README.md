@@ -1,6 +1,6 @@
 # HaveSomeCode public site
 
-Static personal publication for Zacaria Chtatar. The owner edits constrained content in Notion; the separately protected service promotes explicitly approved immutable snapshots. This repository renders only `content/published.json`. It needs no Notion credentials or runtime service access, and ships useful verified public defaults with no approved articles.
+Static personal publication for Zacaria Chtatar. The owner edits constrained content in Notion; the separately protected service promotes explicitly approved immutable snapshots. Article content renders only from `content/published.json`, without Notion credentials or runtime content access. A separate server-only Neon reader supplies the owner's site/CV appearance settings; it cannot publish content.
 
 ## Develop and verify
 
@@ -26,6 +26,8 @@ Browser tests use `/usr/bin/brave-browser`; set `HSC_BROWSER_EXECUTABLE` for an 
 ## Content and preview contract
 
 Read `docs/public-renderer.md` for exact DTO/digest rules, safe media/link policies, exports and preview integration. `DESIGN.md` is the Uncommon Web-inspired Instrument Serif / Geist / Geist Mono design, with explicit Light/Dark/Auto controls. The self-hosted Geist font's SIL OFL is in `licenses/`.
+
+The 40 approved appearance palettes stay in source. `HSC_APPEARANCE_DATABASE_URL` is a server-only restricted SELECT credential, never a browser variable. Default appearance is Teknium, soft hero band, Instrument Serif / Geist / Mono; private previews never read the public dynamic endpoint. Real first-paint and cache measurements determine whether Neon is retained or the admin becomes preview-only.
 
 The public snapshot keeps the approved Club Med scale sentence, real projects, talk, CV and contacts, with a tighter recruiter-focused introduction. Empty article/search/topic sections and their navigation are omitted until published content exists. Prior sketches, award submissions and their scorecards describe the earlier design, not this candidate. The existing editorial-scout privacy page is intentionally byte-identical.
 

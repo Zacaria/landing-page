@@ -10,8 +10,8 @@
     "build": "node scripts/build.mjs",
     "test": "node scripts/verify-renderer.mjs && node --test tests/*.test.mjs && python3 tests/test_site.py -v",
     "test:browser": "npm run build && playwright test",
-    "lint": "html-validate 'dist/**/*.html' && node --check client/assets/site.js && node --check client/assets/theme-init.js && node --check scripts/render.mjs && node --check scripts/schema.mjs && node --check scripts/build.mjs",
-    "format:check": "prettier --check scripts/*.mjs tests/*.mjs tests/browser/*.mjs scripts/renderer-manifest.json playwright.config.mjs client/assets/site.js client/assets/theme-init.js client/assets/styles.css client/assets/design-tokens.json content/published.json package.json"
+    "lint": "html-validate 'dist/**/*.html' && node --check client/assets/site.js && node --check client/assets/theme-init.js && node --check scripts/render.mjs && node --check scripts/schema.mjs && node --check scripts/build.mjs && node --check scripts/appearance.mjs && node --check api/appearance.mjs",
+    "format:check": "prettier --check api/*.mjs appearance/catalogue.json vercel.json scripts/*.mjs tests/*.mjs tests/browser/*.mjs scripts/renderer-manifest.json playwright.config.mjs client/assets/site.js client/assets/theme-init.js client/assets/styles.css client/assets/design-tokens.json content/published.json package.json"
   },
   "devDependencies": {
     "@playwright/test": "1.64.0",

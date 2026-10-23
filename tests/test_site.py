@@ -80,6 +80,9 @@ class PublicSiteAcceptance(unittest.TestCase):
                 local = OUTPUT / unquote(url.path).lstrip('/')
                 self.assertTrue(local.exists() or local.with_suffix('.html').exists(), href)
         for href in self.page.assets:
+            if href == '/api/appearance?target=site':
+                self.assertTrue((ROOT / 'api/appearance.mjs').is_file())
+                continue
             self.assertTrue((OUTPUT / href.lstrip('/')).is_file(), href)
 
     def test_legacy_about_redirect_privacy_and_404_remain(self):
