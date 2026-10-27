@@ -18,16 +18,23 @@ for (const width of [1440, 768, 390, 320]) {
       page.locator("#no-articles, #posts, #search, #topics"),
     ).toHaveCount(0);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Zacaria Chtatar",
+      "Mettre l’IA au travail.",
     );
-    await expect(
-      page.locator("header a[href='https://cv.havesomecode.io/']"),
-    ).toBeVisible();
+    await expect(page.locator(".hero a[href='/#contact']")).toBeVisible();
+    await expect(page.locator(".line-map .stop")).toHaveCount(5);
     const sections = await page
       .locator("main > section")
       .evaluateAll((els) => els.map((el) => el.id));
-    expect(sections).toEqual(["about", "projects", "speaking", "contact"]);
-    await expect(page.locator("#speaking h2")).toHaveText("Talks & learning");
+    expect(sections).toEqual([
+      "services",
+      "about",
+      "projects",
+      "speaking",
+      "contact",
+    ]);
+    await expect(page.locator("#speaking h2")).toHaveText(
+      "Conférences & apprentissage",
+    );
     await expect(page.locator("#speaking .post")).toHaveCount(3);
     await expect(page.locator("#speaking .section-label")).toHaveText(
       "HaveSome…",
@@ -71,17 +78,20 @@ for (const width of [1440, 768, 390, 320]) {
     expect(before.sw).toBeLessThanOrEqual(before.cw);
     expect(before.font).toContain("Geist");
     expect(before.font).not.toContain("Geist Mono");
-    for (const label of ["Projects", "About", "Contact"]) {
+    for (const [label, id] of [
+      ["Services", "services"],
+      ["Projets", "projects"],
+      ["À propos", "about"],
+      ["Contact", "contact"],
+    ]) {
       const link = page
-        .getByRole("navigation", { name: "Main navigation" })
+        .getByRole("navigation", { name: "Navigation principale" })
         .getByRole("link", { name: `[ ${label.toUpperCase()} ]`, exact: true });
       await link.click();
-      await expect(page).toHaveURL(
-        new RegExp(`#${label === "Blog" ? "posts" : label.toLowerCase()}$`),
-      );
+      await expect(page).toHaveURL(new RegExp(`#${id}$`));
     }
     await page.goto("/");
-    await page.getByRole("button", { name: "Dark", exact: true }).click();
+    await page.getByRole("button", { name: "Sombre", exact: true }).click();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await page.screenshot({
       path: `${captures}/home-dark-${width}.png`,
@@ -90,7 +100,7 @@ for (const width of [1440, 768, 390, 320]) {
     await page.locator("#speaking").screenshot({
       path: `${captures}/learning-dark-${width}.png`,
     });
-    await page.getByRole("button", { name: "Light", exact: true }).click();
+    await page.getByRole("button", { name: "Clair", exact: true }).click();
     await page.screenshot({
       path: `${captures}/home-light-${width}.png`,
       fullPage: true,
@@ -149,18 +159,20 @@ test("Light/Dark persistence, Auto preference changes and keyboard controls", as
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(
-    page.getByRole("button", { name: "Auto: follow device theme" }),
+    page.getByRole("button", { name: "Auto : suivre le thème de l’appareil" }),
   ).toHaveAttribute("aria-pressed", "true");
-  const light = page.getByRole("button", { name: "Light", exact: true });
+  const light = page.getByRole("button", { name: "Clair", exact: true });
   await light.focus();
   await page.keyboard.press("Enter");
   await expect(light).toHaveAttribute("aria-pressed", "true");
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
-  await page.getByRole("button", { name: "Dark", exact: true }).click();
+  await page.getByRole("button", { name: "Sombre", exact: true }).click();
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  await page.getByRole("button", { name: "Auto: follow device theme" }).click();
+  await page
+    .getByRole("button", { name: "Auto : suivre le thème de l’appareil" })
+    .click();
   await page.emulateMedia({ colorScheme: "light" });
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   expect(
@@ -171,7 +183,7 @@ test("Light/Dark persistence, Auto preference changes and keyboard controls", as
   await page.goto("/");
   await page.keyboard.press("Tab");
   await expect(
-    page.getByRole("link", { name: "Skip to content" }),
+    page.getByRole("link", { name: "Aller au contenu" }),
   ).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/#main-content$/);
@@ -185,7 +197,7 @@ test("theme still works when browser storage is denied", async ({ page }) => {
     });
   });
   await page.goto("/");
-  await page.getByRole("button", { name: "Dark", exact: true }).click();
+  await page.getByRole("button", { name: "Sombre", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
 test("synthetic published fixtures: search, topics, reset, article route and SEO", async ({
@@ -195,10 +207,10 @@ test("synthetic published fixtures: search, topics, reset, article route and SEO
   const rows = page.locator(".post[data-search]:visible");
   await expect(rows).toHaveCount(2);
   await page
-    .getByRole("searchbox", { name: "Search published notes" })
+    .getByRole("searchbox", { name: "Rechercher dans les notes" })
     .fill("renderer");
   await expect(rows).toHaveCount(1);
-  await expect(page.locator("#result-count")).toHaveText("1 matching note");
+  await expect(page.locator("#result-count")).toHaveText("1 note trouvée");
   await page.getByRole("searchbox").fill("no-match-fixture");
   await expect(rows).toHaveCount(0);
   await expect(page.locator("#no-results")).toBeVisible();
@@ -227,7 +239,7 @@ test("synthetic published fixtures: search, topics, reset, article route and SEO
   await expect(page.locator(".article-body pre")).toContainText(
     '<script>alert("test")</script>',
   );
-  await page.getByRole("button", { name: "Dark", exact: true }).click();
+  await page.getByRole("button", { name: "Sombre", exact: true }).click();
   await page.screenshot({
     path: `${captures}/article-dark-desktop.png`,
     fullPage: true,
@@ -257,7 +269,7 @@ test("private fixture preview uses exact public body, with noindex and no public
   await expect(page.locator("footer .theme-control")).toHaveCount(1);
   expect(await page.locator(".article-body").innerHTML()).toBe(html);
   await expect(page.locator(".preview-banner")).toHaveText(
-    "PRIVATE PREVIEW · Not published",
+    "APERÇU PRIVÉ · Non publié",
   );
   await expect(page.locator("meta[name=robots]")).toHaveAttribute(
     "content",

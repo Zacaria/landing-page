@@ -23,9 +23,11 @@ test("fallback first paint, inline precedence, reader Light/Dark/Auto and next s
     document.documentElement.style.setProperty("--background", "red"),
   );
   expect(await rootValue(page, "--background")).toBe("#f7f5ef");
-  await page.getByRole("button", { name: "Dark", exact: true }).click();
+  await page.getByRole("button", { name: "Sombre", exact: true }).click();
   expect(await rootValue(page, "--background")).toBe("#0b0b0c");
-  await page.getByRole("button", { name: "Auto: follow device theme" }).click();
+  await page
+    .getByRole("button", { name: "Auto : suivre le thème de l’appareil" })
+    .click();
   await page.emulateMedia({ colorScheme: "light" });
   expect(await rootValue(page, "--background")).toBe("#f7f5ef");
   await page.unroute("**/api/appearance?target=site");
@@ -107,7 +109,7 @@ test("all approved palettes parse into effective CSS variables without extra rul
 });
 
 // Actual current recruiter DOM; only CSS responses are synthetic.
-test("owner bands recolor the current hero without changing recruiter geometry or curation", async ({
+test("owner bands recolor the current hero without changing services geometry or curation", async ({
   page,
 }) => {
   let choice = { theme: "vercel", band: "soft", type: "uncommon" };
@@ -151,7 +153,9 @@ test("owner bands recolor the current hero without changing recruiter geometry o
     await expect(page.locator(".announcement, .rail")).toHaveCount(0);
     await expect(page.locator("#speaking .post")).toHaveCount(3);
     await expect(page.locator(".topline")).toBeVisible();
-    await expect(page.locator(".hero h1")).toHaveText("Zacaria Chtatar");
+    await expect(page.locator(".hero h1")).toHaveText(
+      "Mettre l’IA au travail.",
+    );
   }
   // Vercel accent and contrast intentionally share black; soft remains distinct.
   expect(new Set(backgrounds).size).toBe(2);

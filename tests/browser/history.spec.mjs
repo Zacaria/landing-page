@@ -32,7 +32,7 @@ for (const width of [390, 1440]) {
       "HaveSomeCode",
     );
     await expect(page.locator(".preview-banner")).toHaveText(
-      "PRIVATE PREVIEW · Not published",
+      "APERÇU PRIVÉ · Non publié",
     );
     await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
     await expect(page.locator("footer .theme-control")).toHaveCount(1);

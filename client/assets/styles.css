@@ -44,6 +44,9 @@
   --muted-foreground: #68675f;
   --accent: #526500;
   --border: #d5d2c9;
+  --line-1: #4b5e12;
+  --line-2: #3557b7;
+  --line-3: #b8532d;
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
@@ -55,6 +58,9 @@
   --muted-foreground: #a29e97;
   --accent: #d4ff4f;
   --border: #303032;
+  --line-1: #d4ff4f;
+  --line-2: #8fb0ff;
+  --line-3: #ff8a5c;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
@@ -67,6 +73,9 @@
     --muted-foreground: #a29e97;
     --accent: #d4ff4f;
     --border: #303032;
+    --line-1: #d4ff4f;
+    --line-2: #8fb0ff;
+    --line-3: #ff8a5c;
   }
 }
 * {
@@ -159,10 +168,11 @@ nav a:hover {
   position: relative;
   isolation: isolate;
   min-height: 640px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 160px 0 48px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: end;
+  gap: 32px;
+  padding: 120px 0 48px;
 }
 .hero::before {
   content: "";
@@ -175,16 +185,215 @@ nav a:hover {
   mask-image: radial-gradient(ellipse at 85% 18%, black, transparent 58%);
   opacity: 0.14;
 }
-.identity h1 {
+.pitch h1 {
   font:
-    400 clamp(64px, 10vw, 144px)/0.95 "Instrument Serif",
+    400 clamp(56px, 9vw, 128px)/0.9 "Instrument Serif",
     serif;
   letter-spacing: -0.025em;
-  margin: 0 0 20px;
+  margin: 0 0 24px;
 }
-.identity h1 em {
-  color: var(--accent);
+.pitch h1 em {
+  color: var(--line-1);
   font-weight: 400;
+}
+/* Line map: the real Club Med workflow drawn as a transit line. */
+.line-map {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  --grid: color-mix(in srgb, var(--border) 45%, transparent);
+  background:
+    linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 28px 28px,
+    var(--background);
+}
+.line-map figcaption {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font:
+    500 11px/1.6 "Geist Mono",
+    monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.line-map figcaption span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.line-status {
+  color: var(--line-1);
+}
+.line-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 6px;
+  overflow: visible;
+}
+.line-map path {
+  fill: none;
+  stroke-linecap: round;
+}
+.route {
+  stroke: var(--line-1);
+  stroke-width: 6;
+}
+.branch {
+  stroke-width: 5;
+  opacity: 0.75;
+}
+.branch.l2 {
+  stroke: var(--line-2);
+}
+.branch.l3 {
+  stroke: var(--line-3);
+}
+.junction {
+  fill: var(--foreground);
+}
+.line-map text {
+  font:
+    500 13px "Geist Mono",
+    monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: var(--muted-foreground);
+}
+.branch-label.l2 {
+  fill: var(--line-2);
+}
+.branch-label.l3 {
+  fill: var(--line-3);
+}
+.stop circle {
+  fill: var(--background);
+  stroke: var(--line-1);
+  stroke-width: 3;
+}
+.stop {
+  --d: 0s;
+}
+.stop circle {
+  animation: stop-dot 7s var(--d) infinite;
+}
+.stop text {
+  animation: stop-label 7s var(--d) infinite;
+}
+.signal {
+  fill: var(--line-1);
+  offset-path: path(
+    "M40 200 H170 Q200 200 200 170 V90 Q200 60 230 60 H350 Q380 60 380 90 V130 Q380 160 410 160 H520"
+  );
+  animation: travel 7s linear infinite;
+}
+/* Stop delays follow each station's share of the route length (85% of 7s). */
+.stop:nth-of-type(2) {
+  --d: 1.79s;
+}
+.stop:nth-of-type(3) {
+  --d: 3.27s;
+}
+.stop:nth-of-type(4) {
+  --d: 4.6s;
+}
+.stop:nth-of-type(5) {
+  --d: 5.95s;
+}
+@keyframes travel {
+  85%,
+  100% {
+    offset-distance: 100%;
+  }
+}
+@keyframes stop-dot {
+  0%,
+  12% {
+    fill: var(--line-1);
+  }
+  20% {
+    fill: var(--background);
+  }
+}
+@keyframes stop-label {
+  0%,
+  12% {
+    fill: var(--foreground);
+  }
+  20% {
+    fill: var(--muted-foreground);
+  }
+}
+.line-log {
+  list-style: none;
+  counter-reset: step;
+  margin: 8px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--border);
+  font:
+    12px/1.7 "Geist Mono",
+    monospace;
+  color: var(--muted-foreground);
+}
+.line-log li {
+  counter-increment: step;
+}
+.line-log li::before {
+  content: counter(step, decimal-leading-zero) " → ";
+}
+.line-log span {
+  color: var(--foreground);
+  margin-right: 6px;
+}
+.service-lines {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 32px;
+}
+.service-lines li {
+  border-top: 6px solid var(--line);
+  padding-top: 16px;
+}
+.service-lines .l1 {
+  --line: var(--line-1);
+}
+.service-lines .l2 {
+  --line: var(--line-2);
+}
+.service-lines .l3 {
+  --line: var(--line-3);
+}
+.line-name {
+  font:
+    500 12px/1.7 "Geist Mono",
+    monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--line);
+}
+.service-lines h3 {
+  font:
+    400 34px/1.1 "Instrument Serif",
+    serif;
+  letter-spacing: -0.02em;
+  margin: 8px 0;
+}
+.service-lines p:last-child {
+  font-size: 16px;
+  color: var(--muted-foreground);
+}
+.who {
+  font:
+    12px/1.7 "Geist Mono",
+    monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
 }
 .role {
   font:
@@ -585,8 +794,18 @@ main > section > h2::before {
     padding-top: 0;
   }
   .hero {
-    min-height: 600px;
-    padding: 120px 0 36px;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 64px 0 36px;
+  }
+  .service-lines {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  /* Labels would shrink below legibility; the numbered log carries them. */
+  .line-map svg text {
+    display: none;
   }
   .product {
     grid-template-columns: 1fr;
@@ -613,5 +832,9 @@ main > section > h2::before {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .stop *,
+  .signal {
+    animation: none;
   }
 }

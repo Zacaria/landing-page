@@ -40,13 +40,13 @@
       if (!row.hidden) count++;
     });
     document.getElementById("posts-label").textContent = query
-      ? "SEARCH RESULTS:"
+      ? "RÉSULTATS :"
       : topic
-        ? `${topic.toUpperCase()} NOTES:`
-        : "LATEST NOTES:";
+        ? `NOTES ${topic.toUpperCase()} :`
+        : "DERNIÈRES NOTES :";
     document.getElementById("no-results").hidden = !rows.length || count > 0;
     document.getElementById("result-count").textContent =
-      `${count} matching ${count === 1 ? "note" : "notes"}`;
+      `${count} ${count === 1 ? "note trouvée" : "notes trouvées"}`;
     document.querySelectorAll("[data-featured]").forEach((el) => {
       el.hidden = !!query || !!topic;
     });

@@ -46,7 +46,7 @@ class PublicSiteAcceptance(unittest.TestCase):
 
     def test_reference_identity_and_theme_are_explicit(self):
         self.assertIn('HAVESOMECODE', self.source)
-        for choice in ('Light', 'Dark', 'Auto'):
+        for choice in ('Clair', 'Sombre', 'Auto'):
             self.assertIn('>' + choice + '</button>', self.source)
         css = (OUTPUT / 'assets/styles.css').read_text()
         self.assertIn('Geist Mono', css)
@@ -55,7 +55,7 @@ class PublicSiteAcceptance(unittest.TestCase):
         self.assertNotIn('Manrope', css)
 
     def test_approved_about_sentence_stays_without_a_metrics_dashboard(self):
-        self.assertIn('At Club Med, I helped scale a public API platform from 10M to 25M requests/day in production so it could support more traffic.', self.source)
+        self.assertIn('Chez Club Med, j’ai contribué à faire passer une plateforme d’API publique de 10 M à 25 M de requêtes par jour en production, pour absorber davantage de trafic.', self.source)
         for excluded in ('Days → minutes', '7 pages in 2 days', '30+ consumers', 'tested capacity'):
             self.assertNotIn(excluded, self.source)
 

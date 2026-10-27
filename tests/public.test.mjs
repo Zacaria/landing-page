@@ -34,7 +34,7 @@ test("baseline is verified public content and has no invented article history", 
   assert.doesNotMatch(html, /No notes published yet/);
   assert.match(
     html,
-    /At Club Med, I helped scale a public API platform from 10M to 25M requests\/day in production so it could support more traffic\./,
+    /Chez Club Med, j’ai contribué à faire passer une plateforme d’API publique de 10 M à 25 M de requêtes par jour en production/,
   );
   for (const href of [
     "https://zacaria.github.io/float/",
@@ -50,14 +50,14 @@ test("baseline is verified public content and has no invented article history", 
     /2000-01|Synthetic|data-article|Design preview|Draft/,
   );
 });
-test("recruiter homepage puts professional context first without empty or repeated sections", () => {
+test("services homepage leads with the offer, then the person, without empty or repeated sections", () => {
   const html = renderIndex(baseline);
-  assert.match(html, /<h1>Zacaria <em>Chtatar<\/em><\/h1>/);
+  assert.match(html, /<h1>Mettre l’IA <em>au travail.<\/em><\/h1>/);
+  assert.match(html, /Réalisée chez Club Med/);
+  assert.ok(html.indexOf('id="services"') < html.indexOf('id="about"'));
   assert.ok(html.indexOf('id="about"') < html.indexOf('id="projects"'));
-  assert.match(
-    html.slice(0, html.indexOf("<main")),
-    /https:\/\/cv.havesomecode.io\//,
-  );
+  assert.match(html.slice(0, html.indexOf("<main")), /href="\/#contact"/);
+  assert.match(html, /https:\/\/cv.havesomecode.io\//);
   for (const id of ["posts", "search", "topics", "thinking"])
     assert.ok(!html.includes(`id="${id}"`) && !html.includes(`/#${id}`), id);
   assert.doesNotMatch(
@@ -95,7 +95,7 @@ test("HaveSome learning replaces Speaking with three unique entries and the comp
     /<section[^>]*id="speaking"[^>]*>([\s\S]*?)<\/section>/,
   )?.[1];
   assert.ok(section);
-  assert.match(section, /<h2>Talks &amp; learning<\/h2>/);
+  assert.match(section, /<h2>Conférences &amp; apprentissage<\/h2>/);
   assert.match(section, /HaveSome…/);
   assert.equal((section.match(/<li class="post">/g) || []).length, 3);
   for (const href of [
@@ -106,10 +106,10 @@ test("HaveSome learning replaces Speaking with three unique entries and the comp
     "https://github.com/Zacaria/zacaria#links",
   ])
     assert.equal(html.split(`href="${href}"`).length - 1, 1, href);
-  assert.match(section, /Interactive guide · 2026/);
+  assert.match(section, /Guide interactif · 2026/);
   assert.match(section, /Slides · 2026/);
   assert.match(section, /API Days Paris · 2023/);
-  assert.match(section, /All presentations →/);
+  assert.match(section, /Toutes les présentations →/);
   assert.doesNotMatch(section, /product-grid|<article|<iframe|<h2>Speaking/);
   assert.equal((html.match(/id="speaking"/g) || []).length, 1);
 });
@@ -128,7 +128,7 @@ test("all four configurable categories render and ordered visibility is honored"
     "Changed introduction",
     "Changed bio",
     "Changed project",
-    "FEATURED",
+    "À LA UNE",
     "Synthetic renderer fixture",
     "Rust",
     "Second",
@@ -155,7 +155,7 @@ test("public and private preview use identical block renderer and asset contract
   assert.equal(pub.match(body)[1], priv.match(body)[1]);
   assert.ok(pub.includes(renderArticleBody(a)));
   assert.match(priv, /noindex, nofollow/);
-  assert.match(priv, /PRIVATE PREVIEW · Not published/);
+  assert.match(priv, /APERÇU PRIVÉ · Non publié/);
   assert.doesNotMatch(priv, /datetime=|rel="canonical"/);
   for (const file of [
     "/assets/styles.css",

@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "files": {
-    "scripts/render.mjs": "5531a067db9f2feb15d3798af168036809af5c983c13f3f745c1daf6a590b151",
+    "scripts/render.mjs": "9251d1118d61989b70041e85a5ec4cc0529839f91f9bc2c004b6a764a3df8cbd",
     "scripts/schema.mjs": "7e89c1a33f5d8a36d421173bc8748ae355788ff06262c90cf2fe2a051807b0bb",
-    "client/assets/styles.css": "5a175e9883780e1b9a8b70d17093291888e73ccdc7d77c57b3c8b3549c3b2ad5",
+    "client/assets/styles.css": "0153da4666711c6c02fd0e278a24c23380211d541452cb24126f910151a6091c",
     "client/assets/design-tokens.json": "7997e6d8b09646b6586ec54ec415a88b3f3538d9e972b6f110d5102af6faf977",
     "client/assets/theme-init.js": "cec4efa59224e55d99cddec8166bd6659af8ee52d587647627e11d4bfe54228a",
-    "client/assets/site.js": "cc53d62bb1daca53488f0bb9fd4f9c5a7b8786866979fa4d0dd7b05a8e3b2884",
+    "client/assets/site.js": "e46ad4894a6aabc5aa0be85a41ad5a847c8dc6abeedc3a7716c15ce799f88154",
     "client/assets/fonts/geist-mono.woff2": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
     "client/assets/fonts/geist-regular.woff2": "12e7c80de776bc74044973a26bb96842ca4bfe9e16fc6128fa5c6420e8e1d8fc",
     "client/assets/fonts/geist-bold.woff2": "25c8b03dbf9668157bfb8448c0a8aa234d8c85222499295845035acbae184870",
@@ -15,7 +15,7 @@
     "licenses/geist-mono-OFL.txt": "17a3dc24a665b5fc448aa6997ced191fafd7424244d2e85608c4026e86324d53",
     "licenses/geist-OFL.txt": "930853ee1daa68554d9e35c8a9175affb74f699fad9a5da6ee5ebe76379d9137",
     "licenses/instrument-serif-OFL.txt": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
-    "content/published.json": "55fcf6419d97cae7ad3fec40c2a3b9bbbe479812e87b628b0b9ec3d4ca3343a6",
+    "content/published.json": "8c769bfc0d492ae5e9fa98fd2b792864cd716f24da5008f46a2f91d6820e7a5b",
     "scripts/appearance.mjs": "109b5681e6a49ed4318971d89e84dd51b7226f6e6b28a624f6f01bbfc9bee27c",
     "appearance/catalogue.json": "8b32f175931264a4c7377e1fc61b148c3a51dceea88daf28c0878537f2aabcb9",
     "client/appearance-fallback.css": "14bc565a9a6a1f034e0da48534efbc382ffce0205f937b4822d345e556b6953b"

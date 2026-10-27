@@ -29,7 +29,7 @@ Read `docs/public-renderer.md` for exact DTO/digest rules, safe media/link polic
 
 The 40 approved appearance palettes stay in source. `HSC_APPEARANCE_DATABASE_URL` is a server-only restricted SELECT credential, never a browser variable. Default appearance is Teknium, soft hero band, Instrument Serif / Geist / Mono; private previews never read the public dynamic endpoint. Real first-paint and cache measurements determine whether Neon is retained or the admin becomes preview-only.
 
-The public snapshot keeps the approved Club Med scale sentence, real projects, talk, CV and contacts, with a tighter recruiter-focused introduction. Empty article/search/topic sections and their navigation are omitted until published content exists. Prior sketches, award submissions and their scorecards describe the earlier design, not this candidate. The existing editorial-scout privacy page is intentionally byte-identical.
+The public snapshot keeps the approved Club Med scale sentence, real projects, talk, CV and contacts, behind a French services-first homepage (AI installation, agentic workflows, team training). Empty article/search/topic sections and their navigation are omitted until published content exists. Prior sketches, award submissions and their scorecards describe the earlier design, not this candidate. The existing editorial-scout privacy page is intentionally byte-identical.
 
 ## Release
 

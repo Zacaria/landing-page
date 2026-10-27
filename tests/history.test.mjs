@@ -75,7 +75,7 @@ test("article and preview show one original date while provenance and actual rel
     );
   }
   assert.doesNotMatch(preview, /rel="canonical"/);
-  assert.match(preview, /PRIVATE PREVIEW · Not published/);
+  assert.match(preview, /APERÇU PRIVÉ · Non publié/);
   assert.deepEqual(a, before);
   assert.equal(a.publishedAt, "2026-10-01T00:00:00.000Z");
 });
