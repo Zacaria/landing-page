@@ -167,12 +167,11 @@ nav a:hover {
 .hero {
   position: relative;
   isolation: isolate;
-  min-height: 640px;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  align-items: end;
+  align-items: center;
   gap: 32px;
-  padding: 120px 0 48px;
+  padding: 40px 0 48px;
 }
 .hero::before {
   content: "";
@@ -794,9 +793,8 @@ main > section > h2::before {
     padding-top: 0;
   }
   .hero {
-    min-height: 0;
     grid-template-columns: minmax(0, 1fr);
-    padding: 64px 0 36px;
+    padding: 24px 0 36px;
   }
   .service-lines {
     grid-template-columns: minmax(0, 1fr);
