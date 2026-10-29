@@ -165,24 +165,14 @@ nav a:hover {
   text-decoration: underline;
 }
 .hero {
-  position: relative;
-  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   align-items: center;
   gap: 32px;
   padding: 40px 0 48px;
-}
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: radial-gradient(var(--accent) 0.7px, transparent 1px);
-  background-size: 8px 8px;
-  mask-image: radial-gradient(ellipse at 85% 18%, black, transparent 58%);
-  opacity: 0.14;
+  /* Full-bleed band: the owner band colour reaches both viewport edges. */
+  box-shadow: 0 0 0 100vmax var(--appearance-band, transparent);
+  clip-path: inset(0 -100vmax);
 }
 .pitch h1 {
   font:
