@@ -18,15 +18,17 @@ test("worker forwards selected site and CV settings in the real runtime", async 
     site: { theme: "vercel", band: "contrast", type: "geist" },
     cv: { theme: "teknium", band: "soft", type: "uncommon" },
   })) {
-    const response = await fetch(
-      `http://127.0.0.1:8793/api/appearance?target=${target}`,
-    );
-    assert.equal(response.status, 200);
-    assert.equal(response.headers.get("x-appearance-status"), "selected");
-    assert.equal(
-      response.headers.get("cache-control"),
-      "public, max-age=60, s-maxage=60",
-    );
-    assert.equal(await response.text(), appearanceCss(choice, target));
+    for (const suffix of ["", "/"]) {
+      const response = await fetch(
+        `http://127.0.0.1:8793/api/appearance${suffix}?target=${target}`,
+      );
+      assert.equal(response.status, 200);
+      assert.equal(response.headers.get("x-appearance-status"), "selected");
+      assert.equal(
+        response.headers.get("cache-control"),
+        "public, max-age=60, s-maxage=60",
+      );
+      assert.equal(await response.text(), appearanceCss(choice, target));
+    }
   }
 });

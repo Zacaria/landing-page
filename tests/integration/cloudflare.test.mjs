@@ -34,6 +34,73 @@ test("about redirects and nested missing routes retain 404", async () => {
   assert.equal((await request("/missing/nested")).status, 404);
 });
 
+test("public clean URL variants retain status, destination and page bytes", async () => {
+  for (const [path, location] of [
+    ["/index", "/"],
+    ["/about", "/#about"],
+    ["/about.html", "/about"],
+    ["/index.html", "/"],
+    ["/index/", "/"],
+    ["/index.html/", "/"],
+    ["/about.html/", "/about"],
+    ["/404.html/", "/404"],
+    ["/missing.html/", "/missing"],
+  ]) {
+    const res = await request(`${path}?x=1`);
+    assert.equal(res.status, 308, path);
+    assert.equal(
+      res.headers.get("location"),
+      location === "/#about" ? "/?x=1#about" : `${location}?x=1`,
+      path,
+    );
+  }
+  for (const [path, file] of [
+    ["/about/", "about.html"],
+    ["/404/", "404.html"],
+    [
+      "/linkedin-editorial-scout-privacy/",
+      "linkedin-editorial-scout-privacy.html",
+    ],
+  ]) {
+    const res = await request(path);
+    assert.equal(res.status, 200, path);
+    const { readFile } = await import("node:fs/promises");
+    assert.equal(
+      await res.text(),
+      await readFile(`dist/${file}`, "utf8"),
+      path,
+    );
+  }
+  assert.equal((await request("/missing/")).status, 404);
+});
+
+test("appearance slash route preserves methods and parameters", async () => {
+  for (const suffix of ["", "/"]) {
+    for (const query of ["", "?target=site", "?target=cv"]) {
+      for (const method of ["GET", "HEAD"]) {
+        const res = await request(`/api/appearance${suffix}${query}`, {
+          method,
+        });
+        assert.equal(res.status, 200);
+        assert.equal(res.headers.get("x-appearance-status"), "fallback");
+        assert.match(res.headers.get("content-type"), /^text\/css/);
+        if (method === "HEAD") assert.equal(await res.text(), "");
+      }
+    }
+    for (const query of ["?target=wrong", "?target=site&target=cv"]) {
+      assert.equal(
+        (await request(`/api/appearance${suffix}${query}`)).status,
+        400,
+      );
+    }
+    const post = await request(`/api/appearance${suffix}?target=cv`, {
+      method: "POST",
+    });
+    assert.equal(post.status, 405);
+    assert.equal(post.headers.get("allow"), "GET, HEAD");
+  }
+});
+
 test("appearance remains dynamic and fails safely without a credential", async () => {
   for (const target of ["site", "cv"]) {
     const res = await request(`/api/appearance?target=${target}`);

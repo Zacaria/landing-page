@@ -34,15 +34,37 @@ export function createWorker(fetchImpl = globalThis.fetch) {
           status: 301,
           headers: { Location: url.toString() },
         });
-      } else if (url.pathname === "/api/appearance") {
+      } else if (
+        ["/api/appearance", "/api/appearance/"].includes(url.pathname)
+      ) {
         response = await appearance(request, env, fetchImpl);
       } else if (url.pathname === "/about") {
         response = new Response(null, {
           status: 308,
-          headers: { Location: "/#about" },
+          headers: { Location: `/${url.search}#about` },
+        });
+      } else if (/^\/index(?:\.html)?\/?$/.test(url.pathname)) {
+        response = new Response(null, {
+          status: 308,
+          headers: { Location: `/${url.search}` },
+        });
+      } else if (url.pathname.endsWith(".html/")) {
+        response = new Response(null, {
+          status: 308,
+          headers: { Location: `${url.pathname.slice(0, -6)}${url.search}` },
         });
       } else {
-        response = await env.ASSETS.fetch(request);
+        if (
+          ["/about/", "/404/", "/linkedin-editorial-scout-privacy/"].includes(
+            url.pathname,
+          )
+        ) {
+          const assetUrl = new URL(request.url);
+          assetUrl.pathname = assetUrl.pathname.slice(0, -1);
+          response = await env.ASSETS.fetch(new Request(assetUrl, request));
+        } else {
+          response = await env.ASSETS.fetch(request);
+        }
         if (response.status === 307 && url.pathname.endsWith(".html")) {
           response = new Response(null, {
             status: 308,
