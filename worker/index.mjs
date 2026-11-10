@@ -34,6 +34,13 @@ export function createWorker(fetchImpl = globalThis.fetch) {
           status: 301,
           headers: { Location: url.toString() },
         });
+      } else if (/\/{2,}/.test(url.pathname)) {
+        response = new Response(null, {
+          status: 308,
+          headers: {
+            Location: `${url.pathname.replace(/\/{2,}/g, "/")}${url.search}`,
+          },
+        });
       } else if (
         ["/api/appearance", "/api/appearance/"].includes(url.pathname)
       ) {
@@ -48,28 +55,25 @@ export function createWorker(fetchImpl = globalThis.fetch) {
           status: 308,
           headers: { Location: `/${url.search}` },
         });
-      } else if (url.pathname.endsWith(".html/")) {
+      } else if (/\.html\/?$/.test(url.pathname)) {
         response = new Response(null, {
           status: 308,
-          headers: { Location: `${url.pathname.slice(0, -6)}${url.search}` },
+          headers: {
+            Location: `${url.pathname.replace(/\.html\/?$/, "")}${url.search}`,
+          },
         });
       } else {
         if (
           ["/about/", "/404/", "/linkedin-editorial-scout-privacy/"].includes(
             url.pathname,
-          )
+          ) ||
+          /\.[^/]+\/$/.test(url.pathname)
         ) {
           const assetUrl = new URL(request.url);
           assetUrl.pathname = assetUrl.pathname.slice(0, -1);
           response = await env.ASSETS.fetch(new Request(assetUrl, request));
         } else {
           response = await env.ASSETS.fetch(request);
-        }
-        if (response.status === 307 && url.pathname.endsWith(".html")) {
-          response = new Response(null, {
-            status: 308,
-            headers: response.headers,
-          });
         }
       }
       response = new Response(response.body, response);
@@ -84,7 +88,7 @@ export function createWorker(fetchImpl = globalThis.fetch) {
         "Permissions-Policy",
         "camera=(), microphone=(), geolocation=()",
       );
-      if (fonts.test(url.pathname))
+      if (fonts.test(url.pathname.replace(/\/$/, "")))
         response.headers.set("Access-Control-Allow-Origin", "*");
       return response;
     },

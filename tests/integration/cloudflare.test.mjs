@@ -74,6 +74,48 @@ test("public clean URL variants retain status, destination and page bytes", asyn
   assert.equal((await request("/missing/")).status, 404);
 });
 
+test("missing HTML paths and repeated slashes redirect permanently", async () => {
+  for (const [path, location] of [
+    ["/api/appearance.html?target=cv", "/api/appearance?target=cv"],
+    ["/missing/foo.html?x=1", "/missing/foo?x=1"],
+    ["/about//?q=1", "/about/?q=1"],
+    ["/api/appearance//?target=cv", "/api/appearance/?target=cv"],
+  ]) {
+    const res = await request(path);
+    assert.equal(res.status, 308, path);
+    assert.equal(res.headers.get("location"), location, path);
+  }
+});
+
+test("trailing slash preserves resource bytes, type and font CORS", async () => {
+  for (const path of [
+    "/assets/styles.css",
+    "/assets/site.js",
+    "/assets/fonts/geist-regular.woff2",
+    "/robots.txt",
+  ]) {
+    const original = await request(path);
+    const slash = await request(`${path}/`);
+    assert.equal(slash.status, 200, path);
+    assert.equal(
+      slash.headers.get("content-type"),
+      original.headers.get("content-type"),
+      path,
+    );
+    assert.equal(
+      slash.headers.get("access-control-allow-origin"),
+      original.headers.get("access-control-allow-origin"),
+      path,
+    );
+    assert.deepEqual(
+      Buffer.from(await slash.arrayBuffer()),
+      Buffer.from(await original.arrayBuffer()),
+      path,
+    );
+  }
+  assert.equal((await request("/missing/file.css/")).status, 404);
+});
+
 test("appearance slash route preserves methods and parameters", async () => {
   for (const suffix of ["", "/"]) {
     for (const query of ["", "?target=site", "?target=cv"]) {
