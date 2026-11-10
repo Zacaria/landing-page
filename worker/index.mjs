@@ -1,8 +1,5 @@
 import { createAppearanceHandler } from "../api/appearance.mjs";
 
-const fonts =
-  /^\/assets\/fonts\/(geist-regular|geist-bold|geist-mono|instrument-serif-regular|instrument-serif-italic)\.woff2$/;
-
 async function appearance(request, env, fetchImpl) {
   const headers = new Headers();
   let body = "";
@@ -63,17 +60,32 @@ export function createWorker(fetchImpl = globalThis.fetch) {
           },
         });
       } else {
+        const assetUrl = new URL(request.url);
         if (
           ["/about/", "/404/", "/linkedin-editorial-scout-privacy/"].includes(
             url.pathname,
           ) ||
           /\.[^/]+\/$/.test(url.pathname)
         ) {
-          const assetUrl = new URL(request.url);
           assetUrl.pathname = assetUrl.pathname.slice(0, -1);
-          response = await env.ASSETS.fetch(new Request(assetUrl, request));
+        }
+        if (request.method === "OPTIONS") {
+          response = new Response(null, { status: 204 });
         } else {
-          response = await env.ASSETS.fetch(request);
+          const isRead = ["GET", "HEAD"].includes(request.method);
+          const assetRequest = isRead
+            ? new Request(assetUrl, request)
+            : new Request(assetUrl, {
+                method: "GET",
+                headers: request.headers,
+              });
+          response = await env.ASSETS.fetch(assetRequest);
+          if (!isRead && response.status === 200) {
+            response = new Response(null, { status: 405 });
+          } else if (response.status === 200 || response.status === 404) {
+            response = new Response(response.body, response);
+            response.headers.set("Access-Control-Allow-Origin", "*");
+          }
         }
       }
       response = new Response(response.body, response);
@@ -88,8 +100,6 @@ export function createWorker(fetchImpl = globalThis.fetch) {
         "Permissions-Policy",
         "camera=(), microphone=(), geolocation=()",
       );
-      if (fonts.test(url.pathname.replace(/\/$/, "")))
-        response.headers.set("Access-Control-Allow-Origin", "*");
       return response;
     },
   };

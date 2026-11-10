@@ -159,6 +159,63 @@ test("appearance remains dynamic and fails safely without a credential", async (
   );
 });
 
+test("static responses expose CORS for GET and HEAD including 404", async () => {
+  for (const path of [
+    "/",
+    "/assets/styles.css",
+    "/assets/site.js",
+    "/assets/fonts/geist-regular.woff2",
+    "/missing/nested",
+  ]) {
+    for (const method of ["GET", "HEAD"]) {
+      const res = await request(path, { method });
+      assert.equal(
+        res.status,
+        path.startsWith("/missing") ? 404 : 200,
+        `${method} ${path}`,
+      );
+      assert.equal(
+        res.headers.get("access-control-allow-origin"),
+        "*",
+        `${method} ${path}`,
+      );
+    }
+  }
+});
+
+test("static methods distinguish existing from missing assets without changing redirects or API", async () => {
+  for (const path of ["/", "/assets/styles.css", "/missing/nested"]) {
+    const options = await request(path, { method: "OPTIONS" });
+    assert.equal(options.status, 204, path);
+    assert.equal(
+      options.headers.get("access-control-allow-origin"),
+      null,
+      path,
+    );
+    for (const method of ["POST", "PUT"]) {
+      const res = await request(path, { method });
+      assert.equal(
+        res.status,
+        path.startsWith("/missing") ? 404 : 405,
+        `${method} ${path}`,
+      );
+      assert.equal(
+        res.headers.get("access-control-allow-origin"),
+        path.startsWith("/missing") ? "*" : null,
+      );
+    }
+  }
+  for (const method of ["OPTIONS", "POST"]) {
+    const redirect = await request("/about", { method });
+    assert.equal(redirect.status, 308);
+    assert.equal(redirect.headers.get("access-control-allow-origin"), null);
+    const api = await request("/api/appearance", { method });
+    assert.equal(api.status, 405);
+    assert.equal(api.headers.get("allow"), "GET, HEAD");
+    assert.equal(api.headers.get("access-control-allow-origin"), "*");
+  }
+});
+
 test("font CORS and CV external link are preserved", async () => {
   const font = await request("/assets/fonts/geist-regular.woff2");
   assert.equal(font.status, 200);
