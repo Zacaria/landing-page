@@ -73,4 +73,5 @@ test-results/
 playwright-report/
 __pycache__/
 .vercel
+.wrangler/
 .env*
