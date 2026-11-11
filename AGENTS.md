@@ -15,6 +15,12 @@ Preserve semantic content, no-JavaScript and reduced-motion fallbacks, accessibl
 
 Vercel serves the production site; `make deploy-preview` and `make deploy-prod` build and deploy externally. Review the preview and validation before production deployment. Submission materials are not a submission: account, payment, publication and infrastructure actions need applicable authorization. Keep private information and credentials out of source and artifacts.
 
+## Shared workspace rules
+
+Read and follow the shared workspace policy for every project, including projects with real users.
+
+@/home/hermes/repos/prompts-lib/AGENTS_WORKSPACE.md
+
 ## Shared building rules
 
 Read the shared file below before changing this project. Its development rules apply only if the project has no real users yet; confirm that status before applying them. Existing project-specific security, data-preservation, and release requirements still apply.
