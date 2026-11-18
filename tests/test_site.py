@@ -88,6 +88,8 @@ class PublicSiteAcceptance(unittest.TestCase):
             if href == '/api/appearance?target=site':
                 self.assertTrue((ROOT / 'api/appearance.mjs').is_file())
                 continue
+            if href == '/_vercel/insights/script.js':
+                continue  # Served by Vercel Web Analytics on the platform, not in dist/.
             self.assertTrue((OUTPUT / href.lstrip('/')).is_file(), href)
 
     def test_legacy_about_redirect_privacy_and_404_remain(self):

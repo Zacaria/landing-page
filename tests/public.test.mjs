@@ -191,6 +191,21 @@ test("blog index lists every article newest first and is the target of nav and b
   assert.match(renderIndex(baseline), /<a href="\/blog">\[ BLOG \]<\/a>/);
   assert.doesNotMatch(renderIndex(baseline), /\[ RECHERCHE \]/);
 });
+test("public pages load Vercel Web Analytics without query strings; previews stay out", () => {
+  const pinned = pinSnapshot(fixture());
+  const article = pinned.articles[0];
+  for (const html of [
+    renderIndex(pinned),
+    renderBlogIndex(pinned),
+    renderArticle(article, pinned),
+  ]) {
+    assert.ok(html.includes('<script defer src="/_vercel/insights/script.js"></script>'));
+    assert.ok(html.includes("e.url.split(/[?#]/,1)[0]"));
+  }
+  assert.doesNotMatch(renderIndex(pinned, { preview: true }), /_vercel\/insights/);
+  assert.doesNotMatch(renderArticle(article, pinned, { preview: true }), /_vercel\/insights/);
+});
+
 test("article routing, SEO and published dates come from selected snapshot only", () => {
   const s = fixture(),
     a = s.articles[0];
