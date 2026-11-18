@@ -148,11 +148,16 @@ class LandingPageAcceptanceTests(unittest.TestCase):
         for resume_proof in ('10M', '25M', '7 pages', '30+'):
             self.assertNotIn(resume_proof, social_source)
 
-    def test_world_sections_are_present_and_resume_metrics_stay_out(self) -> None:
+    def test_world_sections_include_the_approved_scale_sentence_without_a_metrics_dashboard(self) -> None:
         source, page = parse_site()
 
         self.assertTrue({'top', 'projects', 'thinking', 'speaking', 'about', 'contact'} <= page.ids)
-        for resume_proof in ('10M → 25M', 'Days → minutes', '7 pages in 2 days', '30+ consumers'):
+        self.assertIn(
+            'At Club Med, I helped scale a public API platform from 10M to 25M requests/day in production so it could support more traffic.',
+            source,
+        )
+        self.assertNotIn('tested capacity', source.lower())
+        for resume_proof in ('Days → minutes', '7 pages in 2 days', '30+ consumers'):
             self.assertNotIn(resume_proof, source)
         for section_heading in (
             'Things I made because I wanted them to exist.',
