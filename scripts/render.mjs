@@ -9,6 +9,7 @@ export function escape(value) {
       ],
   );
 }
+const MISSION_HREF = "mailto:z@havesomecode.io?subject=Lancer%20une%20mission";
 function anchor(href, label, attrs = "") {
   return `<a href="${escape(href)}"${attrs}>${label}</a>`;
 }
@@ -122,6 +123,8 @@ function stop([label, x, y, side]) {
 const lineMap = `<figure class="line-map"><figcaption><span>Ligne 01 · du ticket à la pull request</span><span class="line-status">Réalisée chez Club Med</span></figcaption><svg viewBox="0 0 560 280" role="img" aria-label="Ligne 01 : un ticket marqué ai-ready déclenche la CI, un agent développe, ouvre une pull request, puis un humain relit."><path class="branch l3" d="M40 60 H230" /><text class="branch-label l3" x="40" y="46">L3 · formation</text><path class="branch l2" d="M40 246 H370 Q400 246 405 210 L410 160" /><text class="branch-label l2" x="40" y="272">L2 · logs, docs, API</text><circle class="junction" cx="230" cy="60" r="5" /><circle class="junction" cx="410" cy="160" r="5" /><path class="route" d="${route}" />${stops.map(stop).join("")}<circle class="signal" r="7" /></svg><ol class="line-log"><li><span>jira</span> ticket marqué ai-ready</li><li><span>circleci</span> job lancé</li><li><span>agent</span> lit le ticket, écrit le code</li><li><span>github</span> pull request ouverte</li><li><span>humain</span> relit et commente, l’agent corrige</li></ol></figure>`;
 const services = `<section class="services" id="services"><h2>Trois lignes de service</h2><ol class="service-lines"><li class="l1"><p class="line-name">L1 · Installer</p><h3>Choisir et installer</h3><p>Assistants, agents de code et outils internes : choisis pour votre contexte, configurés, sécurisés et documentés.</p></li><li class="l2"><p class="line-name">L2 · Connecter</p><h3>Construire les workflows</h3><p>Des agents branchés sur vos tickets, vos logs, vos documents et vos API, avec une revue humaine à chaque étape qui compte.</p></li><li class="l3"><p class="line-name">L3 · Former</p><h3>Rendre les équipes autonomes</h3><p>Des ateliers sur vos cas réels, pour que l’usage tienne dans la durée.</p></li></ol></section>`;
 
+const mission = `<section class="mission" id="mission"><h2>Une mission à confier ?</h2><p>Dites-moi ce que vous voulez mettre au travail. Je vous réponds par e-mail.</p><p class="quick-links"><a href="${MISSION_HREF}">Lancer une mission →</a></p></section>`;
+
 const sources = {
   float: "https://github.com/Zacaria/float",
   pathfinding: "https://github.com/Zacaria/pathfinding-client",
@@ -141,7 +144,7 @@ function header(snapshot, article) {
     .sort((a, b) => a.order - b.order)
     .map((n) => anchor(n.href, `[ ${escape(n.label.toUpperCase())} ]`))
     .join("");
-  return `<header id="top">${article ? '<p class="author">Zacaria Chtatar · HaveSomeCode</p>' : `<div class="hero"><div class="pitch"><p class="role">Agents IA · workflows agentiques · accompagnement</p><h1>Mettre l’IA <em>au travail.</em></h1><p class="intro">J’installe les bons outils, je les connecte à votre quotidien et je construis les agents qui prennent en charge le travail répétitif. Puis je forme vos équipes à s’en servir.</p><p class="quick-links"><a href="/#contact">Parler de votre projet →</a><a href="/#services">Voir les services →</a></p></div>${lineMap}</div>`}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div></header>`;
+  return `<header id="top">${article ? '<p class="author">Zacaria Chtatar · HaveSomeCode</p>' : `<div class="hero"><div class="pitch"><p class="role">Agents IA · workflows agentiques · accompagnement</p><h1>Mettre l’IA <em>au travail.</em></h1><p class="intro">J’installe les bons outils, je les connecte à votre quotidien et je construis les agents qui prennent en charge le travail répétitif. Puis je forme vos équipes à s’en servir.</p><p class="quick-links"><a href="${MISSION_HREF}">Lancer une mission →</a><a href="/#services">Voir les services →</a></p></div>${lineMap}</div>`}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div></header>`;
 }
 function topics(snapshot) {
   const all = [...new Set(snapshot.articles.flatMap((a) => a.topics))].sort();
@@ -149,7 +152,7 @@ function topics(snapshot) {
   return `<section id="topics"><h2>Sujets</h2><div class="paths">${all.map((t) => `<div class="path"><span class="category">${escape(t)}</span><div>${anchor(`/?topic=${encodeURIComponent(t)}#posts`, `Explorer ${escape(t)} →`, ` data-topic-link="${escape(t)}"`)}</div></div>`).join("")}</div>${anchor("/#posts", "Toutes les notes →", ' class="more" data-all')}</section>`;
 }
 function sidebar(snapshot) {
-  return `${topics(snapshot)}<section id="contact"><h2>Parlons de votre projet</h2><p>Un outil à installer, un workflow à automatiser, une équipe à former : décrivez votre besoin, je vous réponds.</p><ul class="contact-links">${snapshot.site.contact.map((c) => `<li>${anchor(c.href, `${escape(c.label)} →`)}</li>`).join("")}</ul></section>`;
+  return `${topics(snapshot)}<section id="contact"><h2>Parlons de votre projet</h2><p>Un outil à installer, un workflow à automatiser, une équipe à former : décrivez votre besoin, je vous réponds.</p><p>Écrivez-moi à <a href="mailto:z@havesomecode.io">z@havesomecode.io</a>.</p><ul class="contact-links">${snapshot.site.contact.map((c) => `<li>${anchor(c.href, `${escape(c.label)} →`)}</li>`).join("")}</ul></section>`;
 }
 function footer() {
   return `<footer class="footer"><a href="/linkedin-editorial-scout-privacy">Confidentialité</a><div class="bottom-note"><p>Zacaria Chtatar · HaveSomeCode</p>${theme}</div></footer>`;
@@ -204,7 +207,7 @@ export function renderIndex(snapshot, options = {}) {
   const notes = articles.length
     ? `<section id="posts"><h2 class="kicker" id="posts-label">DERNIÈRES NOTES :</h2><div class="searchbox"><label for="search" class="sr-only">Rechercher dans les notes</label><input type="search" id="search" placeholder="Rechercher dans les notes" /></div>${selected.map((a) => `<article class="featured" data-featured><span class="tag">À LA UNE</span>${anchor(`/blog/${a.slug}`, escape(a.title))}<p>${escape(a.excerpt)}</p></article>`).join("")}<ul class="post-list">${articles.map(row).join("")}</ul><p class="empty" id="no-results" role="status" hidden>Aucune note ne correspond. Videz la recherche ou essayez un autre sujet.</p><p id="result-count" class="sr-only" role="status"></p><a class="more" href="/blog">Voir toutes les notes →</a></section>`
     : "";
-  const content = `${services}<section class="about" id="about"><h2>Qui intervient</h2><p class="who">Zacaria Chtatar · lead developer et architecte · France</p><p>${escape(snapshot.site.intro)}</p>${paragraphs(snapshot.site.bio)}<p><a href="https://cv.havesomecode.io/">Lire mon CV →</a></p></section>${projects(snapshot)}${talk()}${notes}`;
+  const content = `${services}<section class="about" id="about"><h2>Qui intervient</h2><p class="who">Zacaria Chtatar · lead developer et architecte · France</p><p>${escape(snapshot.site.intro)}</p>${paragraphs(snapshot.site.bio)}<p><a href="https://cv.havesomecode.io/">Lire mon CV →</a></p></section>${projects(snapshot)}${mission}${talk()}${notes}`;
   return document(
     "HaveSomeCode — Mettre l’IA au travail · Zacaria Chtatar",
     "Installation d’outils IA, agents et workflows agentiques connectés à vos outils, formation des équipes. Par Zacaria Chtatar, lead developer et architecte.",

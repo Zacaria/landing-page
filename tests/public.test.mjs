@@ -73,7 +73,13 @@ test("services homepage leads with the offer, then the person, without empty or 
   assert.match(html, /Réalisée chez Club Med/);
   assert.ok(html.indexOf('id="services"') < html.indexOf('id="about"'));
   assert.ok(html.indexOf('id="about"') < html.indexOf('id="projects"'));
-  assert.match(html.slice(0, html.indexOf("<main")), /href="\/#contact"/);
+  assert.match(
+    html.slice(0, html.indexOf("<main")),
+    /href="mailto:z@havesomecode.io\?subject=Lancer%20une%20mission"/,
+  );
+  assert.ok(html.indexOf('id="projects"') < html.indexOf('id="mission"'));
+  assert.ok(html.indexOf('id="mission"') < html.indexOf('id="speaking"'));
+  assert.doesNotMatch(html, /gmail|€|disponib/i);
   assert.match(html, /https:\/\/cv.havesomecode.io\//);
   for (const id of ["posts", "search", "topics", "thinking"])
     assert.ok(!html.includes(`id="${id}"`) && !html.includes(`/#${id}`), id);
@@ -300,7 +306,7 @@ test("href policy rejects executable, protocol-relative, private/local and crede
     "/#posts",
     "/blog/safe-route",
     "https://github.com/Zacaria",
-    "mailto:havesomecode@gmail.com",
+    "mailto:z@havesomecode.io",
   ])
     assert.equal(safeHref(url), true, url);
 });

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "revision": "84fb2568c4fc7e2479b6e6d19a023ed6ee9a4c2742e31acfca5bddef4bc4f506",
+  "revision": "04b973fcc6a4f2d941544960550994bf483e1dccfd70a3503acc8fc85699a100",
   "articles": [
     {
       "schemaVersion": 1,
@@ -288,7 +288,7 @@
       },
       {
         "label": "E-mail",
-        "href": "mailto:havesomecode@gmail.com"
+        "href": "mailto:z@havesomecode.io"
       },
       {
         "label": "CV",

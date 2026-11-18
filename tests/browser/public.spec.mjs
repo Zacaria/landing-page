@@ -19,7 +19,9 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       "Mettre l’IA au travail.",
     );
-    await expect(page.locator(".hero a[href='/#contact']")).toBeVisible();
+    await expect(
+      page.locator(".hero a[href^='mailto:z@havesomecode.io?subject=']"),
+    ).toBeVisible();
     await expect(page.locator(".line-map .stop")).toHaveCount(5);
     const sections = await page
       .locator("main > section")
@@ -28,6 +30,7 @@ for (const width of [1440, 768, 390, 320]) {
       "services",
       "about",
       "projects",
+      "mission",
       "speaking",
       "posts",
       "contact",

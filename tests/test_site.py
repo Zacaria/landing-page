@@ -69,7 +69,7 @@ class PublicSiteAcceptance(unittest.TestCase):
                      'https://havesomecode.github.io/kibana-mcp-server/', 'https://github.com/Zacaria/float',
                      'https://github.com/Zacaria/pathfinding-client', 'https://github.com/Havesomecode/kibana-mcp-server',
                      'https://www.youtube.com/watch?v=eSo3e3ugn5g', 'https://cv.havesomecode.io/',
-                     'https://www.linkedin.com/in/zacariachtatar/', 'mailto:havesomecode@gmail.com',
+                     'https://www.linkedin.com/in/zacariachtatar/', 'mailto:z@havesomecode.io',
                      '/linkedin-editorial-scout-privacy'):
             self.assertIn(href, self.page.links)
 
