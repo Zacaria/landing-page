@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "revision": "04b973fcc6a4f2d941544960550994bf483e1dccfd70a3503acc8fc85699a100",
+  "revision": "02b6610e54b5ba6358a31b6951ec3244eb33a507a888a3426bd0ab0d0ba5a83c",
   "articles": [
     {
       "schemaVersion": 1,
@@ -272,6 +272,38 @@
       "href": "https://havesomecode.github.io/kibana-mcp-server/",
       "featured": true,
       "order": 0
+    },
+    {
+      "slug": "havesome-go",
+      "title": "HaveSome Go",
+      "description": "Un guide pour comprendre le langage Go et ses choix : des services simples à lire, à déployer et à faire évoluer, avec des exemples à modifier dans le navigateur.",
+      "href": "https://havesome-go.vercel.app",
+      "featured": false,
+      "order": 3
+    },
+    {
+      "slug": "havesome-gitops",
+      "title": "HaveSome GitOps",
+      "description": "Un guide sur la boucle GitOps : une intention versionnée dans Git, et un contrôleur qui observe le cluster et le réconcilie avec elle.",
+      "href": "https://havesome-gitops.vercel.app",
+      "featured": false,
+      "order": 4
+    },
+    {
+      "slug": "havesome-kubernetes",
+      "title": "HaveSome Kubernetes",
+      "description": "Un guide pour comprendre Kubernetes, qui rapproche en continu le réel de l’état demandé. Lecture libre, sans cluster à installer.",
+      "href": "https://havesome-kubernetes.vercel.app",
+      "featured": false,
+      "order": 5
+    },
+    {
+      "slug": "havesome-memory",
+      "title": "HaveSome Memory",
+      "description": "Un comparatif de 13 approches de mémoire pour agents IA : ce que chacune conserve, comment elle retrouve une information et ce qui change quand un fait évolue. Page en anglais.",
+      "href": "https://zacaria.github.io/havesome-memory/",
+      "featured": false,
+      "order": 6
     }
   ],
   "site": {
