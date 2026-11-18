@@ -3,6 +3,9 @@
   "buildCommand": "make build",
   "outputDirectory": "dist",
   "cleanUrls": true,
+  "functions": {
+    "api/appearance.mjs": { "regions": ["cdg1"] }
+  },
   "redirects": [
     {
       "source": "/about",

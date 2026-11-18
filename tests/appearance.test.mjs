@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 
 import { readFile } from "node:fs/promises";
 import { renderIndex, renderArticle } from "../scripts/render.mjs";
@@ -10,7 +11,14 @@ const settings = {
   site: defaults,
   cv: { theme: "vercel", band: "contrast", type: "geist" },
 };
-const response = (data) => new Response(JSON.stringify(data));
+const connection =
+  "postgresql://appearance_reader:synthetic-password@ep-test-unit.eu-central-1.aws.neon.tech/neondb?sslmode=require";
+const digest = (text) => createHash("sha256").update(text).digest("hex");
+const rowResponse = (document) =>
+  new Response(
+    JSON.stringify({ rows: [[digest(document), document]], rowCount: 1 }),
+  );
+const response = (data) => rowResponse(JSON.stringify(data));
 async function request(
   fetch,
   url = "/api/appearance?target=site",
@@ -29,13 +37,16 @@ async function request(
       this.body = body ?? "";
     },
   };
-  await createAppearanceHandler({ fetch, ...extra })({ url, method }, result);
+  await createAppearanceHandler({
+    fetch,
+    env: { HSC_APPEARANCE_DATABASE_URL: connection },
+    ...extra,
+  })({ url, method }, result);
   return result;
 }
 
-test("initial published settings are actual Teknium defaults for both consumers", async () => {
-  const initial = JSON.parse(await readFile("content/appearance.json", "utf8"));
-  assert.deepEqual(initial, { site: defaults, cv: defaults });
+test("initial database settings are actual Teknium defaults for both consumers", async () => {
+  const initial = { site: defaults, cv: defaults };
   const { appearanceCss } = await import("../scripts/appearance.mjs");
   for (const target of ["site", "cv"]) {
     const result = await request(
@@ -67,34 +78,38 @@ test("invalid, unknown and malicious choices/targets fail closed", async () => {
   );
 });
 
-test("raw transport is fixed, cache-busted and selection changes on next request", async () => {
+test("read-only Neon transport is fixed and selected CSS has a bounded cache", async () => {
   const { appearanceCss } = await import("../scripts/appearance.mjs");
   const calls = [];
   let selected = settings;
-  let clock = 100;
   const fetch = async (url, options) => {
     calls.push([url, options]);
     return response(selected);
   };
-  const first = await request(fetch, undefined, undefined, {
-    now: () => clock++,
-  });
+  const first = await request(fetch);
   assert.equal(first.body, appearanceCss(settings.site));
   selected = { ...settings, site: settings.cv };
-  const second = await request(fetch, undefined, undefined, {
-    now: () => clock++,
-  });
+  const second = await request(fetch);
   assert.equal(second.body, appearanceCss(settings.cv));
   assert.notEqual(first.body, second.body);
-  assert.equal(first.headers["Cache-Control"], "no-store");
+  assert.equal(
+    first.headers["Cache-Control"],
+    "public, max-age=60, s-maxage=60",
+  );
   assert.equal(first.headers["Access-Control-Allow-Origin"], "*");
   assert.equal(first.headers["Access-Control-Allow-Credentials"], undefined);
   assert.equal(first.headers["X-Appearance-Status"], "selected");
-  assert.equal(
-    calls[0][0],
-    "https://raw.githubusercontent.com/Zacaria/landing-page/master/content/appearance.json?t=100",
-  );
-  assert.notEqual(calls[0][0], calls[1][0]);
+  assert.equal(calls[0][0], "https://api.eu-central-1.aws.neon.tech/sql");
+  assert.equal(calls[0][0], calls[1][0]);
+  assert.equal(calls[0][1].method, "POST");
+  assert.equal(calls[0][1].headers["Neon-Connection-String"], connection);
+  assert.equal(calls[0][1].headers["Neon-Array-Mode"], "true");
+  assert.equal(calls[0][1].headers["Neon-Raw-Text-Output"], "true");
+  assert.deepEqual(JSON.parse(calls[0][1].body), {
+    query:
+      "SELECT version, document FROM public.appearance_settings WHERE id = 'appearance'",
+    params: [],
+  });
   assert.equal(calls[0][1].redirect, "error");
   assert.equal(calls[0][1].credentials, "omit");
   assert.equal(calls[0][1].cache, "no-store");
@@ -108,15 +123,20 @@ test("raw transport is fixed, cache-busted and selection changes on next request
   const head = await request(fetch, undefined, "HEAD");
   assert.equal(head.body, "");
   assert.equal(head.headers["Content-Type"], "text/css; charset=utf-8");
+  assert.doesNotMatch(
+    JSON.stringify({ headers: first.headers, body: first.body }),
+    /synthetic-password|postgresql:|Neon-Connection-String/,
+  );
 });
 
-test("outages, missing initial file and timed out transport return explicit default CSS", async () => {
+test("outages, an absent row and timed out transport return uncached default CSS", async () => {
   const { appearanceCss } = await import("../scripts/appearance.mjs");
   for (const fetch of [
     async () => {
       throw Error("offline");
     },
     async () => new Response("missing", { status: 404 }),
+    async () => new Response(JSON.stringify({ rows: [], rowCount: 0 })),
     () => new Promise(() => {}),
   ]) {
     const result = await request(fetch, undefined, undefined, {
@@ -124,8 +144,107 @@ test("outages, missing initial file and timed out transport return explicit defa
     });
     assert.equal(result.statusCode, 200);
     assert.equal(result.headers["X-Appearance-Status"], "fallback");
+    assert.equal(result.headers["Cache-Control"], "no-store");
     assert.equal(result.body, appearanceCss(defaults));
   }
+});
+
+test("missing or unsafe database configuration never sends credentials", async () => {
+  for (const value of [
+    undefined,
+    "",
+    "https://ep-test-unit.eu-central-1.aws.neon.tech/neondb?sslmode=require",
+    "postgresql://reader:synthetic-password@evil.test/neondb?sslmode=require",
+    "postgresql://reader:synthetic-password@ep-test.neon.tech.evil.test/neondb?sslmode=require",
+    connection.replace("ep-test-unit.", "api."),
+    connection.replace("sslmode=require", "sslmode=disable"),
+    connection.replace("/neondb?", ":444/neondb?"),
+    connection + "#fragment",
+    connection + "\n",
+  ]) {
+    let calls = 0;
+    const result = await request(
+      async () => {
+        calls++;
+        return response(settings);
+      },
+      undefined,
+      undefined,
+      { env: { HSC_APPEARANCE_DATABASE_URL: value } },
+    );
+    assert.equal(result.statusCode, 200);
+    assert.equal(result.headers["X-Appearance-Status"], "fallback");
+    assert.equal(result.headers["Cache-Control"], "no-store");
+    assert.equal(calls, 0);
+  }
+});
+
+test("database envelope, digest and document sizes fail closed before caching", async () => {
+  const document = JSON.stringify(settings);
+  for (const value of [
+    {},
+    {
+      rows: [
+        [digest(document), document],
+        [digest(document), document],
+      ],
+    },
+    { rows: [["a".repeat(64), document]] },
+    { rows: [[digest(document), document, "unexpected"]] },
+    { rows: [[digest(document), settings]] },
+  ]) {
+    const result = await request(
+      async () => new Response(JSON.stringify(value)),
+    );
+    assert.equal(result.statusCode, 502);
+    assert.equal(result.headers["Cache-Control"], "no-store");
+    assert.equal(result.headers["X-Appearance-Status"], "invalid-settings");
+  }
+  const padded = document.padEnd(8192, " ");
+  const maximum = await request(async () => rowResponse(padded));
+  assert.equal(maximum.headers["X-Appearance-Status"], "selected");
+  assert.equal(
+    (await request(async () => rowResponse(padded + " "))).statusCode,
+    502,
+  );
+  assert.equal(
+    (
+      await request(
+        async () =>
+          new Response("{}", { headers: { "Content-Length": "16385" } }),
+      )
+    ).statusCode,
+    502,
+  );
+});
+
+test("malformed UTF-8 cannot be repaired into publicly cached selected CSS", async () => {
+  const document = `{"site":"�","site":${JSON.stringify(defaults)},"cv":${JSON.stringify(defaults)}}`;
+  const encoded = Buffer.from(
+    JSON.stringify({ rows: [[digest(document), document]] }),
+  );
+  const marker = Buffer.from("�");
+  const offset = encoded.indexOf(marker);
+  assert.notEqual(offset, -1);
+  const malformed = Buffer.concat([
+    encoded.subarray(0, offset),
+    Buffer.from([0xff]),
+    encoded.subarray(offset + marker.length),
+  ]);
+  assert.throws(() =>
+    new TextDecoder("utf-8", { fatal: true }).decode(malformed),
+  );
+  const result = await request(async () => new Response(malformed));
+  assert.equal(result.statusCode, 502);
+  assert.equal(result.headers["X-Appearance-Status"], "invalid-settings");
+  assert.equal(result.headers["Cache-Control"], "no-store");
+});
+
+test("appearance runtime is scoped to Paris without changing project-wide regions", async () => {
+  const config = JSON.parse(await readFile("vercel.json", "utf8"));
+  assert.deepEqual(config.functions?.["api/appearance.mjs"]?.regions, ["cdg1"]);
+  assert.equal(config.regions, undefined);
+  assert.deepEqual(Object.keys(config.functions), ["api/appearance.mjs"]);
 });
 
 test("invalid target/method never fetch and malformed settings never silently fallback", async () => {
