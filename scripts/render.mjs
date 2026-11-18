@@ -87,7 +87,7 @@ export function renderArticleBody(article) {
   if (list) output += `</${list}>`;
   return output;
 }
-const theme = `<div class="theme-control" role="group" aria-label="Appearance"><span class="theme-label">APPEARANCE</span><div class="theme-options">${[
+const theme = `<div class="theme-control" role="group" aria-label="Appearance"><span class="theme-label">Theme:</span><div class="theme-options">${[
   ["light", "Light"],
   ["dark", "Dark"],
   ["system", "Auto"],
@@ -109,7 +109,7 @@ function header(snapshot, article) {
     .filter((p) => p.featured)
     .map((p) => anchor(p.href, escape(p.title)))
     .join("")}</div>
-  <header id="top"><div class="identity">${article ? '<p class="brand-line">' : "<h1>"}<a href="/">HAVESOMECODE<span class="cursor" aria-hidden="true"></span></a>${article ? "</p>" : "</h1>"}<p class="domain">havesomecode.io</p><p class="author">Zacaria Chtatar / Lead Developer</p>${theme}</div><nav aria-label="Main navigation">${snapshot.navigation
+  <header id="top"><div class="identity">${article ? '<p class="brand-line">' : "<h1>"}<a href="/">HAVESOMECODE<span class="cursor" aria-hidden="true"></span></a>${article ? "</p>" : "</h1>"}<p class="domain">havesomecode.io</p><p class="author">Zacaria Chtatar / Lead Developer</p></div><nav aria-label="Main navigation">${snapshot.navigation
     .filter((n) => n.visible)
     .sort((a, b) => a.order - b.order)
     .map((n) => anchor(n.href, `[ ${escape(n.label.toUpperCase())} ]`))
@@ -133,7 +133,7 @@ function rail(snapshot) {
     .join("")}</aside>`;
 }
 function footer() {
-  return `<footer class="footer"><div><strong>EXPLORE</strong><a href="/#posts">Notes</a><a href="/#search">Search</a><a href="/#topics">Topics</a></div><div><strong>MAKE &amp; TRY</strong><a href="/#projects">Projects</a><a href="/#thinking">Questions</a><a href="/#speaking">Talks</a></div><div><strong>CONNECT</strong><a href="https://cv.havesomecode.io/">CV</a><a href="https://github.com/Zacaria">GitHub</a><a href="/linkedin-editorial-scout-privacy">Editorial scout privacy</a></div></footer><p class="bottom-note">Zacaria Chtatar · HaveSomeCode</p>`;
+  return `<footer class="footer"><div><strong>EXPLORE</strong><a href="/#posts">Notes</a><a href="/#search">Search</a><a href="/#topics">Topics</a></div><div><strong>MAKE &amp; TRY</strong><a href="/#projects">Projects</a><a href="/#tools">Tools &amp; stack</a><a href="/#thinking">Questions</a><a href="/#speaking">Talks</a></div><div><strong>CONNECT</strong><a href="https://cv.havesomecode.io/">CV</a><a href="https://github.com/Zacaria">GitHub</a><a href="/linkedin-editorial-scout-privacy">Editorial scout privacy</a></div><div class="bottom-note"><p>Zacaria Chtatar · HaveSomeCode</p>${theme}</div></footer>`;
 }
 function document(title, description, path, content, snapshot, options) {
   return `<!doctype html>
@@ -160,6 +160,52 @@ function projects(snapshot) {
     .join(
       "",
     )}</div><div class="project-sources">${sources.map(([label, href]) => anchor(href, escape(label))).join(" · ")}</div><p class="more">These are only the tidier ones. <a href="https://github.com/Zacaria">Everything else is on GitHub →</a></p></section>`;
+}
+function tools() {
+  const groups = [
+    [
+      "Agent harness",
+      [
+        [
+          "Hermes",
+          "https://github.com/NousResearch/hermes-agent",
+          "hermes.png",
+        ],
+        ["Codex", "https://github.com/openai/codex", null],
+        [
+          "Hindsight",
+          "https://github.com/vectorize-io/hindsight",
+          "hindsight.png",
+        ],
+        [
+          "Ponytail",
+          "https://github.com/DietrichGebert/ponytail",
+          "ponytail.svg",
+        ],
+      ],
+    ],
+    [
+      "Design & shipping",
+      [
+        [
+          "Open Design",
+          "https://github.com/nexu-io/open-design",
+          "open-design.svg",
+        ],
+        ["Vercel", "https://vercel.com/", "vercel.svg"],
+        ["Godot", "https://godotengine.org/", "godot.svg"],
+        ["Blender", "https://www.blender.org/", "blender.svg"],
+      ],
+    ],
+    [
+      "Starred picks",
+      [
+        ["OpenSpec", "https://github.com/Fission-AI/OpenSpec", "openspec.svg"],
+        ["mise", "https://github.com/jdx/mise", "mise.svg"],
+      ],
+    ],
+  ];
+  return `<section id="tools">${separator}<h2 class="kicker">TOOLS &amp; STACK:</h2><p class="tools-intro">Part of my agent setup, plus a few open-source projects I follow.</p><div class="tools-groups">${groups.map(([title, items]) => `<div class="tools-group"><h3>${escape(title)}</h3><ul class="tool-list">${items.map(([name, href, logo]) => `<li>${anchor(href, `${logo ? `<img class="tool-logo" src="/assets/tools/${logo}" width="28" height="28" alt="" loading="lazy" />` : ""}<span>${escape(name)}</span>`)}</li>`).join("")}</ul></div>`).join("")}</div></section>`;
 }
 function questions() {
   return `<section id="thinking">${separator}<h2 class="kicker">THE QUESTIONS ARE OFTEN MORE INTERESTING THAN THE TOOLS.</h2><p>I tend to circle around the same ideas, whether I’m debugging a system or starting a side project.</p><dl class="questions">${[
@@ -196,7 +242,7 @@ export function renderIndex(snapshot, options = {}) {
   const selected = snapshot.site.selectedSlugs.map((slug) =>
     articles.find((a) => a.slug === slug),
   );
-  const content = `<div class="left"><div class="searchbox"><label for="search" class="sr-only">Search published notes</label><input type="search" id="search" placeholder="Search notes, tools and experiments" /></div><section id="posts">${separator}<h2 class="kicker" id="posts-label">LATEST NOTES:</h2>${selected.map((a) => `<article class="featured" data-featured><span class="tag">FEATURED</span>${anchor(`/blog/${a.slug}`, escape(a.title))}<p>${escape(a.excerpt)}</p></article>`).join("")}<ul class="post-list">${articles.map(row).join("")}</ul><p class="empty" id="no-articles"${articles.length ? " hidden" : ""}>No notes published yet. In the meantime, explore the projects and talk below.</p><p class="empty" id="no-results" role="status" hidden>No matching notes. Clear the search or try another topic.</p><p id="result-count" class="sr-only" role="status"></p><a class="more" href="/#posts" data-all>See all notes →</a></section>${projects(snapshot)}${talk()}${questions()}</div>`;
+  const content = `<div class="left"><div class="searchbox"><label for="search" class="sr-only">Search published notes</label><input type="search" id="search" placeholder="Search notes, tools and experiments" /></div><section id="posts">${separator}<h2 class="kicker" id="posts-label">LATEST NOTES:</h2>${selected.map((a) => `<article class="featured" data-featured><span class="tag">FEATURED</span>${anchor(`/blog/${a.slug}`, escape(a.title))}<p>${escape(a.excerpt)}</p></article>`).join("")}<ul class="post-list">${articles.map(row).join("")}</ul><p class="empty" id="no-articles"${articles.length ? " hidden" : ""}>No notes published yet. In the meantime, explore the projects and talk below.</p><p class="empty" id="no-results" role="status" hidden>No matching notes. Clear the search or try another topic.</p><p id="result-count" class="sr-only" role="status"></p><a class="more" href="/#posts" data-all>See all notes →</a></section>${projects(snapshot)}${tools()}${talk()}${questions()}</div>`;
   return document(
     "HaveSomeCode — Zacaria Chtatar",
     "Software, side projects, talks, and questions worth following.",

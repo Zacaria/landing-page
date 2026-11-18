@@ -83,11 +83,13 @@ The prototype's original CSS and licensed embedded Geist font were extracted, no
 
 The outer frame is 1280px; the inside article/topic columns are separate from the 160px outside project rail. At 1199px the rail becomes project shortcuts; at 850px content/sidebar stack. At 520px projects stack. Keep content readable at 320px without document overflow; long code scrolls within its own block.
 
-Appearance choices remain visible, carry aria-pressed, persist when storage works, and Auto follows device changes. No-JavaScript Auto uses the OS preference through CSS. Focus is visible and reduced motion disables smooth scrolling.
+Appearance choices sit in the subdued footer beside the site credit, not in the identity/header or as a primary call to action (owner revision, 13 October 2026). Keep their transparent, borderless text styling and 44px touch targets. They carry aria-pressed, persist when storage works, and Auto follows device changes. No-JavaScript Auto uses the OS preference through CSS. Focus is visible and reduced motion disables smooth scrolling.
 
 ## Honest content
 
 No articles are currently approved. The committed snapshot contains only verified existing public content, including the approved Club Med scale sentence, projects, CV, talk, profile/contact links and preserved privacy destination. Show empty notes/topics rather than draft titles, fabricated dates, sponsors, courses or publishing history. Published notes alone participate in search and topic filtering.
+
+The owner requested a compact logo-backed tools/stack section. Curate genuine agent-harness and design/shipping tools from the current setup; show OpenSpec and mise separately as verified GitHub starred picks, not claims of everyday use. Keep tool names as accessible links, use locally stored authentic upstream marks, and expose no private harness configuration. This code-owned selection does not add a new Notion publication field or imply endorsements.
 
 ## Rendering boundary
 

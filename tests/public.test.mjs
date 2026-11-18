@@ -50,6 +50,31 @@ test("baseline is verified public content and has no invented article history", 
     /2000-01|Synthetic|data-article|Design preview|Draft/,
   );
 });
+test("tools separate the real setup from starred interests without changing content", () => {
+  const html = renderIndex(baseline);
+  const section = html.match(/<section id="tools">[\s\S]*?<\/section>/)?.[0];
+  assert.ok(section);
+  assert.equal((section.match(/<a /g) || []).length, 10);
+  for (const name of [
+    "Hermes",
+    "Codex",
+    "Hindsight",
+    "Ponytail",
+    "Open Design",
+    "Vercel",
+    "Godot",
+    "Blender",
+    "OpenSpec",
+    "mise",
+  ])
+    assert.ok(section.includes(`<span>${name}</span>`), name);
+  assert.match(section, /Starred picks[\s\S]*OpenSpec[\s\S]*mise/);
+  assert.doesNotMatch(
+    section,
+    /production expertise|sponsored|endorsed|api\/|ADMIN_|NOTION_/,
+  );
+  assert.equal(baseline.articles.length, 0);
+});
 test("all four configurable categories render and ordered visibility is honored", () => {
   const s = fixture();
   s.site.intro = "Changed introduction";
