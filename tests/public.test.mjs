@@ -17,19 +17,36 @@ import {
   renderIndex,
   renderArticle,
   renderArticleBody,
+  renderBlogIndex,
 } from "../scripts/render.mjs";
 import { fixture } from "./fixtures.mjs";
 const root = path.resolve(".local");
 await mkdir(root, { recursive: true });
 const baseline = JSON.parse(await readFile("content/published.json"));
+// The site without articles: notes, search, topics and the Blog link disappear.
+const empty = pinSnapshot({ ...baseline, articles: [] });
 function reject(mutator) {
   const s = fixture();
   mutator(s);
   assert.throws(() => validateSnapshot(s), /Invalid published snapshot/);
 }
-test("baseline is verified public content and has no invented article history", () => {
+test("baseline is verified public content with the three first blog articles", () => {
   validateSnapshot(baseline);
-  assert.equal(baseline.articles.length, 0);
+  assert.deepEqual(
+    baseline.articles.map((a) => a.slug),
+    [
+      "ou-passe-le-temps-d-une-requete",
+      "nommer-un-champ-d-api",
+      "contexte-maitrise-agents-de-code",
+    ],
+  );
+  for (const a of baseline.articles) {
+    assert.ok(!("originalPublication" in a), a.slug);
+    assert.doesNotMatch(
+      JSON.stringify(a),
+      /LinkedIn|tested capacity|test de charge, pas/,
+    );
+  }
   const html = renderIndex(baseline);
   assert.doesNotMatch(html, /No notes published yet/);
   assert.match(
@@ -51,7 +68,7 @@ test("baseline is verified public content and has no invented article history", 
   );
 });
 test("services homepage leads with the offer, then the person, without empty or repeated sections", () => {
-  const html = renderIndex(baseline);
+  const html = renderIndex(empty);
   assert.match(html, /<h1>Mettre l’IA <em>au travail.<\/em><\/h1>/);
   assert.match(html, /Réalisée chez Club Med/);
   assert.ok(html.indexOf('id="services"') < html.indexOf('id="about"'));
@@ -60,6 +77,7 @@ test("services homepage leads with the offer, then the person, without empty or 
   assert.match(html, /https:\/\/cv.havesomecode.io\//);
   for (const id of ["posts", "search", "topics", "thinking"])
     assert.ok(!html.includes(`id="${id}"`) && !html.includes(`/#${id}`), id);
+  assert.doesNotMatch(html, /href="\/blog"/);
   assert.doesNotMatch(
     html,
     /project-rail|rail-mobile|announcement|No notes|Topics will appear/,
@@ -137,6 +155,35 @@ test("all four configurable categories render and ordered visibility is honored"
     assert.ok(html.toLowerCase().includes(text.toLowerCase()), text);
   assert.ok(html.indexOf("[ FIRST ]") < html.indexOf("[ SECOND ]"));
   assert.doesNotMatch(html, /\[ HIDDEN \]/);
+});
+test("blog index lists every article newest first and is the target of nav and back-links", () => {
+  const s = fixture();
+  s.navigation.find((n) => n.label === "Blog").href = "/blog";
+  const pinned = pinSnapshot(s);
+  const html = renderBlogIndex(pinned);
+  assert.match(
+    html,
+    /<link rel="canonical" href="https:\/\/www.havesomecode.io\/blog" \/>/,
+  );
+  assert.match(html, /<h1>Blog<\/h1>/);
+  assert.ok(
+    html.indexOf('href="/blog/test-second"') <
+      html.indexOf('href="/blog/test-renderer"'),
+  );
+  assert.match(html, /A test of safe block rendering\./);
+  assert.match(html, /<a href="\/blog">\[ BLOG \]<\/a>/);
+  const article = renderArticle(pinned.articles[0], pinned);
+  assert.match(article, /<a href="\/blog">← Toutes les notes<\/a>/);
+  assert.match(
+    article,
+    /<a class="more" href="\/blog">Retour à toutes les notes →<\/a>/,
+  );
+  assert.match(
+    renderIndex(pinned),
+    /<a class="more" href="\/blog">Voir toutes les notes →<\/a>/,
+  );
+  assert.match(renderIndex(baseline), /<a href="\/blog">\[ BLOG \]<\/a>/);
+  assert.doesNotMatch(renderIndex(baseline), /\[ RECHERCHE \]/);
 });
 test("article routing, SEO and published dates come from selected snapshot only", () => {
   const s = fixture(),
@@ -292,7 +339,15 @@ test("rebuild removes stale articles and retains last-known-good output on malfo
         await readFile(path.join(output, "blog/test-renderer.html"), "utf8")
       ).includes("Synthetic renderer fixture"),
     );
-    await writeFile(snapshotPath, JSON.stringify(baseline));
+    assert.match(
+      await readFile(path.join(output, "blog/index.html"), "utf8"),
+      /href="\/blog\/test-renderer"/,
+    );
+    assert.match(
+      await readFile(path.join(output, "sitemap.xml"), "utf8"),
+      /havesomecode.io\/blog<\/loc>/,
+    );
+    await writeFile(snapshotPath, JSON.stringify(empty));
     await build({ snapshotPath, output });
     assert.ok(!(await readdir(output)).includes("blog"));
     const good = await readFile(path.join(output, "index.html"));

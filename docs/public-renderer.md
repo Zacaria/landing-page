@@ -38,7 +38,9 @@ Serve assets at identical absolute paths. A private preview response must retain
 
 `make build` reads the canonical public snapshot, validates hashes and structure, renders all pages, verifies each frozen asset's SHA256 and image signature, and stages an allowlisted static tree before replacement. It never copies the snapshot JSON, source modules, tests, fixtures, secrets or private content. Missing/malformed snapshots and failed media verification leave last-known-good output unchanged and fail the command, so deployment must not proceed. Missing provider configuration is irrelevant: the committed public snapshot is sufficient. Notion outage cannot alter the deployed output.
 
-Articles become `/blog/<slug>.html`, served by Vercel cleanUrls as `/blog/<slug>`. Sitemap entries derive only from published articles. Rebuild removes unpublished/stale article files. Asset paths are `/content/assets/<SHA256>.(png|jpg|webp|gif)`, at most 10MiB; symlinked/mismatched/executable formats are rejected. Existing assets are code-owned; media ingestion/SSRF protection belong to the service.
+Articles become `/blog/<slug>.html`, served by Vercel cleanUrls as `/blog/<slug>`. When at least one article exists, `renderBlogIndex(snapshot)` writes `/blog/index.html`, served as `/blog`: every article, newest first, with its excerpt. A `/blog` navigation entry, article back-links and the homepage "Voir toutes les notes" link point there; the entry is hidden while no article exists. Sitemap entries derive only from published articles and `/blog`.
+
+The first three articles (18 November 2026) were committed directly into `content/published.json`, the same file the admin release writes, and pinned with `pinSnapshot`. Their source drafts are `havesomecode/_docs/post-backlog/01`, `03` and `05`. Rebuild removes unpublished/stale article files. Asset paths are `/content/assets/<SHA256>.(png|jpg|webp|gif)`, at most 10MiB; symlinked/mismatched/executable formats are rejected. Existing assets are code-owned; media ingestion/SSRF protection belong to the service.
 
 ## Verification and next release step
 

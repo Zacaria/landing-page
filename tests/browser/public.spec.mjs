@@ -5,7 +5,7 @@ test.beforeAll(async () => {
   await mkdir(captures, { recursive: true });
 });
 for (const width of [1440, 768, 390, 320]) {
-  test(`published empty site, all navigation and no overflow at ${width}px`, async ({
+  test(`published site, all navigation and no overflow at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 });
@@ -14,9 +14,8 @@ for (const width of [1440, 768, 390, 320]) {
     const requests = [];
     page.on("request", (r) => requests.push(r.url()));
     await page.goto("/");
-    await expect(
-      page.locator("#no-articles, #posts, #search, #topics"),
-    ).toHaveCount(0);
+    await expect(page.locator("#no-articles, #topics")).toHaveCount(0);
+    await expect(page.locator("#posts .post[data-search]")).toHaveCount(3);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       "Mettre l’IA au travail.",
     );
@@ -30,6 +29,7 @@ for (const width of [1440, 768, 390, 320]) {
       "about",
       "projects",
       "speaking",
+      "posts",
       "contact",
     ]);
     await expect(page.locator("#speaking h2")).toHaveText(
@@ -53,7 +53,6 @@ for (const width of [1440, 768, 390, 320]) {
       "https://havesomecode.github.io/kibana-mcp-server/",
     ])
       await expect(page.locator(`a[href="${href}"]`)).toHaveCount(1);
-    await expect(page.locator(".post[data-search]")).toHaveCount(0);
     await expect(page.locator("header .theme-control")).toHaveCount(0);
     await expect(page.locator("footer .theme-control")).toHaveCount(1);
     const choices = await page.locator(".theme-choice").evaluateAll((buttons) =>
@@ -90,6 +89,32 @@ for (const width of [1440, 768, 390, 320]) {
       await link.click();
       await expect(page).toHaveURL(new RegExp(`#${id}$`));
     }
+    await page
+      .getByRole("navigation", { name: "Navigation principale" })
+      .getByRole("link", { name: "[ BLOG ]", exact: true })
+      .click();
+    await expect(page).toHaveURL(/\/blog$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Blog");
+    await expect(page.locator(".blog-index .post")).toHaveCount(3);
+    const overflow = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+    await page.screenshot({
+      path: `${captures}/blog-${width}.png`,
+      fullPage: true,
+    });
+    await page.locator(".blog-index .post a").first().click();
+    await expect(page).toHaveURL(/\/blog\/[a-z0-9-]+$/);
+    await expect(page.locator(".article-body p").first()).toBeVisible();
+    await page.screenshot({
+      path: `${captures}/article-${width}.png`,
+      fullPage: true,
+    });
+    await page.getByRole("link", { name: "← Toutes les notes" }).click();
+    await expect(page).toHaveURL(/\/blog$/);
     await page.goto("/");
     await page.getByRole("button", { name: "Sombre", exact: true }).click();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
@@ -288,7 +313,8 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:8793/");
   await expect(page.locator("#about")).toBeVisible();
-  await expect(page.locator("#posts, #search, #topics")).toHaveCount(0);
+  await expect(page.locator("#topics")).toHaveCount(0);
+  await expect(page.locator('a[href="/blog"]').first()).toBeVisible();
   expect(
     await page
       .locator("html")

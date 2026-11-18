@@ -1,7 +1,253 @@
 {
   "schemaVersion": 1,
-  "revision": "cbdad336c2486229796880353fe5216fe2a6989dc5d30318b59618c6cb0188a1",
-  "articles": [],
+  "revision": "84fb2568c4fc7e2479b6e6d19a023ed6ee9a4c2742e31acfca5bddef4bc4f506",
+  "articles": [
+    {
+      "schemaVersion": 1,
+      "slug": "ou-passe-le-temps-d-une-requete",
+      "title": "Un graphe de performance ne sert que s’il dit où le temps est passé",
+      "excerpt": "Savoir qu’une route est lente ne suffit pas. Il faut savoir si l’API travaille ou si elle attend.",
+      "version": "274fd23049c00b6cf6358ecacdd37152b2e6c464ad4c51cca58fa469bf03db2f",
+      "publishedAt": "2026-11-18T11:46:55.985Z",
+      "topics": [],
+      "seo": {
+        "title": "Où passe le temps d’une requête ? · Zacaria Chtatar",
+        "description": "Savoir qu’une route est lente ne suffit pas. Il faut savoir si l’API travaille ou si elle attend."
+      },
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Nos tableaux de bord montraient que certaines requêtes de l’API étaient lentes. Ils ne disaient pas si l’API faisait un travail coûteux ou si elle attendait un autre système."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Cette distinction a changé toute l’enquête."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Sur la plateforme d’API publique de Club Med, j’ai mis en place des tableaux de bord Kibana qui montrent le comportement route par route et séparent le temps de traitement de l’API du temps passé à attendre les systèmes en aval. Les tests de charge ont ensuite montré quelles routes consommaient le plus. Le profilage en local et les flamegraphs nous ont permis d’inspecter le code derrière ces routes."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "L’ordre comptait :"
+            }
+          ]
+        },
+        {
+          "kind": "numbered_list_item",
+          "spans": [
+            {
+              "text": "observer le système route par route ;"
+            }
+          ]
+        },
+        {
+          "kind": "numbered_list_item",
+          "spans": [
+            {
+              "text": "reproduire la charge avec des tests ;"
+            }
+          ]
+        },
+        {
+          "kind": "numbered_list_item",
+          "spans": [
+            {
+              "text": "profiler les routes que le monitoring avait déjà désignées ;"
+            }
+          ]
+        },
+        {
+          "kind": "numbered_list_item",
+          "spans": [
+            {
+              "text": "corriger les goulots d’étranglement, puis relancer les tests."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Ce travail a aidé la plateforme à absorber plus de trafic : en production, elle est passée d’environ 10 à 25 millions de requêtes par jour."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Je précise « en production » parce qu’un chiffre de performance perd sa valeur quand on lui retire ses conditions. Un pic en production, un test synthétique et une estimation théorique ne répondent pas à la même question."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "La leçon est simple : un graphe doit aider à décider quoi inspecter ensuite. Le temps de réponse total était une alerte. Le découper par route, entre travail applicatif et attente des dépendances, l’a rendu utile."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "slug": "nommer-un-champ-d-api",
+      "title": "Si nommer un champ d’API est difficile, le contrat n’est sans doute pas clair",
+      "excerpt": "Une heure de débat sur un nom cache souvent un désaccord sur ce que le champ veut dire.",
+      "version": "fc866e957e6af1bddcbd2358a2ffbf610b44e7b14cd3f91ed06bcf0f2aaba4bc",
+      "publishedAt": "2026-11-18T11:46:54.985Z",
+      "topics": [],
+      "seo": {
+        "title": "Nommer un champ d’API, c’est écrire le contrat · Zacaria Chtatar",
+        "description": "Une heure de débat sur un nom cache souvent un désaccord sur ce que le champ veut dire."
+      },
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Quand nommer un champ d’API prend une heure, le problème n’est pas forcément le vocabulaire. L’équipe n’est peut-être pas encore d’accord sur ce que le champ signifie."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "J’ai vu des discussions de nommage faire remonter des questions que l’implémentation avait cachées."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Cette valeur est-elle un fait actuel, une demande de changement ou une projection calculée ? Le terme appartient-il au métier, ou seulement à un système interne ? Les clients peuvent-ils s’y fier dans le temps ? Quelle équipe porte la définition quand le processus derrière change ?"
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Un nom pratique peut clore la réunion sans répondre à aucune de ces questions. L’ambiguïté part alors dans le code des clients, la documentation, le support et les futures migrations."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Le coût arrive plus tard. Un consommateur comprend le champ d’une façon, le producteur voulait dire autre chose, et un incident devient un débat : le payload est-il faux, ou la définition n’a-t-elle jamais été partagée ? Pendant une migration, chaque client emporte sa propre interprétation dans le nouveau système."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "C’est pour ça que je traite le nommage comme un travail de contrat, pas comme une finition. Avant de choisir un terme, j’essaie d’écrire une définition en langage courant, un exemple valide et un cas qui ne doit pas rentrer. Si le groupe ne s’accorde pas sur ces trois éléments, aucun nom ne sauvera le design."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "La même habitude marche pour les endpoints et les événements. Un contrat doit décrire un concept stable, compréhensible par les consommateurs sans connaître le fonctionnement interne actuel du service."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Un bon nom ne rend pas une API correcte à lui seul. Il rend le désaccord visible tôt, quand changer un champ coûte encore moins cher que de diagnostiquer la même ambiguïté dans chaque intégration."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "slug": "contexte-maitrise-agents-de-code",
+      "title": "Un agent de code a surtout besoin d’un contexte maîtrisé",
+      "excerpt": "Plus de contexte ne corrige ni une doc obsolète ni un log sans environnement. Il faut d’abord savoir d’où vient l’information.",
+      "version": "1f6eaed0db47a6ed1e07762a344db2e3269b6cb2d44ea364cc0207a4e13d0f6e",
+      "publishedAt": "2026-11-18T11:46:53.985Z",
+      "topics": [],
+      "seo": {
+        "title": "Agents de code : maîtriser le contexte · Zacaria Chtatar",
+        "description": "Plus de contexte ne corrige ni une doc obsolète ni un log sans environnement. Il faut d’abord savoir d’où vient l’information."
+      },
+      "blocks": [
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Un agent de code peut lire énormément de choses et mal comprendre le projet."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Le volume de contexte ne corrige pas une documentation obsolète, un log sans environnement ni période, ou deux sources qui se contredisent. Il donne juste plus de matière à une réponse convaincante."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "J’ai travaillé sur des accès MCP à la documentation d’API et aux logs. Le but : donner aux agents un contexte projet maîtrisé, avec des sources identifiées, un périmètre d’accès clair et assez d’information pour comprendre ce qu’elles décrivent."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Ça oblige à répondre à des questions très ordinaires, et très utiles. Quelle source fait foi ? Qui la maintient ? L’agent sait-il distinguer un exemple d’une règle en vigueur ? Pour les logs, le service, l’environnement et la période doivent correspondre au problème étudié."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Ces questions comptent davantage que la taille de la fenêtre de contexte. Elles améliorent aussi le système pour les humains : une source difficile à sélectionner pour un agent est souvent difficile à trouver pour un nouveau développeur."
+            }
+          ]
+        },
+        {
+          "kind": "paragraph",
+          "spans": [
+            {
+              "text": "Je commence donc par la provenance et les limites d’accès. Ensuite seulement, j’ajoute du contexte. L’agent doit savoir d’où vient l’information avant qu’on lui demande d’agir dessus."
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "projects": [
     {
       "slug": "float",
@@ -60,7 +306,7 @@
     },
     {
       "label": "Blog",
-      "href": "/#posts",
+      "href": "/blog",
       "visible": true,
       "order": 1
     },
@@ -73,7 +319,7 @@
     {
       "label": "Recherche",
       "href": "/#search",
-      "visible": true,
+      "visible": false,
       "order": 3
     },
     {

@@ -37,12 +37,17 @@ class PublicSiteAcceptance(unittest.TestCase):
         cls.source = (OUTPUT / 'index.html').read_text()
         cls.page = Page(cls.source)
 
-    def test_production_is_honestly_empty(self):
+    def test_blog_index_and_three_articles_are_built(self):
         snapshot = json.loads((ROOT / 'content/published.json').read_text())
-        self.assertEqual(snapshot['articles'], [])
-        self.assertNotIn('No notes published yet.', self.source)
+        self.assertEqual(len(snapshot['articles']), 3)
+        self.assertIn('/blog', self.page.links)
+        blog = (OUTPUT / 'blog/index.html').read_text()
+        for article in snapshot['articles']:
+            self.assertIn('/blog/' + article['slug'], blog)
+            page = (OUTPUT / 'blog' / (article['slug'] + '.html')).read_text()
+            self.assertIn(article['title'].replace('’', '’'), page)
+            self.assertNotIn('LinkedIn</a>', page.split('<main')[1].split('id="contact"')[0])
         self.assertNotIn('Synthetic renderer fixture', self.source)
-        self.assertNotIn('datetime=', self.source)
 
     def test_reference_identity_and_theme_are_explicit(self):
         self.assertIn('HAVESOMECODE', self.source)

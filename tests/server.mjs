@@ -57,7 +57,10 @@ const server = http.createServer(async (req, res) => {
     try {
       data = await readFile(file);
     } catch {
-      data = await readFile(file + ".html");
+      // Vercel cleanUrls: /blog/x -> x.html, /blog -> blog/index.html.
+      data = await readFile(file + ".html").catch(() =>
+        readFile(path.join(file, "index.html")),
+      );
     }
     res.setHeader("Content-Type", types[path.extname(file)] || types[".html"]);
     res.end(data);

@@ -647,10 +647,12 @@ main > section > h2::before {
   margin-bottom: 16px;
   color: var(--accent);
 }
-.updates .post + .post {
+.updates .post + .post,
+.blog-index .post + .post {
   margin-top: 20px;
 }
-.updates .post p {
+.updates .post p,
+.blog-index .post p {
   margin-top: 4px;
   font-size: 15px;
   color: var(--muted-foreground);

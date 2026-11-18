@@ -128,7 +128,7 @@ const sources = {
   "kibana-mcp": "https://github.com/Havesomecode/kibana-mcp-server",
 };
 function availableLink(href, snapshot) {
-  if (["/#posts", "/#search"].includes(href))
+  if (["/blog", "/#posts", "/#search"].includes(href))
     return snapshot.articles.length > 0;
   if (href === "/#topics")
     return snapshot.articles.some((a) => a.topics.length);
@@ -202,7 +202,7 @@ export function renderIndex(snapshot, options = {}) {
     articles.find((a) => a.slug === slug),
   );
   const notes = articles.length
-    ? `<section id="posts"><h2 class="kicker" id="posts-label">DERNIÈRES NOTES :</h2><div class="searchbox"><label for="search" class="sr-only">Rechercher dans les notes</label><input type="search" id="search" placeholder="Rechercher dans les notes" /></div>${selected.map((a) => `<article class="featured" data-featured><span class="tag">À LA UNE</span>${anchor(`/blog/${a.slug}`, escape(a.title))}<p>${escape(a.excerpt)}</p></article>`).join("")}<ul class="post-list">${articles.map(row).join("")}</ul><p class="empty" id="no-results" role="status" hidden>Aucune note ne correspond. Videz la recherche ou essayez un autre sujet.</p><p id="result-count" class="sr-only" role="status"></p><a class="more" href="/#posts" data-all>Voir toutes les notes →</a></section>`
+    ? `<section id="posts"><h2 class="kicker" id="posts-label">DERNIÈRES NOTES :</h2><div class="searchbox"><label for="search" class="sr-only">Rechercher dans les notes</label><input type="search" id="search" placeholder="Rechercher dans les notes" /></div>${selected.map((a) => `<article class="featured" data-featured><span class="tag">À LA UNE</span>${anchor(`/blog/${a.slug}`, escape(a.title))}<p>${escape(a.excerpt)}</p></article>`).join("")}<ul class="post-list">${articles.map(row).join("")}</ul><p class="empty" id="no-results" role="status" hidden>Aucune note ne correspond. Videz la recherche ou essayez un autre sujet.</p><p id="result-count" class="sr-only" role="status"></p><a class="more" href="/blog">Voir toutes les notes →</a></section>`
     : "";
   const content = `${services}<section class="about" id="about"><h2>Qui intervient</h2><p class="who">Zacaria Chtatar · lead developer et architecte · France</p><p>${escape(snapshot.site.intro)}</p>${paragraphs(snapshot.site.bio)}<p><a href="https://cv.havesomecode.io/">Lire mon CV →</a></p></section>${projects(snapshot)}${talk()}${notes}`;
   return document(
@@ -214,10 +214,25 @@ export function renderIndex(snapshot, options = {}) {
     options,
   );
 }
+export function renderBlogIndex(snapshot) {
+  validateSnapshot(snapshot);
+  const articles = [...snapshot.articles].sort((a, b) =>
+    noteDate(b).localeCompare(noteDate(a)),
+  );
+  const content = `<section class="reading blog-index"><p class="section-label">NOTES</p><h1>Blog</h1><p class="lede">Ce que j’apprends en construisant des API, des agents et des équipes.</p><ul class="post-list">${articles.map((a) => `<li class="post">${anchor(`/blog/${a.slug}`, escape(a.title))}<span class="meta">${time(noteDate(a))}</span><p>${escape(a.excerpt)}</p></li>`).join("")}</ul></section>`;
+  return document(
+    "Blog · Zacaria Chtatar · HaveSomeCode",
+    "Notes de Zacaria Chtatar sur les API, l’observabilité et les agents de code.",
+    "/blog",
+    content,
+    snapshot,
+    {},
+  );
+}
 export function renderArticle(article, snapshot, options = {}) {
   validateSnapshot(snapshot);
   validateArticle(article);
-  const content = `<article class="reading"><a href="/#posts">← Toutes les notes</a><p class="section-label">${options.preview ? "APERÇU PRIVÉ" : "NOTE"}</p><h1>${escape(article.title)}</h1>${articleMeta(article, options.preview)}<p class="lede">${escape(article.excerpt)}</p><div class="article-body">${renderArticleBody(article)}</div><a class="more" href="/#posts">Retour à toutes les notes →</a></article>`;
+  const content = `<article class="reading"><a href="/blog">← Toutes les notes</a><p class="section-label">${options.preview ? "APERÇU PRIVÉ" : "NOTE"}</p><h1>${escape(article.title)}</h1>${articleMeta(article, options.preview)}<p class="lede">${escape(article.excerpt)}</p><div class="article-body">${renderArticleBody(article)}</div><a class="more" href="/blog">Retour à toutes les notes →</a></article>`;
   return document(
     article.seo.title,
     article.seo.description,

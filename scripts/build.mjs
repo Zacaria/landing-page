@@ -11,7 +11,7 @@ import {
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { renderIndex, renderArticle } from "./render.mjs";
+import { renderIndex, renderArticle, renderBlogIndex } from "./render.mjs";
 import { validateSnapshot } from "./schema.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export async function build({
@@ -92,7 +92,13 @@ export async function build({
     ])
       await cp(path.join(root, "client", page), path.join(stage, page));
     await writeFile(path.join(stage, "index.html"), index);
-    if (articles.length) await mkdir(path.join(stage, "blog"));
+    if (articles.length) {
+      await mkdir(path.join(stage, "blog"));
+      await writeFile(
+        path.join(stage, "blog", "index.html"),
+        renderBlogIndex(snapshot),
+      );
+    }
     for (const [slug, html] of articles)
       await writeFile(path.join(stage, "blog", `${slug}.html`), html);
     for (const [asset, bytes] of assetCopies) {
@@ -100,7 +106,11 @@ export async function build({
       await mkdir(path.dirname(dest), { recursive: true });
       await writeFile(dest, bytes);
     }
-    const urls = ["/", ...snapshot.articles.map((a) => `/blog/${a.slug}`)];
+    const urls = [
+      "/",
+      ...(articles.length ? ["/blog"] : []),
+      ...snapshot.articles.map((a) => `/blog/${a.slug}`),
+    ];
     await writeFile(
       path.join(stage, "sitemap.xml"),
       `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((url) => `<url><loc>https://www.havesomecode.io${url}</loc></url>`).join("")}</urlset>\n`,
