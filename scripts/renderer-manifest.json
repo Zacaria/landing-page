@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "files": {
-    "scripts/render.mjs": "56251857402319a9549c2dc515b37bd7636d7f0d0cb6f0fed1c698d0cc2809bf",
+    "scripts/render.mjs": "1073d4588925fbc3f2b5d806edf4548371a326719f2c6571be0af21552a9a208",
     "scripts/schema.mjs": "7e89c1a33f5d8a36d421173bc8748ae355788ff06262c90cf2fe2a051807b0bb",
     "client/assets/styles.css": "08a2b152e8d59cbc3253cd01fec97d83af6d7ca248a24d2a2ef22e0af51a8ae2",
     "client/assets/design-tokens.json": "7997e6d8b09646b6586ec54ec415a88b3f3538d9e972b6f110d5102af6faf977",

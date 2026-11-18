@@ -157,9 +157,9 @@ function sidebar(snapshot) {
 function footer() {
   return `<footer class="footer"><a href="/linkedin-editorial-scout-privacy">Confidentialité</a><div class="bottom-note"><p>Zacaria Chtatar · HaveSomeCode</p>${theme}</div></footer>`;
 }
-// Vercel Web Analytics, public pages only. beforeSend drops query and hash before anything is sent.
+// Cloudflare Web Analytics, public pages only (previews stay out).
 const analyticsSnippet =
-  '<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};window.va("beforeSend",function(e){return Object.assign({},e,{url:e.url.split(/[?#]/,1)[0]})});</script><script defer src="/_vercel/insights/script.js"></script>';
+  '<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{"token": "04f11759a0bd40a5900231a4e43dc019"}\'></script>';
 
 function document(title, description, path, content, snapshot, options) {
   return `<!doctype html>

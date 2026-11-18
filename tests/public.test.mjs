@@ -191,7 +191,7 @@ test("blog index lists every article newest first and is the target of nav and b
   assert.match(renderIndex(baseline), /<a href="\/blog">\[ BLOG \]<\/a>/);
   assert.doesNotMatch(renderIndex(baseline), /\[ RECHERCHE \]/);
 });
-test("public pages load Vercel Web Analytics without query strings; previews stay out", () => {
+test("public pages load the Cloudflare Web Analytics beacon; previews stay out", () => {
   const pinned = pinSnapshot(fixture());
   const article = pinned.articles[0];
   for (const html of [
@@ -199,11 +199,21 @@ test("public pages load Vercel Web Analytics without query strings; previews sta
     renderBlogIndex(pinned),
     renderArticle(article, pinned),
   ]) {
-    assert.ok(html.includes('<script defer src="/_vercel/insights/script.js"></script>'));
-    assert.ok(html.includes("e.url.split(/[?#]/,1)[0]"));
+    assert.ok(
+      html.includes(
+        'src="https://static.cloudflareinsights.com/beacon.min.js"',
+      ),
+    );
+    assert.ok(html.includes("04f11759a0bd40a5900231a4e43dc019"));
   }
-  assert.doesNotMatch(renderIndex(pinned, { preview: true }), /_vercel\/insights/);
-  assert.doesNotMatch(renderArticle(article, pinned, { preview: true }), /_vercel\/insights/);
+  assert.doesNotMatch(
+    renderIndex(pinned, { preview: true }),
+    /cloudflareinsights/,
+  );
+  assert.doesNotMatch(
+    renderArticle(article, pinned, { preview: true }),
+    /cloudflareinsights/,
+  );
 });
 
 test("article routing, SEO and published dates come from selected snapshot only", () => {
