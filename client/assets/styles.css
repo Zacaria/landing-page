@@ -828,3 +828,79 @@ main > section > h2::before {
     animation: none;
   }
 }
+
+.interest p {
+  max-width: 700px;
+  color: var(--muted-foreground);
+}
+.interest-form {
+  display: grid;
+  gap: 16px;
+  max-width: 560px;
+  margin-top: 24px;
+}
+.interest-form .field {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+.interest-form input[type="email"] {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--foreground);
+}
+.interest-form .consent {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 15px;
+}
+.interest-form .consent input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+}
+.interest-form button {
+  justify-self: start;
+  min-height: 44px;
+  padding: 8px 20px;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  cursor: pointer;
+}
+.interest-form button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.interest-form .interest-note {
+  margin: 0;
+  font-size: 13px;
+}
+.interest-form .trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.interest-form .interest-status {
+  margin: 0;
+  color: var(--foreground);
+}
+.interest-form .interest-status:empty {
+  display: none;
+}
+.interest-form .interest-status.is-error {
+  border-left: 3px solid var(--foreground);
+  padding-left: 12px;
+}
+.interest-form.is-done > :not(.interest-status) {
+  display: none;
+}

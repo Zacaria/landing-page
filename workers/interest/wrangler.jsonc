@@ -1,0 +1,25 @@
+{
+  "name": "hsc-interest",
+  "main": "index.mjs",
+  "compatibility_date": "2026-11-08",
+  "workers_dev": false,
+  "routes": [{ "pattern": "interest.havesomecode.io", "custom_domain": true }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hsc-interest",
+      "database_id": "REPLACE_AFTER_CREATE",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "send_email": [
+    { "name": "EMAIL", "allowed_sender_addresses": ["zacaria@mail.havesomecode.io"] }
+  ],
+  "vars": {
+    "PUBLIC_ORIGIN": "https://interest.havesomecode.io",
+    "SITE_ORIGIN": "https://www.havesomecode.io",
+    "MAIL_FROM": "zacaria@mail.havesomecode.io"
+  },
+  "triggers": { "crons": ["30 3 * * *"] },
+  "observability": { "enabled": false }
+}

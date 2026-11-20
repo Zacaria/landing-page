@@ -70,7 +70,7 @@ class PublicSiteAcceptance(unittest.TestCase):
                      'https://github.com/Zacaria/pathfinding-client', 'https://github.com/Havesomecode/kibana-mcp-server',
                      'https://www.youtube.com/watch?v=eSo3e3ugn5g', 'https://cv.havesomecode.io/',
                      'https://www.linkedin.com/in/zacariachtatar/', 'mailto:z@havesomecode.io',
-                     '/linkedin-editorial-scout-privacy'):
+                     '/confidentialite'):
             self.assertIn(href, self.page.links)
 
     def test_all_local_links_assets_and_anchors_resolve(self):

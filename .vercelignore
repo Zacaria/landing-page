@@ -1,6 +1,7 @@
 .git
 .github
 .history
+workers
 .vercel
 dist
 gatsby-starter-minimal-blog

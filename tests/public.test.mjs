@@ -59,7 +59,7 @@ test("baseline is verified public content with the three first blog articles", (
     "https://havesomecode.github.io/kibana-mcp-server/",
     "https://cv.havesomecode.io/",
     "https://www.youtube.com/watch?v=eSo3e3ugn5g",
-    "/linkedin-editorial-scout-privacy",
+    "/confidentialite",
   ])
     assert.ok(html.includes(href), href);
   assert.doesNotMatch(
@@ -113,6 +113,24 @@ test("services homepage leads with the offer, then the person, without empty or 
     /id="projects"|\/#projects/,
   );
 });
+test("interest list block: explicit unticked consent, trap field, no price, privacy link", () => {
+  const html = renderIndex(baseline);
+  const block = html.match(/<section class="interest"[\s\S]*?<\/section>/)[0];
+  assert.match(
+    block,
+    /action="https:\/\/interest\.havesomecode\.io\/subscribe"/,
+  );
+  assert.match(block, /<input id="interest-email" type="email"[^>]* required/);
+  const consent = block.match(/<input id="interest-consent"[^>]*>/)[0];
+  assert.match(consent, /type="checkbox"/);
+  assert.match(consent, / required/);
+  assert.doesNotMatch(consent, /checked/);
+  assert.match(block, /name="website"[^>]*tabindex="-1"/);
+  assert.match(block, /Je veux suivre/);
+  assert.match(block, /href="\/confidentialite"/);
+  assert.doesNotMatch(block, /€|tarif|TJM|prix/i);
+});
+
 test("HaveSome learning replaces Speaking with three unique entries and the complete archive", () => {
   const html = renderIndex(baseline);
   const section = html.match(

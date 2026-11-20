@@ -88,6 +88,7 @@ export async function build({
       "404.html",
       "about.html",
       "linkedin-editorial-scout-privacy.html",
+      "confidentialite.html",
       "robots.txt",
     ])
       await cp(path.join(root, "client", page), path.join(stage, page));
