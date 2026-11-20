@@ -64,7 +64,7 @@ async function sha256(text) {
 
 const iso = (ms) => new Date(ms).toISOString();
 
-function page(title, body, status = 200) {
+function page(title, body, status = 200, formAction = "none") {
   const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>${escapeHtml(title)} | HaveSomeCode</title><style>
 @font-face{font-family:Geist;src:url(https://www.havesomecode.io/assets/fonts/geist-regular.woff2) format("woff2");font-display:swap}
 @font-face{font-family:"Instrument Serif";src:url(https://www.havesomecode.io/assets/fonts/instrument-serif-regular.woff2) format("woff2");font-display:swap}
@@ -74,7 +74,7 @@ function page(title, body, status = 200) {
 header{border-bottom:1px solid var(--border);padding:1.2rem 0}header a{font-weight:700;letter-spacing:.08em;color:var(--fg);text-decoration:none}
 .shell{width:min(100% - 2.5rem,40rem);margin-inline:auto}main{padding:3.5rem 0 5rem}
 h1{font:400 clamp(2.4rem,8vw,3.6rem)/1.08 "Instrument Serif",Georgia,serif;margin:0 0 1rem}p{max-width:60ch;color:var(--muted)}
-a{color:var(--accent);text-underline-offset:.2em}a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+a{color:var(--accent);text-underline-offset:.2em}button{font:inherit;font-weight:700;background:var(--accent);color:var(--bg);border:0;padding:.7rem 1.4rem;cursor:pointer}button:focus-visible{outline:3px solid var(--fg);outline-offset:3px}a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 </style></head><body><header><div class="shell"><a href="https://www.havesomecode.io/">HAVESOMECODE</a></div></header><main class="shell">${body}</main></body></html>`;
   return new Response(html, {
     status,
@@ -83,8 +83,7 @@ a{color:var(--accent);text-underline-offset:.2em}a:focus-visible{outline:3px sol
       "Cache-Control": "no-store",
       "X-Content-Type-Options": "nosniff",
       "Referrer-Policy": "no-referrer",
-      "Content-Security-Policy":
-        "default-src 'none'; style-src 'unsafe-inline'; font-src https://www.havesomecode.io; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
+      "Content-Security-Policy": `default-src 'none'; style-src 'unsafe-inline'; font-src https://www.havesomecode.io; frame-ancestors 'none'; base-uri 'none'; form-action ${formAction}`,
     },
   });
 }
@@ -106,6 +105,25 @@ const invalidLinkPage = () =>
     "Lien expiré",
     `<h1>Ce lien n’est plus valable.</h1><p>Il a expiré ou a déjà été remplacé. Vous pouvez refaire la demande depuis <a href="https://www.havesomecode.io/">havesomecode.io</a>.</p>`,
     404,
+  );
+const buttonPage = (title, intro, label) =>
+  page(
+    title,
+    `<h1>${title}</h1><p>${intro}</p><form method="post"><button type="submit">${label}</button></form>`,
+    200,
+    "'self'",
+  );
+const confirmAskPage = () =>
+  buttonPage(
+    "Confirmer votre adresse",
+    "Un dernier clic pour confirmer que cette adresse est bien la vôtre.",
+    "Confirmer mon adresse",
+  );
+const unsubscribeAskPage = () =>
+  buttonPage(
+    "Se désinscrire",
+    "Un clic et je ne vous écrirai plus.",
+    "Me désinscrire",
   );
 const resultPage = (ok, message) =>
   page(
@@ -139,7 +157,9 @@ async function readFields(request) {
   if (type.includes("application/json")) {
     const text = await request.text();
     if (text.length > 4096) throw new Error("too_large");
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+    if (!parsed || typeof parsed !== "object") throw new Error("bad_body");
+    return parsed;
   }
   const form = await request.formData();
   return Object.fromEntries(
@@ -310,7 +330,7 @@ async function subscribe(request, env, now) {
   }
 }
 
-async function confirm(url, env, now) {
+async function confirm(request, url, env, now) {
   const t = url.searchParams.get("t") ?? "";
   const row = t
     ? await env.DB.prepare(
@@ -326,6 +346,8 @@ async function confirm(url, env, now) {
     now - Date.parse(row.last_sent_at ?? row.created_at) > WEEK_MS
   )
     return invalidLinkPage();
+  // Mail scanners open links with GET: only a POST changes the row.
+  if (request.method !== "POST") return confirmAskPage();
   await env.DB.prepare(
     "UPDATE subscriptions SET status = 'confirmed', confirmed_at = ? WHERE id = ?",
   )
@@ -342,15 +364,21 @@ async function unsubscribe(request, url, env, now) {
         .first()
     : null;
   if (!row) return invalidLinkPage();
-  if (row.status !== "unsubscribed")
+  // Mail scanners open links with GET: only a POST changes the row.
+  if (request.method !== "POST") return unsubscribeAskPage();
+  if (row.status === "pending")
+    await env.DB.prepare("DELETE FROM subscriptions WHERE id = ?")
+      .bind(row.id)
+      .run();
+  else if (row.status !== "unsubscribed")
     await env.DB.prepare(
       "UPDATE subscriptions SET status = 'unsubscribed', unsubscribed_at = ? WHERE id = ?",
     )
       .bind(iso(now), row.id)
       .run();
-  return request.method === "POST"
-    ? new Response("ok", { status: 200 })
-    : unsubscribedPage();
+  return (request.headers.get("Accept") ?? "").includes("text/html")
+    ? unsubscribedPage()
+    : new Response("ok", { status: 200 });
 }
 
 export async function purge(env, now = Date.now()) {
@@ -378,8 +406,8 @@ export async function handle(request, env, now = Date.now()) {
     });
   if (url.pathname === "/subscribe" && request.method === "POST")
     return subscribe(request, env, now);
-  if (url.pathname === "/confirm" && request.method === "GET")
-    return confirm(url, env, now);
+  if (url.pathname === "/confirm" && ["GET", "POST"].includes(request.method))
+    return confirm(request, url, env, now);
   if (
     url.pathname === "/unsubscribe" &&
     ["GET", "POST"].includes(request.method)

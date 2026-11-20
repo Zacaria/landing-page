@@ -117,40 +117,83 @@ test("the trap field answers success without storing or sending", async () => {
   assert.equal(env.sent.length, 0);
 });
 
-test("confirm then unsubscribe works, links are reusable, and tokens are unguessable", async () => {
+const get = (url) => new Request(url);
+const postTo = (url, headers = {}) =>
+  new Request(url, { method: "POST", headers });
+
+test("a GET on the confirm or unsubscribe link only shows a button and changes nothing", async () => {
+  const env = makeEnv();
+  await handle(post({ email: "ana@entreprise.fr", consent: "on" }), env, T0);
+  const confirmUrl = linkFrom(env.sent[0], "Confirmer mon adresse");
+  const unsubUrl = linkFrom(env.sent[0], "Se désinscrire");
+  const c = await handle(get(confirmUrl), env, T0 + 1000);
+  assert.equal(c.status, 200);
+  assert.match(await c.text(), /<form method="post"[^>]*>[\s\S]*<button/);
+  assert.match(c.headers.get("content-security-policy"), /form-action 'self'/);
+  assert.equal(rows(env)[0].status, "pending");
+  const u = await handle(get(unsubUrl), env, T0 + 2000);
+  assert.match(await u.text(), /<form method="post"/);
+  assert.equal(rows(env)[0].status, "pending");
+  assert.equal(rows(env).length, 1);
+});
+
+test("POST confirms, POST unsubscribes, links are reusable and tokens are unguessable", async () => {
   const env = makeEnv();
   await handle(post({ email: "ana@entreprise.fr", consent: "on" }), env, T0);
   const confirmUrl = linkFrom(env.sent[0], "Confirmer mon adresse");
   const unsubUrl = linkFrom(env.sent[0], "Se désinscrire");
   assert.ok(confirmUrl.searchParams.get("t").length >= 43);
-  assert.equal(
-    (
-      await handle(
-        new Request("https://interest.havesomecode.io/confirm?t=bad"),
-        env,
-        T0,
-      )
-    ).status,
-    404,
-  );
-  const ok = await handle(new Request(confirmUrl), env, T0 + 1000);
+  for (const method of ["GET", "POST"])
+    assert.equal(
+      (
+        await handle(
+          new Request("https://interest.havesomecode.io/confirm?t=bad", {
+            method,
+          }),
+          env,
+          T0,
+        )
+      ).status,
+      404,
+    );
+  const ok = await handle(postTo(confirmUrl), env, T0 + 1000);
   assert.equal(ok.status, 200);
   assert.match(await ok.text(), /C’est noté/);
   assert.equal(rows(env)[0].status, "confirmed");
   assert.ok(rows(env)[0].confirmed_at);
-  assert.equal(
-    (await handle(new Request(confirmUrl), env, T0 + 2000)).status,
-    200,
+  assert.equal((await handle(postTo(confirmUrl), env, T0 + 2000)).status, 200);
+  const un = await handle(
+    postTo(unsubUrl, { accept: "text/html" }),
+    env,
+    T0 + 3000,
   );
-  const un = await handle(new Request(unsubUrl), env, T0 + 3000);
   assert.match(await un.text(), /désinscrit·e/);
   assert.equal(rows(env)[0].status, "unsubscribed");
-  const oneClick = await handle(
-    new Request(unsubUrl, { method: "POST" }),
-    env,
-    T0 + 4000,
-  );
+  const oneClick = await handle(postTo(unsubUrl), env, T0 + 4000);
   assert.equal(oneClick.status, 200);
+  assert.equal(await oneClick.text(), "ok");
+});
+
+test("unsubscribing a still pending address deletes the row", async () => {
+  const env = makeEnv();
+  await handle(post({ email: "ana@entreprise.fr", consent: "on" }), env, T0);
+  await handle(postTo(linkFrom(env.sent[0], "Se désinscrire")), env, T0 + 1);
+  assert.equal(rows(env).length, 0);
+});
+
+test("a JSON null body is a bad request, not a crash", async () => {
+  const env = makeEnv();
+  const res = await handle(
+    new Request("https://interest.havesomecode.io/subscribe", {
+      method: "POST",
+      headers: { "content-type": "application/json", origin: ORIGIN },
+      body: "null",
+    }),
+    env,
+    T0,
+  );
+  assert.equal(res.status, 400);
+  assert.equal(res.headers.get("access-control-allow-origin"), ORIGIN);
 });
 
 test("a confirmation link expires after 7 days", async () => {
@@ -158,7 +201,7 @@ test("a confirmation link expires after 7 days", async () => {
   await handle(post({ email: "ana@entreprise.fr", consent: "on" }), env, T0);
   const confirmUrl = linkFrom(env.sent[0], "Confirmer mon adresse");
   const late = await handle(
-    new Request(confirmUrl),
+    postTo(confirmUrl),
     env,
     T0 + 8 * 24 * 3600 * 1000,
   );
@@ -183,7 +226,7 @@ test("same address twice: resend at most hourly, never reveal a confirmed addres
   assert.equal(env.sent.length, 2);
   assert.equal(rows(env).length, 1);
   await handle(
-    new Request(linkFrom(env.sent[1], "Confirmer mon adresse")),
+    postTo(linkFrom(env.sent[1], "Confirmer mon adresse")),
     env,
     T0 + 2 * 3600_000 + 1,
   );
@@ -200,12 +243,12 @@ test("after unsubscribing, a new explicit request starts a fresh confirmation", 
   const env = makeEnv();
   await handle(post({ email: "ana@entreprise.fr", consent: "on" }), env, T0);
   await handle(
-    new Request(linkFrom(env.sent[0], "Confirmer mon adresse")),
+    postTo(linkFrom(env.sent[0], "Confirmer mon adresse")),
     env,
     T0 + 1,
   );
   await handle(
-    new Request(linkFrom(env.sent[0], "Se désinscrire")),
+    postTo(linkFrom(env.sent[0], "Se désinscrire")),
     env,
     T0 + 2,
   );
