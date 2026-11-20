@@ -200,11 +200,7 @@ test("a confirmation link expires after 7 days", async () => {
   const env = makeEnv();
   await handle(post({ email: "ana@entreprise.fr", consent: "on" }), env, T0);
   const confirmUrl = linkFrom(env.sent[0], "Confirmer mon adresse");
-  const late = await handle(
-    postTo(confirmUrl),
-    env,
-    T0 + 8 * 24 * 3600 * 1000,
-  );
+  const late = await handle(postTo(confirmUrl), env, T0 + 8 * 24 * 3600 * 1000);
   assert.equal(late.status, 404);
   assert.equal(rows(env)[0].status, "pending");
 });
@@ -247,11 +243,7 @@ test("after unsubscribing, a new explicit request starts a fresh confirmation", 
     env,
     T0 + 1,
   );
-  await handle(
-    postTo(linkFrom(env.sent[0], "Se désinscrire")),
-    env,
-    T0 + 2,
-  );
+  await handle(postTo(linkFrom(env.sent[0], "Se désinscrire")), env, T0 + 2);
   await handle(
     post({ email: "ana@entreprise.fr", consent: "on" }),
     env,
