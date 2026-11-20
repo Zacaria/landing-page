@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "revision": "02b6610e54b5ba6358a31b6951ec3244eb33a507a888a3426bd0ab0d0ba5a83c",
+  "revision": "a37a1e4a6c6ce1c63befe33f97285dd5a33549118fc4bdca838419cd85bdc1f4",
   "articles": [
     {
       "schemaVersion": 1,
@@ -331,46 +331,52 @@
   },
   "navigation": [
     {
-      "label": "Services",
+      "label": "Offre",
       "href": "/#services",
       "visible": true,
       "order": 0
     },
     {
+      "label": "Méthode",
+      "href": "/#methode",
+      "visible": true,
+      "order": 1
+    },
+    {
       "label": "Blog",
       "href": "/blog",
       "visible": true,
-      "order": 1
+      "order": 2
     },
     {
       "label": "Projets",
       "href": "/#projects",
       "visible": true,
-      "order": 2
+      "order": 3
     },
     {
       "label": "Recherche",
       "href": "/#search",
       "visible": false,
-      "order": 3
+      "order": 4
     },
     {
       "label": "Sujets",
       "href": "/#topics",
       "visible": true,
-      "order": 4
+      "order": 5
     },
     {
       "label": "À propos",
       "href": "/#about",
       "visible": true,
-      "order": 5
+      "order": 6
     },
     {
       "label": "Contact",
       "href": "/#contact",
       "visible": true,
-      "order": 6
+      "order": 7
     }
   ]
 }
