@@ -17,8 +17,14 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.locator("#no-articles, #topics")).toHaveCount(0);
     await expect(page.locator("#posts .post[data-search]")).toHaveCount(3);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Mettre l’IA au travail.",
+      "Du temps pour vendre, pas pour recopier.",
     );
+    await expect(
+      page.locator(".hero a", { hasText: "Discutons de votre projet" }),
+    ).toBeInViewport();
+    await expect(page.locator(".problem")).toHaveCount(3);
+    await expect(page.locator(".problem .chain li")).toHaveCount(12);
+    await expect(page.locator(".method-step")).toHaveCount(4);
     await expect(
       page.locator(".hero a[href^='mailto:z@havesomecode.io?subject=']"),
     ).toBeVisible();
@@ -28,9 +34,10 @@ for (const width of [1440, 768, 390, 320]) {
       .evaluateAll((els) => els.map((el) => el.id));
     expect(sections).toEqual([
       "services",
+      "methode",
+      "mission",
       "about",
       "projects",
-      "mission",
       "speaking",
       "posts",
       "contact",
@@ -81,7 +88,8 @@ for (const width of [1440, 768, 390, 320]) {
     expect(before.font).toContain("Geist");
     expect(before.font).not.toContain("Geist Mono");
     for (const [label, id] of [
-      ["Services", "services"],
+      ["Offre", "services"],
+      ["Méthode", "methode"],
       ["Projets", "projects"],
       ["À propos", "about"],
       ["Contact", "contact"],
@@ -138,7 +146,12 @@ for (const width of [1440, 768, 390, 320]) {
     });
     expect(errors).toEqual([]);
     expect(
-      requests.every((url) => url.startsWith("http://127.0.0.1:8793")),
+      // The Cloudflare Web Analytics beacon is the one intended third party.
+      requests.every(
+        (url) =>
+          url.startsWith("http://127.0.0.1:8793") ||
+          url.startsWith("https://static.cloudflareinsights.com/"),
+      ),
     ).toBeTruthy();
   });
 }

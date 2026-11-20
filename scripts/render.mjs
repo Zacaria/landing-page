@@ -9,7 +9,9 @@ export function escape(value) {
       ],
   );
 }
-const MISSION_HREF = "mailto:z@havesomecode.io?subject=Lancer%20une%20mission";
+const MISSION_HREF =
+  "mailto:z@havesomecode.io?subject=Discutons%20de%20votre%20projet";
+const CTA = `<a href="${MISSION_HREF}">Discutons de votre projet →</a>`;
 function anchor(href, label, attrs = "") {
   return `<a href="${escape(href)}"${attrs}>${label}</a>`;
 }
@@ -99,16 +101,17 @@ const theme = `<div class="theme-control" role="group" aria-label="Apparence"><s
   )
   .join("")}</div></div>`;
 
-// Line 01 is the real Club Med workflow; L2/L3 are service lines, not case studies.
+// Line 01 is an example prospection line; L2/L3 are the other two offers.
+// No client uses it yet: the caption says "exemple", never a case study.
 // styles.css repeats this path for the moving signal and times each stop to it.
 const route =
   "M40 200 H170 Q200 200 200 170 V90 Q200 60 230 60 H350 Q380 60 380 90 V130 Q380 160 410 160 H520";
 const stops = [
-  ["Ticket « ai-ready »", 40, 200, "below"],
-  ["CI déclenchée", 200, 130, "left"],
-  ["Agent au travail", 290, 60, "above"],
-  ["Pull request", 380, 110, "right"],
-  ["Revue humaine", 520, 160, "end"],
+  ["Apollo · contacts", 40, 200, "below"],
+  ["Claude rédige", 200, 130, "left"],
+  ["Vous validez", 290, 60, "above"],
+  ["HubSpot relance", 380, 110, "right"],
+  ["Votre appel", 520, 160, "end"],
 ];
 function stop([label, x, y, side]) {
   const [tx, ty, anchorAt] = {
@@ -116,16 +119,87 @@ function stop([label, x, y, side]) {
     left: [x - 18, y + 4, "end"],
     above: [x, y - 18, "middle"],
     right: [x + 18, y + 4, "start"],
-    end: [x + 8, y - 18, "end"],
+    end: [x + 8, y + 30, "end"],
   }[side];
   return `<g class="stop"><circle cx="${x}" cy="${y}" r="9" /><text x="${tx}" y="${ty}" text-anchor="${anchorAt}">${escape(label)}</text></g>`;
 }
-const lineMap = `<figure class="line-map"><figcaption><span>Ligne 01 · du ticket à la pull request</span><span class="line-status">Réalisée chez Club Med</span></figcaption><svg viewBox="0 0 560 280" role="img" aria-label="Ligne 01 : un ticket marqué ai-ready déclenche la CI, un agent développe, ouvre une pull request, puis un humain relit."><path class="branch l3" d="M40 60 H230" /><text class="branch-label l3" x="40" y="46">L3 · formation</text><path class="branch l2" d="M40 246 H370 Q400 246 405 210 L410 160" /><text class="branch-label l2" x="40" y="272">L2 · logs, docs, API</text><circle class="junction" cx="230" cy="60" r="5" /><circle class="junction" cx="410" cy="160" r="5" /><path class="route" d="${route}" />${stops.map(stop).join("")}<circle class="signal" r="7" /></svg><ol class="line-log"><li><span>jira</span> ticket marqué ai-ready</li><li><span>circleci</span> job lancé</li><li><span>agent</span> lit le ticket, écrit le code</li><li><span>github</span> pull request ouverte</li><li><span>humain</span> relit et commente, l’agent corrige</li></ol></figure>`;
-const services = `<section class="services" id="services"><h2>Trois lignes de service</h2><ol class="service-lines"><li class="l1"><p class="line-name">L1 · Installer</p><h3>Choisir et installer</h3><p>Assistants, agents de code et outils internes : choisis pour votre contexte, configurés, sécurisés et documentés.</p></li><li class="l2"><p class="line-name">L2 · Connecter</p><h3>Construire les workflows</h3><p>Des agents branchés sur vos tickets, vos logs, vos documents et vos API, avec une revue humaine à chaque étape qui compte.</p></li><li class="l3"><p class="line-name">L3 · Former</p><h3>Rendre les équipes autonomes</h3><p>Des ateliers sur vos cas réels, pour que l’usage tienne dans la durée.</p></li></ol></section>`;
+const lineMap = `<figure class="line-map"><figcaption><span>Ligne 01 · prospection</span><span class="line-status">Exemple de parcours</span></figcaption><svg viewBox="0 0 560 280" role="img" aria-label="Ligne 01, prospection : Apollo trouve les contacts, Claude rédige un premier message, vous validez, HubSpot envoie et relance, puis vous appelez."><path class="branch l3" d="M40 60 H230" /><text class="branch-label l3" x="40" y="46">L3 · administratif</text><path class="branch l2" d="M40 246 H370 Q400 246 405 210 L410 160" /><text class="branch-label l2" x="40" y="272">L2 · veille commerciale</text><circle class="junction" cx="230" cy="60" r="5" /><circle class="junction" cx="410" cy="160" r="5" /><path class="route" d="${route}" />${stops.map(stop).join("")}<circle class="signal" r="7" /></svg><ol class="line-log"><li><span>apollo</span> trouve les entreprises et les bons interlocuteurs</li><li><span>claude</span> rédige un premier message adapté à chacun</li><li><span>vous</span> relisez et validez avant tout envoi</li><li><span>hubspot</span> envoie, relance et garde l’historique</li><li><span>vous</span> appelez ceux qui ont répondu</li></ol></figure>`;
 
 const interest = `<section class="interest" id="suivre"><h2>Un processus qui vous fait perdre du temps ?</h2><p>Je publie ce que j’apprends en regardant des processus réels de PME : ce qui se simplifie, ce qui ne vaut pas l’automatisation, ce que l’IA fait ou ne fait pas. Laissez votre courriel pour recevoir ces retours, et être prévenu si je prends de nouvelles missions de conseil.</p><form class="interest-form" method="post" action="https://interest.havesomecode.io/subscribe" data-interest><input type="hidden" name="source" value="landing" /><div class="field"><label for="interest-email">Votre courriel professionnel</label><input id="interest-email" type="email" name="email" autocomplete="email" placeholder="prenom@entreprise.fr" maxlength="254" required /></div><div class="trap" aria-hidden="true"><label>Ne pas remplir<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div><div class="consent"><input id="interest-consent" type="checkbox" name="consent" value="on" required /><label for="interest-consent">Je souhaite recevoir par courriel l’actualité de HaveSomeCode sur le conseil IA pour les PME.</label></div><button type="submit">Je veux suivre</button><p class="interest-note">Seule votre adresse est enregistrée, uniquement pour ces courriels. Un lien de désinscription figure dans chacun. Détails dans la <a href="/confidentialite">politique de confidentialité</a>.</p><p class="interest-status" role="status" data-interest-status></p></form></section>`;
 
-const mission = `<section class="mission" id="mission"><h2>Une mission à confier ?</h2><p>Dites-moi ce que vous voulez mettre au travail. Je vous réponds par e-mail.</p><p class="quick-links"><a href="${MISSION_HREF}">Lancer une mission →</a></p></section>`;
+const problems = [
+  {
+    line: "l1",
+    name: "Prospection",
+    title: "Des prospects prêts avant de décrocher le téléphone",
+    text: "La recherche des entreprises, des bons interlocuteurs et le premier message se préparent sans vous. L’appel reste à vous, avec le contexte sous les yeux.",
+    chain: [
+      [
+        "Apollo",
+        "trouve les entreprises et les décideurs qui vous ressemblent",
+      ],
+      ["Claude", "rédige un premier message adapté à chacun"],
+      ["Vous", "relisez et validez avant tout envoi"],
+      ["HubSpot", "envoie, relance et note chaque réponse"],
+    ],
+  },
+  {
+    line: "l2",
+    name: "Veille commerciale",
+    title: "Des contacts à jour, une offre et des prix qui suivent le marché",
+    text: "Changements de poste, nouveaux interlocuteurs, offres et tarifs des concurrents : l’information remonte d’elle-même, et vous voyez quand repositionner votre offre ou revoir un prix.",
+    chain: [
+      ["Apollo", "signale les changements de poste et les nouveaux décideurs"],
+      ["HubSpot", "met les fiches contacts à jour"],
+      ["ChatGPT", "résume les offres et les prix de vos concurrents"],
+      ["Notion", "rassemble la veille dans une note par semaine"],
+    ],
+  },
+  {
+    line: "l3",
+    name: "Administratif",
+    title:
+      "Votre chiffre d’affaires et votre trésorerie, sans tableur à remplir",
+    text: "Factures émises, paiements reçus, retards : tout est regroupé automatiquement. Vous savez où en est le mois et ce qui rentre dans les semaines qui viennent.",
+    chain: [
+      ["Facturation", "votre logiciel exporte factures et paiements"],
+      ["Claude", "rapproche les paiements et repère les retards"],
+      [
+        "Notion",
+        "tient le tableau de bord du chiffre d’affaires et de la trésorerie",
+      ],
+      ["Vous", "recevez le point de la semaine"],
+    ],
+  },
+];
+const services = `<section class="services" id="services"><h2>Ce que j’automatise</h2>${problems
+  .map(
+    (p) =>
+      `<article class="problem ${p.line}"><div class="problem-text"><p class="line-name">${p.name}</p><h3>${escape(p.title)}</h3><p>${escape(p.text)}</p></div><ol class="chain" aria-label="Outils branchés : ${escape(p.name)}">${p.chain.map(([tool, does]) => `<li><span class="tool">${escape(tool)}</span> ${escape(does)}</li>`).join("")}</ol></article>`,
+  )
+  .join("")}</section>`;
+
+const steps = [
+  [
+    "Partir de votre flux réel",
+    "On suit ensemble la dernière demande ou commande, de bout en bout, avec la personne qui la traite.",
+  ],
+  [
+    "Un premier cas",
+    "Une seule tâche, un périmètre limité, des critères de réussite fixés avant de commencer et un retour arrière possible.",
+  ],
+  [
+    "Mesurer",
+    "Quelqu’un de votre équipe l’utilise pour de vrai. On mesure le temps gagné, les erreurs et ce qui reste à faire à la main.",
+  ],
+  [
+    "Mettre en service",
+    "Si le résultat tient, le flux passe en service. Je le suis et le corrige, ou je le transmets à votre équipe.",
+  ],
+];
+const method = `<section class="method" id="methode"><h2>Comment on travaille</h2><ol class="method-steps">${steps.map(([title, text]) => `<li class="method-step"><h3>${escape(title)}</h3><p>${escape(text)}</p></li>`).join("")}</ol><p class="method-note">Parfois, la bonne réponse est une fonction déjà présente dans votre logiciel, ou de ne rien automatiser : je vous le dis. Rien ne part chez un client, rien n’est payé ni signé sans votre validation, et vos accès restent les vôtres.</p></section>`;
+
+const mission = `<section class="mission" id="mission"><h2>Une tâche vous prend trop de temps ?</h2><p>Décrivez-la en quelques lignes. Je vous réponds par e-mail et on en parle 30 minutes, sans engagement.</p><p class="quick-links">${CTA}</p></section>`;
 
 const sources = {
   float: "https://github.com/Zacaria/float",
@@ -146,7 +220,7 @@ function header(snapshot, article) {
     .sort((a, b) => a.order - b.order)
     .map((n) => anchor(n.href, `[ ${escape(n.label.toUpperCase())} ]`))
     .join("");
-  return `<header id="top">${article ? '<p class="author">Zacaria Chtatar · HaveSomeCode</p>' : `<div class="hero"><div class="pitch"><p class="role">Agents IA · workflows agentiques · accompagnement</p><h1>Mettre l’IA <em>au travail.</em></h1><p class="intro">J’installe les bons outils, je les connecte à votre quotidien et je construis les agents qui prennent en charge le travail répétitif. Puis je forme vos équipes à s’en servir.</p><p class="quick-links"><a href="${MISSION_HREF}">Lancer une mission →</a><a href="/#services">Voir les services →</a></p></div>${lineMap}</div>`}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div></header>`;
+  return `<header id="top">${article ? '<p class="author">Zacaria Chtatar · HaveSomeCode</p>' : `<div class="hero"><div class="pitch"><p class="role">Zacaria Chtatar · automatisations IA pour les PME</p><h1>Du temps pour vendre, <em>pas pour recopier.</em></h1><p class="intro">Je branche l’IA sur les outils que vous utilisez déjà (HubSpot, Notion, Apollo, Claude, ChatGPT) pour automatiser la prospection, la mise à jour de vos contacts et le suivi du chiffre d’affaires et de la trésorerie. Vous validez ce qui part chez un client ; le reste se fait sans ressaisie.</p><p class="quick-links">${CTA}</p><p class="conditions">Premier échange de 30 minutes offert, sur une tâche précise de votre entreprise.</p></div>${lineMap}</div>`}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div></header>`;
 }
 function topics(snapshot) {
   const all = [...new Set(snapshot.articles.flatMap((a) => a.topics))].sort();
@@ -154,7 +228,7 @@ function topics(snapshot) {
   return `<section id="topics"><h2>Sujets</h2><div class="paths">${all.map((t) => `<div class="path"><span class="category">${escape(t)}</span><div>${anchor(`/?topic=${encodeURIComponent(t)}#posts`, `Explorer ${escape(t)} →`, ` data-topic-link="${escape(t)}"`)}</div></div>`).join("")}</div>${anchor("/#posts", "Toutes les notes →", ' class="more" data-all')}</section>`;
 }
 function sidebar(snapshot) {
-  return `${topics(snapshot)}<section id="contact"><h2>Parlons de votre projet</h2><p>Un outil à installer, un workflow à automatiser, une équipe à former : décrivez votre besoin, je vous réponds.</p><p>Écrivez-moi à <a href="mailto:z@havesomecode.io">z@havesomecode.io</a>.</p><ul class="contact-links">${snapshot.site.contact.map((c) => `<li>${anchor(c.href, `${escape(c.label)} →`)}</li>`).join("")}</ul></section>`;
+  return `${topics(snapshot)}<section id="contact"><h2>Parlons de votre projet</h2><p>Une prospection à automatiser, des contacts à tenir à jour, un reporting à monter : décrivez votre besoin, je vous réponds.</p><p>Écrivez-moi à <a href="mailto:z@havesomecode.io">z@havesomecode.io</a>.</p><ul class="contact-links">${snapshot.site.contact.map((c) => `<li>${anchor(c.href, `${escape(c.label)} →`)}</li>`).join("")}</ul></section>`;
 }
 function footer() {
   return `<footer class="footer"><a href="/confidentialite">Confidentialité</a><div class="bottom-note"><p>Zacaria Chtatar · HaveSomeCode</p>${theme}</div></footer>`;
@@ -213,10 +287,10 @@ export function renderIndex(snapshot, options = {}) {
   const notes = articles.length
     ? `<section id="posts"><h2 class="kicker" id="posts-label">DERNIÈRES NOTES :</h2><div class="searchbox"><label for="search" class="sr-only">Rechercher dans les notes</label><input type="search" id="search" placeholder="Rechercher dans les notes" /></div>${selected.map((a) => `<article class="featured" data-featured><span class="tag">À LA UNE</span>${anchor(`/blog/${a.slug}`, escape(a.title))}<p>${escape(a.excerpt)}</p></article>`).join("")}<ul class="post-list">${articles.map(row).join("")}</ul><p class="empty" id="no-results" role="status" hidden>Aucune note ne correspond. Videz la recherche ou essayez un autre sujet.</p><p id="result-count" class="sr-only" role="status"></p><a class="more" href="/blog">Voir toutes les notes →</a></section>`
     : "";
-  const content = `${services}${interest}<section class="about" id="about"><h2>Qui intervient</h2><p class="who">Zacaria Chtatar · lead developer et architecte · France</p><p>${escape(snapshot.site.intro)}</p>${paragraphs(snapshot.site.bio)}<p><a href="https://cv.havesomecode.io/">Lire mon CV →</a></p></section>${projects(snapshot)}${mission}${talk()}${notes}`;
+  const content = `${services}${method}${mission}${interest}<section class="about" id="about"><h2>Qui intervient</h2><p class="who">Zacaria Chtatar · lead developer et architecte · France</p><p>${escape(snapshot.site.intro)}</p>${paragraphs(snapshot.site.bio)}<p><a href="https://cv.havesomecode.io/">Lire mon CV →</a></p></section>${projects(snapshot)}${talk()}${notes}`;
   return document(
-    "HaveSomeCode — Mettre l’IA au travail · Zacaria Chtatar",
-    "Installation d’outils IA, agents et workflows agentiques connectés à vos outils, formation des équipes. Par Zacaria Chtatar, lead developer et architecte.",
+    "HaveSomeCode — Automatisations IA pour les PME · Zacaria Chtatar",
+    "Prospection automatisée, contacts à jour, suivi du chiffre d’affaires et de la trésorerie : Zacaria Chtatar branche l’IA sur vos outils (HubSpot, Notion, Apollo, Claude, ChatGPT).",
     "/",
     content,
     snapshot,

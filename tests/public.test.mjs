@@ -67,18 +67,49 @@ test("baseline is verified public content with the three first blog articles", (
     /2000-01|Synthetic|data-article|Design preview|Draft/,
   );
 });
-test("services homepage leads with the offer, then the person, without empty or repeated sections", () => {
+test("SMB offer homepage: outcome hero, one screen per problem, method, then the person", () => {
   const html = renderIndex(empty);
-  assert.match(html, /<h1>Mettre l’IA <em>au travail.<\/em><\/h1>/);
-  assert.match(html, /Réalisée chez Club Med/);
-  assert.ok(html.indexOf('id="services"') < html.indexOf('id="about"'));
-  assert.ok(html.indexOf('id="about"') < html.indexOf('id="projects"'));
+  const hero = html.slice(0, html.indexOf("<main"));
   assert.match(
-    html.slice(0, html.indexOf("<main")),
-    /href="mailto:z@havesomecode.io\?subject=Lancer%20une%20mission"/,
+    hero,
+    /<h1>Du temps pour vendre, <em>pas pour recopier.<\/em><\/h1>/,
   );
-  assert.ok(html.indexOf('id="projects"') < html.indexOf('id="mission"'));
-  assert.ok(html.indexOf('id="mission"') < html.indexOf('id="speaking"'));
+  for (const promise of [
+    "prospection",
+    "contacts",
+    "chiffre d’affaires",
+    "trésorerie",
+  ])
+    assert.ok(hero.includes(promise), promise);
+  for (const tool of ["Notion", "HubSpot", "Apollo", "Claude", "ChatGPT"])
+    assert.ok(hero.includes(tool), tool);
+  assert.match(
+    hero,
+    /href="mailto:z@havesomecode.io\?subject=Discutons%20de%20votre%20projet">Discutons de votre projet/,
+  );
+  assert.doesNotMatch(
+    html,
+    /Club Med workflow|Réalisée chez Club Med|Lancer une mission/,
+  );
+  const problems = html.match(/<article class="problem l[123]"/g) ?? [];
+  assert.equal(problems.length, 3);
+  for (const topic of ["Prospection", "Veille commerciale", "Administratif"])
+    assert.ok(html.includes(`<p class="line-name">${topic}</p>`), topic);
+  assert.equal((html.match(/<li class="method-step"/g) ?? []).length, 4);
+  const order = [
+    "services",
+    "methode",
+    "mission",
+    "about",
+    "projects",
+    "speaking",
+  ];
+  for (let i = 1; i < order.length; i++)
+    assert.ok(
+      html.indexOf(`id="${order[i - 1]}"`) < html.indexOf(`id="${order[i]}"`),
+      order[i],
+    );
+  assert.doesNotMatch(html, /témoignage|nos clients|ils nous font confiance/i);
   assert.doesNotMatch(html, /gmail|€|disponib/i);
   assert.match(html, /https:\/\/cv.havesomecode.io\//);
   for (const id of ["posts", "search", "topics", "thinking"])

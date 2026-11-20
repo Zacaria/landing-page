@@ -176,7 +176,7 @@ nav a:hover {
 }
 .pitch h1 {
   font:
-    400 clamp(56px, 9vw, 128px)/0.9 "Instrument Serif",
+    400 clamp(48px, 6.6vw, 96px)/0.95 "Instrument Serif",
     serif;
   letter-spacing: -0.025em;
   margin: 0 0 24px;
@@ -336,25 +336,31 @@ nav a:hover {
   color: var(--foreground);
   margin-right: 6px;
 }
-.service-lines {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.conditions {
+  margin-top: 12px;
+  font:
+    12px/1.7 "Geist Mono",
+    monospace;
+  color: var(--muted-foreground);
+}
+/* One screen per problem: text left, the tools it connects drawn as a line. */
+.problem {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px 32px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 24px 48px;
+  align-items: center;
+  padding: 40px 0;
 }
-.service-lines li {
-  border-top: 6px solid var(--line);
-  padding-top: 16px;
+.problem + .problem {
+  border-top: 1px solid var(--border);
 }
-.service-lines .l1 {
+.problem.l1 {
   --line: var(--line-1);
 }
-.service-lines .l2 {
+.problem.l2 {
   --line: var(--line-2);
 }
-.service-lines .l3 {
+.problem.l3 {
   --line: var(--line-3);
 }
 .line-name {
@@ -365,16 +371,92 @@ nav a:hover {
   text-transform: uppercase;
   color: var(--line);
 }
-.service-lines h3 {
+.problem h3 {
   font:
-    400 34px/1.1 "Instrument Serif",
+    400 clamp(32px, 4vw, 48px)/1.05 "Instrument Serif",
+    serif;
+  letter-spacing: -0.02em;
+  margin: 8px 0 16px;
+}
+.problem-text > p:last-child {
+  max-width: 560px;
+  color: var(--muted-foreground);
+}
+.chain {
+  list-style: none;
+  margin: 0 0 0 10px;
+  padding: 0;
+  border-left: 4px solid var(--line);
+}
+.chain li {
+  position: relative;
+  padding: 0 0 20px 28px;
+  font-size: 15px;
+  color: var(--muted-foreground);
+}
+.chain li:last-child {
+  padding-bottom: 0;
+}
+.chain li::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--background);
+  border: 4px solid var(--line);
+  box-sizing: border-box;
+}
+.tool {
+  display: block;
+  font:
+    500 12px/1.7 "Geist Mono",
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+.method-steps {
+  list-style: none;
+  counter-reset: step;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px 32px;
+}
+.method-step {
+  counter-increment: step;
+  border-top: 6px solid var(--line-1);
+  padding-top: 16px;
+}
+.method-step::before {
+  content: counter(step, decimal-leading-zero);
+  font:
+    500 12px/1.7 "Geist Mono",
+    monospace;
+  color: var(--accent);
+}
+.method-step h3 {
+  font:
+    400 30px/1.1 "Instrument Serif",
     serif;
   letter-spacing: -0.02em;
   margin: 8px 0;
 }
-.service-lines p:last-child {
+.method-step p {
   font-size: 16px;
   color: var(--muted-foreground);
+}
+.method-note {
+  max-width: 740px;
+  margin-top: 32px;
+}
+.mission > p:not(.quick-links) {
+  max-width: 740px;
+  margin-bottom: 20px;
 }
 .who {
   font:
@@ -788,8 +870,12 @@ main > section > h2::before {
     grid-template-columns: minmax(0, 1fr);
     padding: 24px 0 36px;
   }
-  .service-lines {
+  .problem {
     grid-template-columns: minmax(0, 1fr);
+    padding: 32px 0;
+  }
+  .method-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 600px) {
@@ -800,6 +886,9 @@ main > section > h2::before {
   .product {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+  .method-steps {
+    grid-template-columns: minmax(0, 1fr);
   }
   .intro {
     font-size: 17px;
