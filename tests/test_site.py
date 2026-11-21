@@ -59,10 +59,12 @@ class PublicSiteAcceptance(unittest.TestCase):
         self.assertNotIn('Newsreader', css)
         self.assertNotIn('Manrope', css)
 
-    def test_approved_about_sentence_stays_without_a_metrics_dashboard(self):
-        self.assertIn('Chez Club Med, j’ai contribué à faire passer une plateforme d’API publique de 10 M à 25 M de requêtes par jour en production, pour absorber davantage de trafic.', self.source)
-        for excluded in ('Days → minutes', '7 pages in 2 days', '30+ consumers', 'tested capacity'):
-            self.assertNotIn(excluded, self.source)
+    def test_homepage_order_and_private_notes(self):
+        ids = ['agent', 'prospection', 'prix', 'tresorerie', 'demarche', 'about', 'contact', 'suivre', 'projects', 'speaking', 'posts']
+        self.assertEqual([i for i in self.page.ids if i in ids], ids)
+        self.assertIn('Moins de saisie, moins de relances. Plus de temps pour vos clients.', self.source)
+        self.assertNotIn('Notes privées pour Zacaria', self.source)
+        self.assertNotIn('—', self.source)
 
     def test_required_public_destinations_are_preserved(self):
         for href in ('https://zacaria.github.io/float/', 'https://pathfinding-client.vercel.app/',

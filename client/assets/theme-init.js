@@ -1,4 +1,5 @@
 (() => {
+  document.documentElement.classList.add("js");
   let mode = "system";
   try {
     const saved = localStorage.getItem("hsc-theme");

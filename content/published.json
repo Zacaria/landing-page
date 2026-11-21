@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "revision": "a37a1e4a6c6ce1c63befe33f97285dd5a33549118fc4bdca838419cd85bdc1f4",
+  "revision": "c68cf06ab164096facdefffa74c097996ed7071de8e02f856cb09f5cfa93535a",
   "articles": [
     {
       "schemaVersion": 1,
@@ -307,8 +307,6 @@
     }
   ],
   "site": {
-    "intro": "Chez Club Med, j’ai contribué à faire passer une plateforme d’API publique de 10 M à 25 M de requêtes par jour en production, pour absorber davantage de trafic.",
-    "bio": "Mon travail mêle développement, architecture, livraison et mentorat. TypeScript, Node.js, React et les systèmes distribués en font partie ; le produit et les personnes qui l’utilisent passent en premier.\n\nChez Club Med, j’ai mis en place un workflow où un ticket Jira marqué « ai-ready » déclenche un job CircleCI : un agent développe le ticket, ouvre une pull request GitHub et corrige les retours de revue. J’y ai aussi développé des agents de diagnostic pour les API et Kibana.\n\nEn dehors du travail, j’explore Rust, les explications visuelles et les petits outils. Je travaille aisément en anglais et je pratique le karaté.",
     "contact": [
       {
         "label": "GitHub",
@@ -331,14 +329,14 @@
   },
   "navigation": [
     {
-      "label": "Offre",
-      "href": "/#services",
+      "label": "Exemples",
+      "href": "/#prospection",
       "visible": true,
       "order": 0
     },
     {
-      "label": "Méthode",
-      "href": "/#methode",
+      "label": "Démarche",
+      "href": "/#demarche",
       "visible": true,
       "order": 1
     },

@@ -14,6 +14,7 @@ import path from "node:path";
 import { build } from "../scripts/build.mjs";
 import { validateSnapshot, safeHref, pinSnapshot } from "../scripts/schema.mjs";
 import {
+  escape,
   renderIndex,
   renderArticle,
   renderArticleBody,
@@ -22,6 +23,7 @@ import {
 import { fixture } from "./fixtures.mjs";
 const root = path.resolve(".local");
 await mkdir(root, { recursive: true });
+const awaitScript = await readFile("docs/homepage-script.md", "utf8");
 const baseline = JSON.parse(await readFile("content/published.json"));
 // The site without articles: notes, search, topics and the Blog link disappear.
 const empty = pinSnapshot({ ...baseline, articles: [] });
@@ -51,7 +53,7 @@ test("baseline is verified public content with the three first blog articles", (
   assert.doesNotMatch(html, /No notes published yet/);
   assert.match(
     html,
-    /Chez Club Med, j’ai contribué à faire passer une plateforme d’API publique de 10 M à 25 M de requêtes par jour en production/,
+    /trois agents pour des tâches de diagnostic et de développement/,
   );
   for (const href of [
     "https://zacaria.github.io/float/",
@@ -69,38 +71,60 @@ test("baseline is verified public content with the three first blog articles", (
 });
 test("SMB offer homepage: outcome hero, one screen per problem, method, then the person", () => {
   const html = renderIndex(empty);
-  const hero = html.slice(0, html.indexOf("<main"));
-  assert.match(
-    hero,
-    /<h1>Du temps pour vendre, <em>pas pour recopier.<\/em><\/h1>/,
+  const script = awaitScript;
+  const screens = script.split(/## Écran \d+\. [^\n]+/).slice(1, 9);
+  for (const screen of screens) {
+    for (const match of screen.matchAll(
+      /\*\*(?:Titre|Texte|Ligne de conditions|Avec un agent|L'objection) :\*\* « (.*?) »/g,
+    ))
+      assert.ok(html.includes(escape(match[1])), match[1]);
+  }
+  const firstScreens = html.slice(
+    html.indexOf('<header class="hero"'),
+    html.indexOf('id="suivre"'),
   );
-  for (const promise of [
-    "prospection",
-    "contacts",
-    "chiffre d’affaires",
-    "trésorerie",
-  ])
-    assert.ok(hero.includes(promise), promise);
-  for (const tool of ["Notion", "HubSpot", "Apollo", "Claude", "ChatGPT"])
-    assert.ok(hero.includes(tool), tool);
-  assert.match(
-    hero,
-    /href="mailto:z@havesomecode.io\?subject=Discutons%20de%20votre%20projet">Discutons de votre projet/,
+  const scenes = html.slice(
+    html.indexOf('id="prospection"'),
+    html.indexOf('id="demarche"'),
   );
   assert.doesNotMatch(
-    html,
-    /Club Med workflow|Réalisée chez Club Med|Lancer une mission/,
+    scenes,
+    />\s*(?:Exemple|Illustration|chiffres fictifs|L'objection)\s*</i,
   );
-  const problems = html.match(/<article class="problem l[123]"/g) ?? [];
-  assert.equal(problems.length, 3);
-  for (const topic of ["Prospection", "Veille commerciale", "Administratif"])
-    assert.ok(html.includes(`<p class="line-name">${topic}</p>`), topic);
-  assert.equal((html.match(/<li class="method-step"/g) ?? []).length, 4);
+  assert.doesNotMatch(
+    html.slice(
+      html.indexOf('<header class="hero"'),
+      html.indexOf('<div class="topline"'),
+    ),
+    />[^<]*(?:Illustration|capture de produit)/i,
+  );
+  assert.equal((scenes.match(/role="img" aria-label="[^" ]/g) ?? []).length, 3);
+  assert.doesNotMatch(scenes, /00,00 €|00 000 €|aria-hidden="true"/);
+  for (const value of [
+    "412 €",
+    "436 €",
+    "64 200 €",
+    "2 factures en retard",
+    "38 900 €",
+  ])
+    assert.ok(scenes.includes(value), value);
+  assert.equal((scenes.match(/<blockquote>/g) ?? []).length, 3);
+  assert.match(html, /EXEMPLES/);
+  assert.doesNotMatch(firstScreens, /\b(?:API|MCP|workflow|automatisation)\b/i);
+  assert.doesNotMatch(html, /—/);
+  assert.doesNotMatch(
+    html,
+    /Notes privées pour Zacaria|À vérifier de ton côté/,
+  );
   const order = [
-    "services",
-    "methode",
-    "mission",
+    "agent",
+    "prospection",
+    "prix",
+    "tresorerie",
+    "demarche",
     "about",
+    "contact",
+    "suivre",
     "projects",
     "speaking",
   ];
@@ -109,16 +133,14 @@ test("SMB offer homepage: outcome hero, one screen per problem, method, then the
       html.indexOf(`id="${order[i - 1]}"`) < html.indexOf(`id="${order[i]}"`),
       order[i],
     );
-  assert.doesNotMatch(html, /témoignage|nos clients|ils nous font confiance/i);
-  assert.doesNotMatch(html, /gmail|€|disponib/i);
-  assert.match(html, /https:\/\/cv.havesomecode.io\//);
+  assert.equal((html.match(/id="contact"/g) ?? []).length, 1);
+  assert.equal((html.match(/class="method-step"/g) ?? []).length, 3);
+  for (const href of ["/#prospection", "/#demarche", "/#about", "/#contact"])
+    assert.ok(html.includes(`href="${href}"`));
+  assert.match(html, /href="https:\/\/cv.havesomecode.io\//);
   for (const id of ["posts", "search", "topics", "thinking"])
     assert.ok(!html.includes(`id="${id}"`) && !html.includes(`/#${id}`), id);
   assert.doesNotMatch(html, /href="\/blog"/);
-  assert.doesNotMatch(
-    html,
-    /project-rail|rail-mobile|announcement|No notes|Topics will appear/,
-  );
   for (const project of baseline.projects) {
     assert.equal(
       html.split(`href="${project.href}"`).length - 1,
@@ -188,8 +210,6 @@ test("HaveSome learning replaces Speaking with three unique entries and the comp
 });
 test("all four configurable categories render and ordered visibility is honored", () => {
   const s = fixture();
-  s.site.intro = "Changed introduction";
-  s.site.bio = "Changed bio";
   s.projects[0].title = "Changed project";
   s.navigation = [
     { label: "Hidden", href: "/#about", visible: false, order: 0 },
@@ -198,8 +218,6 @@ test("all four configurable categories render and ordered visibility is honored"
   ];
   const html = renderIndex(pinSnapshot(s));
   for (const text of [
-    "Changed introduction",
-    "Changed bio",
     "Changed project",
     "À LA UNE",
     "Synthetic renderer fixture",
@@ -337,7 +355,7 @@ for (const [name, mutate] of [
   ["empty image field", (s) => (s.projects[0].image = "")],
   ["bad boolean", (s) => (s.navigation[0].visible = "false")],
   ["invalid timestamp", (s) => (s.articles[0].publishedAt = "yesterday")],
-  ["oversized text", (s) => (s.site.intro = "x".repeat(4001))],
+  ["oversized text", (s) => (s.projects[0].description = "x".repeat(4001))],
   [
     "bad URL",
     (s) => (s.articles[0].blocks[0].spans[0].href = "javascript:alert(1)"),

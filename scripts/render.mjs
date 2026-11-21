@@ -11,7 +11,6 @@ export function escape(value) {
 }
 const MISSION_HREF =
   "mailto:z@havesomecode.io?subject=Discutons%20de%20votre%20projet";
-const CTA = `<a href="${MISSION_HREF}">Discutons de votre projet →</a>`;
 function anchor(href, label, attrs = "") {
   return `<a href="${escape(href)}"${attrs}>${label}</a>`;
 }
@@ -101,105 +100,100 @@ const theme = `<div class="theme-control" role="group" aria-label="Apparence"><s
   )
   .join("")}</div></div>`;
 
-// Line 01 is an example prospection line; L2/L3 are the other two offers.
-// No client uses it yet: the caption says "exemple", never a case study.
-// styles.css repeats this path for the moving signal and times each stop to it.
-const route =
-  "M40 200 H170 Q200 200 200 170 V90 Q200 60 230 60 H350 Q380 60 380 90 V130 Q380 160 410 160 H520";
-const stops = [
-  ["Apollo · contacts", 40, 200, "below"],
-  ["Claude rédige", 200, 130, "left"],
-  ["Vous validez", 290, 60, "above"],
-  ["HubSpot relance", 380, 110, "right"],
-  ["Votre appel", 520, 160, "end"],
+const homepageCopy = [
+  [
+    "Moins de saisie, moins de relances. Plus de temps pour vos clients.",
+    "Je regarde comment votre équipe travaille vraiment, puis je mets en place un assistant informatique qui prend les tâches répétitives. Votre équipe garde la main sur tout ce qui engage l'entreprise.",
+    "30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel.",
+  ],
+  [
+    "Un agent, c'est un assistant qui fait le travail à côté de vous",
+    "Vous lui expliquez une tâche, comme à un nouveau collègue : \"quand un client écrit, cherche sa commande, réponds-lui\". Il utilise alors vos outils habituels (messagerie, tableur, logiciel de facturation) et fait le travail à votre place. Pour tout ce qui engage l'entreprise, il vous demande avant d'agir.",
+  ],
+  [
+    "Mélanie passe sa semaine à recopier des fiches",
+    "Mélanie est indépendante en développement commercial. Pour trouver des clients, elle ne fait pas que téléphoner : elle cherche des entreprises dans Apollo, les range dans Notion, suit les échanges dans HubSpot, et demande à Claude et ChatGPT de rédiger ses messages. Tout en versions gratuites, donc cinq outils qui ne se parlent pas. Mardi, 21 h : elle recopie encore des noms d'un outil à l'autre. Ce temps-là, elle ne le passe pas avec un prospect.",
+    "L'agent cherche les entreprises qui correspondent à ce que Mélanie vend, les range au même endroit et prépare un brouillon de message pour chacune. Mélanie lit, corrige, et c'est elle qui envoie. Le lendemain, elle ouvre un seul outil et sait qui rappeler.",
+    "Vous allez me dire : \"mes prospects ne veulent pas de messages automatiques\". Ils n'en reçoivent pas. L'agent prépare, Mélanie relit et signe chaque message. Le téléphone reste son meilleur outil, l'agent s'occupe de ce qui l'entoure.",
+  ],
+  [
+    "Le devis est parti avec l'ancien prix",
+    "Hélène dirige une petite entreprise qui pose des cuisines. Ses fournisseurs lui envoient leurs nouveaux tarifs par mail, en PDF. Jeudi, 17 h : un client demande un devis, et personne ne sait si la liste de prix du tableur est la dernière. Un devis au mauvais prix, c'est soit une marge perdue, soit un client à rappeler pour s'excuser.",
+    'Quand un fournisseur envoie un nouveau tarif, l\'agent lit le document, met à jour la liste de prix et signale à Hélène ce qui a changé : "3 références ont augmenté". Même chose pour les coordonnées : si un contact change de numéro dans un mail, la fiche est corrigée.',
+    "Vous allez me dire : \"et s'il se trompe de ligne ?\" Chaque changement est listé avec l'ancien et le nouveau prix, et Hélène valide avant qu'il serve dans un devis. Un agent peut se tromper, c'est pour cela que vous gardez la dernière main.",
+  ],
+  [
+    "Où en est la trésorerie ? Je regarde quel fichier est le bon",
+    "Patrick dirige un bureau d'études de huit personnes. Pour savoir où en est l'entreprise, il doit ouvrir l'outil de facturation, la banque, et un tableur qu'une collègue met à jour quand elle a le temps. Le 28 du mois, 8 h 30 : il hésite à valider une dépense, parce qu'il ne sait pas si les deux factures en retard ont été payées.",
+    "L'agent rassemble les factures, les paiements reçus et les dépenses prévues, et affiche une page simple : ce qui est rentré ce mois-ci, ce qui est en retard, ce qui reste sur le compte dans trente jours. Plus de tableur à ouvrir ni de collègue à déranger. Patrick lit un écran, pas des lignes.",
+    'Vous allez me dire : "mes chiffres sont confidentiels". Ils le restent : l\'agent lit seulement ce que vous lui ouvrez, et vous décidez où les données sont stockées. On en parle avant de commencer, pas après.',
+  ],
+  [
+    "On commence par parler, pas par installer",
+    "Trois étapes, et vous pouvez vous arrêter après chacune.",
+  ],
+  [
+    "Zacaria Chtatar, développeur",
+    "Je construis des logiciels depuis 2013, et je dirige des équipes techniques depuis 2018. Depuis 2020, je suis lead développeur chez Club Med, sur la plateforme qui alimente leurs applications, où j'ai mis en production trois agents pour des tâches de diagnostic et de développement. Je suis indépendant et je travaille depuis la France.",
+  ],
+  [
+    "Parlons de votre tâche qui prend trop de temps",
+    "Écrivez-moi en deux lignes ce qui vous fait perdre du temps. Je vous réponds pour fixer un appel de trente minutes.",
+  ],
 ];
-function stop([label, x, y, side]) {
-  const [tx, ty, anchorAt] = {
-    below: [x - 8, y + 26, "start"],
-    left: [x - 18, y + 4, "end"],
-    above: [x, y - 18, "middle"],
-    right: [x + 18, y + 4, "start"],
-    end: [x + 8, y + 30, "end"],
-  }[side];
-  return `<g class="stop"><circle cx="${x}" cy="${y}" r="9" /><text x="${tx}" y="${ty}" text-anchor="${anchorAt}">${escape(label)}</text></g>`;
-}
-const lineMap = `<figure class="line-map"><figcaption><span>Ligne 01 · prospection</span><span class="line-status">Exemple de parcours</span></figcaption><svg viewBox="0 0 560 280" role="img" aria-label="Ligne 01, prospection : Apollo trouve les contacts, Claude rédige un premier message, vous validez, HubSpot envoie et relance, puis vous appelez."><path class="branch l3" d="M40 60 H230" /><text class="branch-label l3" x="40" y="46">L3 · administratif</text><path class="branch l2" d="M40 246 H370 Q400 246 405 210 L410 160" /><text class="branch-label l2" x="40" y="272">L2 · veille commerciale</text><circle class="junction" cx="230" cy="60" r="5" /><circle class="junction" cx="410" cy="160" r="5" /><path class="route" d="${route}" />${stops.map(stop).join("")}<circle class="signal" r="7" /></svg><ol class="line-log"><li><span>apollo</span> trouve les entreprises et les bons interlocuteurs</li><li><span>claude</span> rédige un premier message adapté à chacun</li><li><span>vous</span> relisez et validez avant tout envoi</li><li><span>hubspot</span> envoie, relance et garde l’historique</li><li><span>vous</span> appelez ceux qui ont répondu</li></ol></figure>`;
+const homepageSteps = [
+  [
+    "Trente minutes au téléphone.",
+    "Vous me décrivez une tâche qui vous fait perdre du temps. Je pose des questions, je ne vends rien. Il est possible que ma réponse soit : ne changez rien.",
+  ],
+  [
+    "Un diagnostic.",
+    "Je regarde comment la tâche se fait vraiment, avec la personne qui la fait. Je vous remets une page : ce qui peut être simplifié, et comment. Parfois, un réglage dans votre logiciel actuel suffit.",
+  ],
+  [
+    "Un essai sur une seule tâche.",
+    "Une personne de votre équipe l'utilise, nous mesurons ce qui change, et vous décidez de continuer ou d'arrêter.",
+  ],
+];
 
 const interest = `<section class="interest" id="suivre"><h2>Un processus qui vous fait perdre du temps ?</h2><p>Je publie ce que j’apprends en regardant des processus réels de PME : ce qui se simplifie, ce qui ne vaut pas l’automatisation, ce que l’IA fait ou ne fait pas. Laissez votre courriel pour recevoir ces retours, et être prévenu si je prends de nouvelles missions de conseil.</p><form class="interest-form" method="post" action="https://interest.havesomecode.io/subscribe" data-interest><input type="hidden" name="source" value="landing" /><div class="field"><label for="interest-email">Votre courriel professionnel</label><input id="interest-email" type="email" name="email" autocomplete="email" placeholder="prenom@entreprise.fr" maxlength="254" required /></div><div class="trap" aria-hidden="true"><label>Ne pas remplir<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div><div class="consent"><input id="interest-consent" type="checkbox" name="consent" value="on" required /><label for="interest-consent">Je souhaite recevoir par courriel l’actualité de HaveSomeCode sur le conseil IA pour les PME.</label></div><button type="submit">Je veux suivre</button><p class="interest-note">Seule votre adresse est enregistrée, uniquement pour ces courriels. Un lien de désinscription figure dans chacun. Détails dans la <a href="/confidentialite">politique de confidentialité</a>.</p><p class="interest-status" role="status" data-interest-status></p></form></section>`;
 
-const problems = [
-  {
-    line: "l1",
-    name: "Prospection",
-    title: "Des prospects prêts avant de décrocher le téléphone",
-    text: "La recherche des entreprises, des bons interlocuteurs et le premier message se préparent sans vous. L’appel reste à vous, avec le contexte sous les yeux.",
-    chain: [
-      [
-        "Apollo",
-        "trouve les entreprises et les décideurs qui vous ressemblent",
-      ],
-      ["Claude", "rédige un premier message adapté à chacun"],
-      ["Vous", "relisez et validez avant tout envoi"],
-      ["HubSpot", "envoie, relance et note chaque réponse"],
-    ],
-  },
-  {
-    line: "l2",
-    name: "Veille commerciale",
-    title: "Des contacts à jour, une offre et des prix qui suivent le marché",
-    text: "Changements de poste, nouveaux interlocuteurs, offres et tarifs des concurrents : l’information remonte d’elle-même, et vous voyez quand repositionner votre offre ou revoir un prix.",
-    chain: [
-      ["Apollo", "signale les changements de poste et les nouveaux décideurs"],
-      ["HubSpot", "met les fiches contacts à jour"],
-      ["ChatGPT", "résume les offres et les prix de vos concurrents"],
-      ["Notion", "rassemble la veille dans une note par semaine"],
-    ],
-  },
-  {
-    line: "l3",
-    name: "Administratif",
-    title:
-      "Votre chiffre d’affaires et votre trésorerie, sans tableur à remplir",
-    text: "Factures émises, paiements reçus, retards : tout est regroupé automatiquement. Vous savez où en est le mois et ce qui rentre dans les semaines qui viennent.",
-    chain: [
-      ["Facturation", "votre logiciel exporte factures et paiements"],
-      ["Claude", "rapproche les paiements et repère les retards"],
-      [
-        "Notion",
-        "tient le tableau de bord du chiffre d’affaires et de la trésorerie",
-      ],
-      ["Vous", "recevez le point de la semaine"],
-    ],
-  },
+const illustrations = [
+  `<div class="example-visual prospect-visual" role="img" aria-label="Avant : cinq outils dispersés mardi à 21 h. Après : une liste de trois prospects avec leurs brouillons à valider."><div class="visual-columns"><div><b>Avant · mardi, 21 h</b><div class="scattered"><span>Notion</span><span>Apollo</span><span>HubSpot</span><span>Claude</span><span>ChatGPT</span><i>↗ ↙ ↔</i><span class="person">●<br />╱│╲</span></div></div><div><b>Après · Liste du jour</b><p>Prospect 01 · Brouillon <strong>Valider</strong></p><p>Prospect 02 · Brouillon <strong>Valider</strong></p><p>Prospect 03 · Brouillon <strong>Valider</strong></p></div></div></div>`,
+  `<div class="example-visual" role="img" aria-label="Un tarif fournisseur met à jour trois prix : 412 à 436 euros, 285 à 299 euros et 168 à 179 euros, à valider."><p>✉ tarif-fournisseur.pdf ↓</p><div class="price-row"><b>Référence</b><b>Ancien</b><b>Nouveau</b><b>Validation</b></div>${[
+    ["412", "436"],
+    ["285", "299"],
+    ["168", "179"],
+  ]
+    .map(
+      ([oldPrice, newPrice], n) =>
+        `<div class="price-row"><span>0${n + 1}</span><del>${oldPrice} €</del><strong>${newPrice} €</strong><span>Valider</span></div>`,
+    )
+    .join("")}</div>`,
+  `<div class="example-visual dashboard" role="img" aria-label="Tableau de trésorerie : 64 200 euros encaissés ce mois-ci, 2 factures en retard et 38 900 euros disponibles dans 30 jours, avec une courbe."><div class="dashboard-grid">${[
+    ["Encaissé ce mois-ci", "64 200 €"],
+    ["En retard", "2 factures en retard"],
+    ["Disponible dans 30 jours", "38 900 €"],
+  ]
+    .map(
+      ([label, value]) => `<div><small>${label}</small><b>${value}</b></div>`,
+    )
+    .join("")}</div><div class="chart-line"></div></div>`,
 ];
-const services = `<section class="services" id="services"><h2>Ce que j’automatise</h2>${problems
-  .map(
-    (p) =>
-      `<article class="problem ${p.line}"><div class="problem-text"><p class="line-name">${p.name}</p><h3>${escape(p.title)}</h3><p>${escape(p.text)}</p></div><ol class="chain" aria-label="Outils branchés : ${escape(p.name)}">${p.chain.map(([tool, does]) => `<li><span class="tool">${escape(tool)}</span> ${escape(does)}</li>`).join("")}</ol></article>`,
-  )
-  .join("")}</section>`;
-
-const steps = [
-  [
-    "Partir de votre flux réel",
-    "On suit ensemble la dernière demande ou commande, de bout en bout, avec la personne qui la traite.",
-  ],
-  [
-    "Un premier cas",
-    "Une seule tâche, un périmètre limité, des critères de réussite fixés avant de commencer et un retour arrière possible.",
-  ],
-  [
-    "Mesurer",
-    "Quelqu’un de votre équipe l’utilise pour de vrai. On mesure le temps gagné, les erreurs et ce qui reste à faire à la main.",
-  ],
-  [
-    "Mettre en service",
-    "Si le résultat tient, le flux passe en service. Je le suis et le corrige, ou je le transmets à votre équipe.",
-  ],
-];
-const method = `<section class="method" id="methode"><h2>Comment on travaille</h2><ol class="method-steps">${steps.map(([title, text]) => `<li class="method-step"><h3>${escape(title)}</h3><p>${escape(text)}</p></li>`).join("")}</ol><p class="method-note">Parfois, la bonne réponse est une fonction déjà présente dans votre logiciel, ou de ne rien automatiser : je vous le dis. Rien ne part chez un client, rien n’est payé ni signé sans votre validation, et vos accès restent les vôtres.</p></section>`;
-
-const mission = `<section class="mission" id="mission"><h2>Une tâche vous prend trop de temps ?</h2><p>Décrivez-la en quelques lignes. Je vous réponds par e-mail et on en parle 30 minutes, sans engagement.</p><p class="quick-links">${CTA}</p></section>`;
+function examples() {
+  return ["prospection", "prix", "tresorerie"]
+    .map((id, n) => {
+      const [title, situation, agent, objection] = homepageCopy[n + 2];
+      return `<section class="example-section" id="${id}"><div><h2>${escape(title)}</h2><p>${escape(situation)}</p><h3>Avec un agent</h3><p>${escape(agent)}</p><blockquote><p>${escape(objection)}</p></blockquote></div>${illustrations[n]}</section>`;
+    })
+    .join("");
+}
+const agent = `<section class="agent-section" id="agent"><h2>${escape(homepageCopy[1][0])}</h2><p>${escape(homepageCopy[1][1])}</p><ol class="agent-flow"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg> Vous écrivez la consigne</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m10 2 4 0 .5 2.2 1.7.7 1.9-1.2 2.8 2.8-1.2 1.9.7 1.7 2.2.5v4l-2.2.5-.7 1.7 1.2 1.9-2.8 2.8-1.9-1.2-1.7.7L14 22h-4l-.5-2.2-1.7-.7-1.9 1.2-2.8-2.8 1.2-1.9-.7-1.7L2 14v-4l2.2-.5.7-1.7-1.2-1.9 2.8-2.8 1.9 1.2 1.7-.7Z"/><circle cx="12" cy="12" r="3"/></svg> L'agent fait la tâche dans vos outils</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg> Vous validez l'envoi</li></ol></section>`;
+const method = `<section class="method" id="demarche"><h2>${escape(homepageCopy[5][0])}</h2><p>${escape(homepageCopy[5][1])}</p><ol class="method-steps">${homepageSteps.map(([title, text]) => `<li class="method-step"><h3>${escape(title)}</h3><p>${escape(text)}</p><p class="exit">Je m'arrête ici →</p></li>`).join("")}</ol><p>Un devis écrit avant tout engagement.</p></section>`;
+function about(snapshot) {
+  return `<section class="about" id="about"><div><h2>${escape(homepageCopy[6][0])}</h2><p>${escape(homepageCopy[6][1])}</p><ul class="markers"><li>Depuis 2013</li><li>Lead technique depuis 2018</li><li>Club Med depuis 2020</li></ul><ul class="contact-links">${snapshot.site.contact.map((c) => `<li>${anchor(c.href, escape(c.label))}</li>`).join("")}</ul></div><img src="/assets/portrait-responsive/portrait-w_600.jpg" alt="Portrait de Zacaria Chtatar" /></section>`;
+}
+const contact = `<section class="contact-panel" id="contact"><h2>${escape(homepageCopy[7][0])}</h2><p>${escape(homepageCopy[7][1])}</p><p class="quick-links"><a href="${MISSION_HREF}">Discutons de votre projet</a></p><p><a href="mailto:z@havesomecode.io">z@havesomecode.io</a></p></section>`;
 
 const sources = {
   float: "https://github.com/Zacaria/float",
@@ -220,7 +214,10 @@ function header(snapshot, article) {
     .sort((a, b) => a.order - b.order)
     .map((n) => anchor(n.href, `[ ${escape(n.label.toUpperCase())} ]`))
     .join("");
-  return `<header id="top">${article ? '<p class="author">Zacaria Chtatar · HaveSomeCode</p>' : `<div class="hero"><div class="pitch"><p class="role">Zacaria Chtatar · automatisations IA pour les PME</p><h1>Du temps pour vendre, <em>pas pour recopier.</em></h1><p class="intro">Je branche l’IA sur les outils que vous utilisez déjà (HubSpot, Notion, Apollo, Claude, ChatGPT) pour automatiser la prospection, la mise à jour de vos contacts et le suivi du chiffre d’affaires et de la trésorerie. Vous validez ce qui part chez un client ; le reste se fait sans ressaisie.</p><p class="quick-links">${CTA}</p><p class="conditions">Premier échange de 30 minutes offert, sur une tâche précise de votre entreprise.</p></div>${lineMap}</div>`}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div></header>`;
+  const hero = article
+    ? `<header id="top"><p class="author">Zacaria Chtatar · HaveSomeCode</p></header>`
+    : `<header class="hero" id="top"><div class="pitch"><p class="role">Zacaria Chtatar · HaveSomeCode</p><h1>${escape(homepageCopy[0][0])}</h1><p class="intro">${escape(homepageCopy[0][1])}</p><p class="conditions">${escape(homepageCopy[0][2])}</p><p class="quick-links"><a href="#contact">Discutons de votre projet</a></p></div><figure class="hero-illustration"><ol>${["Message à recopier", "Prix à mettre à jour", "Facture à relancer"].map((label) => `<li><span aria-hidden="true">✓</span> ${label}</li>`).join("")}</ol></figure></header>`;
+  return `${hero}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div>`;
 }
 function topics(snapshot) {
   const all = [...new Set(snapshot.articles.flatMap((a) => a.topics))].sort();
@@ -246,7 +243,7 @@ ${options.preview ? '<meta name="robots" content="noindex, nofollow" />' : `<lin
 <link rel="icon" href="/assets/favicon.ico" sizes="any" /><link rel="preload" href="/assets/fonts/instrument-serif-regular.woff2" as="font" type="font/woff2" crossorigin /><link rel="preload" href="/assets/fonts/geist-regular.woff2" as="font" type="font/woff2" crossorigin /><link rel="preload" href="/assets/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin /><link rel="stylesheet" href="/assets/styles.css" />
 <link rel="stylesheet" href="/appearance-fallback.css" />${options.preview ? "" : '<link rel="stylesheet" href="/api/appearance?target=site" />'}
 <script src="/assets/theme-init.js"></script><script defer src="/assets/site.js"></script><script defer src="/assets/interest.js"></script>${options.preview ? "" : analyticsSnippet}</head><body>
-<a class="skip" href="#main-content">Aller au contenu</a><div class="outer"><div class="site">${options.preview ? '<p class="preview-banner" role="status">APERÇU PRIVÉ · Non publié</p>' : ""}${header(snapshot, path !== "/")}<main id="main-content">${content}${sidebar(snapshot)}</main>${footer()}</div></div></body></html>\n`;
+<a class="skip" href="#main-content">Aller au contenu</a><div class="outer"><div class="site">${options.preview ? '<p class="preview-banner" role="status">APERÇU PRIVÉ · Non publié</p>' : ""}${header(snapshot, path !== "/")}<main id="main-content">${content}${path === "/" ? topics(snapshot) : sidebar(snapshot)}</main>${footer()}</div></div></body></html>\n`;
 }
 function noteDate(article) {
   return article.originalPublication?.publishedAt ?? article.publishedAt;
@@ -287,10 +284,10 @@ export function renderIndex(snapshot, options = {}) {
   const notes = articles.length
     ? `<section id="posts"><h2 class="kicker" id="posts-label">DERNIÈRES NOTES :</h2><div class="searchbox"><label for="search" class="sr-only">Rechercher dans les notes</label><input type="search" id="search" placeholder="Rechercher dans les notes" /></div>${selected.map((a) => `<article class="featured" data-featured><span class="tag">À LA UNE</span>${anchor(`/blog/${a.slug}`, escape(a.title))}<p>${escape(a.excerpt)}</p></article>`).join("")}<ul class="post-list">${articles.map(row).join("")}</ul><p class="empty" id="no-results" role="status" hidden>Aucune note ne correspond. Videz la recherche ou essayez un autre sujet.</p><p id="result-count" class="sr-only" role="status"></p><a class="more" href="/blog">Voir toutes les notes →</a></section>`
     : "";
-  const content = `${services}${method}${mission}${interest}<section class="about" id="about"><h2>Qui intervient</h2><p class="who">Zacaria Chtatar · lead developer et architecte · France</p><p>${escape(snapshot.site.intro)}</p>${paragraphs(snapshot.site.bio)}<p><a href="https://cv.havesomecode.io/">Lire mon CV →</a></p></section>${projects(snapshot)}${talk()}${notes}`;
+  const content = `${agent}${examples()}${method}${about(snapshot)}${contact}${interest}${projects(snapshot)}${talk()}${notes}`;
   return document(
-    "HaveSomeCode — Automatisations IA pour les PME · Zacaria Chtatar",
-    "Prospection automatisée, contacts à jour, suivi du chiffre d’affaires et de la trésorerie : Zacaria Chtatar branche l’IA sur vos outils (HubSpot, Notion, Apollo, Claude, ChatGPT).",
+    "HaveSomeCode · Zacaria Chtatar",
+    homepageCopy[0][1],
     "/",
     content,
     snapshot,

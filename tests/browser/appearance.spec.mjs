@@ -109,7 +109,7 @@ test("all approved palettes parse into effective CSS variables without extra rul
 });
 
 // Actual current recruiter DOM; only CSS responses are synthetic.
-test("owner bands recolor the current hero without changing services geometry or curation", async ({
+test("owner bands recolor the current hero without changing homepage geometry or curation", async ({
   page,
 }) => {
   let choice = { theme: "vercel", band: "soft", type: "uncommon" };
@@ -154,7 +154,7 @@ test("owner bands recolor the current hero without changing services geometry or
     await expect(page.locator("#speaking .post")).toHaveCount(3);
     await expect(page.locator(".topline")).toBeVisible();
     await expect(page.locator(".hero h1")).toHaveText(
-      "Du temps pour vendre, pas pour recopier.",
+      "Moins de saisie, moins de relances. Plus de temps pour vos clients.",
     );
   }
   // Vercel accent and contrast intentionally share black; soft remains distinct.

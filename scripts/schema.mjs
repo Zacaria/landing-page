@@ -169,8 +169,6 @@ function snapshotContent(s) {
       ...("image" in p ? { image: p.image } : {}),
     })),
     site: {
-      intro: s.site.intro,
-      bio: s.site.bio,
       contact: s.site.contact.map((c) => ({ label: c.label, href: c.href })),
       selectedSlugs: s.site.selectedSlugs,
     },
@@ -323,12 +321,10 @@ export function validateSnapshot(snapshot) {
   unique(snapshot.projects, (p) => p.slug, "projects");
   object(
     snapshot.site,
-    ["intro", "bio", "contact", "selectedSlugs"],
-    ["intro", "bio", "contact", "selectedSlugs"],
+    ["contact", "selectedSlugs"],
+    ["contact", "selectedSlugs"],
     "site",
   );
-  text(snapshot.site.intro, 4000, "site.intro", true);
-  text(snapshot.site.bio, 20000, "site.bio", true);
   list(snapshot.site.contact, 20, "site.contact");
   snapshot.site.contact.forEach((c) => {
     object(c, ["label", "href"], ["label", "href"], "contact");

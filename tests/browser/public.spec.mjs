@@ -17,30 +17,36 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.locator("#no-articles, #topics")).toHaveCount(0);
     await expect(page.locator("#posts .post[data-search]")).toHaveCount(3);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Du temps pour vendre, pas pour recopier.",
+      "Moins de saisie, moins de relances. Plus de temps pour vos clients.",
     );
     await expect(
       page.locator(".hero a", { hasText: "Discutons de votre projet" }),
     ).toBeInViewport();
-    await expect(page.locator(".problem")).toHaveCount(3);
-    await expect(page.locator(".problem .chain li")).toHaveCount(12);
-    await expect(page.locator(".method-step")).toHaveCount(4);
+    await expect(page.locator(".example-section")).toHaveCount(3);
+    await expect(page.locator(".agent-flow li")).toHaveCount(3);
     await expect(
-      page.locator(".hero a[href^='mailto:z@havesomecode.io?subject=']"),
-    ).toBeVisible();
-    await expect(page.locator(".line-map .stop")).toHaveCount(5);
+      page.locator(
+        '.agent-flow li > svg[aria-hidden="true"][focusable="false"]',
+      ),
+    ).toHaveCount(3);
+    await expect(page.locator(".method-step")).toHaveCount(3);
+    await expect(page.locator('.hero a[href="#contact"]')).toBeVisible();
+    await expect(page.locator(".hero-illustration li")).toHaveCount(3);
     const sections = await page
       .locator("main > section")
       .evaluateAll((els) => els.map((el) => el.id));
     expect(sections).toEqual([
-      "services",
-      "methode",
-      "mission",
+      "agent",
+      "prospection",
+      "prix",
+      "tresorerie",
+      "demarche",
       "about",
+      "contact",
+      "suivre",
       "projects",
       "speaking",
       "posts",
-      "contact",
     ]);
     await expect(page.locator("#speaking h2")).toHaveText(
       "Conférences & apprentissage",
@@ -88,8 +94,8 @@ for (const width of [1440, 768, 390, 320]) {
     expect(before.font).toContain("Geist");
     expect(before.font).not.toContain("Geist Mono");
     for (const [label, id] of [
-      ["Offre", "services"],
-      ["Méthode", "methode"],
+      ["Exemples", "prospection"],
+      ["Démarche", "demarche"],
       ["Projets", "projects"],
       ["À propos", "about"],
       ["Contact", "contact"],
@@ -160,7 +166,12 @@ test("Uncommon identity uses editorial serif, below-hero navigation and local fo
 }) => {
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(() => document.fonts.load('700 16px "Geist"'));
+  await page.evaluate(() =>
+    Promise.all([
+      document.fonts.load('700 16px "Geist"'),
+      document.fonts.load('italic 16px "Instrument Serif"'),
+    ]),
+  );
   for (const mode of ["light", "dark"]) {
     await page.locator(`.theme-choice[data-mode="${mode}"]`).click();
     const style = await page.evaluate(() => {
@@ -328,6 +339,16 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
   });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:8793/");
+  await expect(page.locator(".hero-illustration li")).toHaveCount(3);
+  expect(
+    await page.locator(".hero-illustration li").evaluateAll((items) =>
+      items.map((item) => {
+        const style = getComputedStyle(item);
+        return [style.animationName, style.transform, style.opacity];
+      }),
+    ),
+  ).toEqual(Array(3).fill(["none", "none", "1"]));
+  await expect(page.locator(".hero-illustration li").first()).toBeVisible();
   await expect(page.locator("#about")).toBeVisible();
   await expect(page.locator("#topics")).toHaveCount(0);
   await expect(page.locator('a[href="/blog"]').first()).toBeVisible();
@@ -340,4 +361,29 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
     page.locator('a[href="https://cv.havesomecode.io/"]').first(),
   ).toBeVisible();
   await context.close();
+});
+
+test("hero animates with JavaScript and respects reduced motion", async ({
+  browser,
+}) => {
+  for (const [reducedMotion, animation] of [
+    ["no-preference", "settle"],
+    ["reduce", "none"],
+  ]) {
+    const context = await browser.newContext({ reducedMotion });
+    const page = await context.newPage();
+    await page.goto("http://127.0.0.1:8793/");
+    const styles = await page
+      .locator(".hero-illustration li")
+      .evaluateAll((items) =>
+        items.map((item) => {
+          const style = getComputedStyle(item);
+          return [style.animationName, style.transform, style.opacity];
+        }),
+      );
+    expect(styles.map((style) => style[0])).toEqual(Array(3).fill(animation));
+    if (reducedMotion === "reduce")
+      expect(styles).toEqual(Array(3).fill(["none", "none", "1"]));
+    await context.close();
+  }
 });
