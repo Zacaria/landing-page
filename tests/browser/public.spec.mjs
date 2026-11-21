@@ -22,7 +22,7 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(
       page.locator(".hero a", { hasText: "Discutons de votre projet" }),
     ).toBeInViewport();
-    await expect(page.locator(".example-section")).toHaveCount(3);
+    await expect(page.locator(".example-section")).toHaveCount(4);
     await expect(page.locator(".agent-flow li")).toHaveCount(3);
     await expect(
       page.locator(
@@ -45,9 +45,10 @@ for (const width of [1440, 768, 390, 320]) {
       .evaluateAll((els) => els.map((el) => el.id));
     expect(sections).toEqual([
       "agent",
-      "prospection",
+      "devis",
       "prix",
       "tresorerie",
+      "prospection",
       "demarche",
       "about",
       "contact",
@@ -102,7 +103,7 @@ for (const width of [1440, 768, 390, 320]) {
     expect(before.font).toContain("Geist");
     expect(before.font).not.toContain("Geist Mono");
     for (const [label, id] of [
-      ["En pratique", "prospection"],
+      ["En pratique", "devis"],
       ["Démarche", "demarche"],
       ["Projets", "projects"],
       ["À propos", "about"],

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "revision": "5475a01e6078ef005b30746062410c0549472f9ed26b633cc2dfcd06cc37a177",
+  "revision": "090e2895394373d0cd2bc03a51aa7bc6326c527220344b6b8b8690a2dd88ecfc",
   "articles": [
     {
       "schemaVersion": 1,
@@ -330,7 +330,7 @@
   "navigation": [
     {
       "label": "En pratique",
-      "href": "/#prospection",
+      "href": "/#devis",
       "visible": true,
       "order": 0
     },

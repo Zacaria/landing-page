@@ -8,7 +8,7 @@ The accepted content architecture is the signed service spec `35096fa5964fd2591a
 
 ## Public schema v1
 
-Homepage correction: follow the eight screens in `docs/homepage-script.md`, keep CV/contact directly available, render projects once, and omit empty notes/search/topics plus their links. Preserve all existing real destinations and the date-only article contract. This presentation release does not authorize Notion publication, private-service activation or preview renderer updates; reconcile new shared pins before future CMS delivery.
+Homepage correction: follow the nine screens in `docs/homepage-script.md`, keep CV/contact directly available, render projects once, and omit empty notes/search/topics plus their links. Preserve all existing real destinations and the date-only article contract. This presentation release does not authorize Notion publication, private-service activation or preview renderer updates; reconcile new shared pins before future CMS delivery.
 
 Approved HaveSome curation: replace the existing Speaking heading with Talks & learning, retaining `#speaking`. Show the HaveSome… series as three compact list entries: OIDC (interactive guide, 2026), Worktrees (slides, 2026) and Rust APIs (API Days Paris, 2023). Retain the existing talk video, add its slides, and link All presentations to `https://github.com/Zacaria/zacaria#links`. Years and destinations come from that public profile; no new section, cards, article collection, remote embed, dependency or Notion write is needed. The existing schema and published snapshot remain unchanged.
 
@@ -22,7 +22,7 @@ Digests match the service canonical JSON order in `server/cms.ts`: article conte
 
 ## Homepage structure
 
-`docs/homepage-script.md` is the source for the homepage copy and sequence. The renderer owns its public copy and CSS illustrations; private notes in the script are never rendered. Scene visuals have accessible descriptions, ordinary amounts, and no visible scene labels; the prospect drawing stacks on narrow screens. Homepage section headings are unnumbered, while process steps retain their numbering. Objections are rendered as quotations. The navigation links “En pratique” to the first scene. The contact links remain snapshot data. The hero precedes navigation, followed by agent, three examples, process, about and contact; interest, projects, speaking and posts remain available.
+`docs/homepage-script.md` is the source for the homepage copy and sequence. The renderer owns its public copy and CSS illustrations; private notes in the script are never rendered. Scene visuals have accessible descriptions, no amounts or digits, and no visible scene labels; the prospect drawing stacks on narrow screens. Homepage section headings are unnumbered, while process steps retain their numbering. Objections are rendered as quotations. The navigation links “En pratique” to the first scene. The contact links remain snapshot data. The hero precedes navigation, followed by agent, four examples (quote-request triage, pricing, cash flow, prospecting), process, about and contact; interest, projects, speaking and posts remain available.
 
 ## Exact shared renderer
 

@@ -72,10 +72,10 @@ test("baseline is verified public content with the three first blog articles", (
 test("SMB offer homepage: outcome hero, one screen per problem, method, then the person", () => {
   const html = renderIndex(empty);
   const script = awaitScript;
-  const screens = script.split(/## Écran \d+\. [^\n]+/).slice(1, 9);
+  const screens = script.split(/## Écran \d+\. [^\n]+/).slice(1, 10);
   for (const screen of screens) {
     for (const match of screen.matchAll(
-      /\*\*(?:Titre|Texte|Ligne de conditions|Avec un agent|L'objection) :\*\* « (.*?) »/g,
+      /\*\*(?:Titre|Texte|Ligne de conditions|Avec un agent|Les objections|L'objection) :\*\* « (.*?) »/g,
     ))
       assert.ok(html.includes(escape(match[1])), match[1]);
   }
@@ -84,7 +84,7 @@ test("SMB offer homepage: outcome hero, one screen per problem, method, then the
     html.indexOf('id="suivre"'),
   );
   const scenes = html.slice(
-    html.indexOf('id="prospection"'),
+    html.indexOf('id="devis"'),
     html.indexOf('id="demarche"'),
   );
   assert.doesNotMatch(
@@ -98,17 +98,33 @@ test("SMB offer homepage: outcome hero, one screen per problem, method, then the
     ),
     />[^<]*(?:Illustration|capture de produit)/i,
   );
-  assert.equal((scenes.match(/role="img" aria-label="[^" ]/g) ?? []).length, 3);
-  assert.doesNotMatch(scenes, /00,00 €|00 000 €|aria-hidden="true"/);
-  for (const value of [
-    "412 €",
-    "436 €",
-    "64 200 €",
-    "2 factures en retard",
-    "38 900 €",
-  ])
-    assert.ok(scenes.includes(value), value);
-  assert.equal((scenes.match(/<blockquote>/g) ?? []).length, 3);
+  const visuals = [
+    ...scenes.matchAll(/<div class="example-visual[\s\S]*?(?=<\/section>)/g),
+  ];
+  assert.equal(visuals.length, 4);
+  for (const [visual] of visuals) {
+    const textAndLabels = visual
+      .replace(
+        /<svg[\s\S]*?<\/svg>/g,
+        (svg) => svg.match(/aria-label="([^"]*)"/)?.[1] ?? "",
+      )
+      .replace(/<[^>]+>/g, "");
+    assert.doesNotMatch(textAndLabels, /[€0-9]/);
+    for (const [, label] of visual.matchAll(/aria-label="([^"]*)"/g))
+      assert.doesNotMatch(label, /[€0-9]/);
+  }
+  assert.equal((scenes.match(/<blockquote>/g) ?? []).length, 4);
+  assert.ok(html.indexOf('id="devis"') < html.indexOf('id="prix"'));
+  assert.match(
+    html.slice(html.indexOf('id="devis"'), html.indexOf('id="prix"')),
+    /<h2>Lundi matin, les demandes de devis attendent dans la boîte mail<\/h2>/,
+  );
+  for (const [, title, text] of screens[6].matchAll(
+    /\d+\. \*\*« (.*?) »\*\* « (.*?) »/g,
+  )) {
+    assert.ok(html.includes(escape(title)), title);
+    assert.ok(html.includes(escape(text)), text);
+  }
   assert.match(html, /\[ EN PRATIQUE \]/);
   // The site map names real projects (Kibana MCP); the pitch and scenes stay jargon-free.
   assert.doesNotMatch(
@@ -125,9 +141,10 @@ test("SMB offer homepage: outcome hero, one screen per problem, method, then the
   );
   const order = [
     "agent",
-    "prospection",
+    "devis",
     "prix",
     "tresorerie",
+    "prospection",
     "demarche",
     "about",
     "contact",
@@ -142,7 +159,7 @@ test("SMB offer homepage: outcome hero, one screen per problem, method, then the
     );
   assert.equal((html.match(/id="contact"/g) ?? []).length, 1);
   assert.equal((html.match(/class="method-step"/g) ?? []).length, 3);
-  for (const href of ["/#prospection", "/#demarche", "/#about", "/#contact"])
+  for (const href of ["/#devis", "/#demarche", "/#about", "/#contact"])
     assert.ok(html.includes(`href="${href}"`));
   assert.match(html, /href="https:\/\/cv.havesomecode.io\//);
   for (const id of ["posts", "search", "topics", "thinking"])

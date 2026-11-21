@@ -108,37 +108,43 @@ const homepageCopy = [
   ],
   [
     "Un agent, c'est un assistant qui fait le travail à côté de vous",
-    "Vous lui expliquez une tâche, comme à un nouveau collègue : \"quand un client écrit, cherche sa commande, réponds-lui\". Il utilise alors vos outils habituels (messagerie, tableur, logiciel de facturation) et fait le travail à votre place. Pour tout ce qui engage l'entreprise, il vous demande avant d'agir.",
+    "Vous lui expliquez une tâche, comme à un nouveau collègue : \"quand un client demande un devis, regarde si la demande est complète, prépare la réponse\". Il utilise alors vos outils habituels (messagerie, tableur, logiciel de facturation) et prépare le travail. Pour tout ce qui engage l'entreprise, il demande avant d'agir.",
   ],
   [
-    "Mélanie passe sa semaine à recopier des fiches",
-    "Mélanie est indépendante en développement commercial. Pour trouver des clients, elle ne fait pas que téléphoner : elle cherche des entreprises dans Apollo, les range dans Notion, suit les échanges dans HubSpot, et demande à Claude et ChatGPT de rédiger ses messages. Tout en versions gratuites, donc cinq outils qui ne se parlent pas. Mardi, 21 h : elle recopie encore des noms d'un outil à l'autre. Ce temps-là, elle ne le passe pas avec un prospect.",
-    "L'agent cherche les entreprises qui correspondent à ce que Mélanie vend, les range au même endroit et prépare un brouillon de message pour chacune. Mélanie lit, corrige, et c'est elle qui envoie. Le lendemain, elle ouvre un seul outil et sait qui rappeler.",
-    "Vous allez me dire : \"mes prospects ne veulent pas de messages automatiques\". Ils n'en reçoivent pas. L'agent prépare, Mélanie relit et signe chaque message. Le téléphone reste son meilleur outil, l'agent s'occupe de ce qui l'entoure.",
+    "Lundi matin, les demandes de devis attendent dans la boîte mail",
+    "Éric dirige une imprimerie. Chaque jour, des demandes de devis arrivent sur l'adresse de l'entreprise, mélangées à des réclamations, des relances de fournisseurs et des publicités. Sandrine, à l'administration des ventes, les ouvre une à une : celle-ci est complète, celle-là n'indique ni quantité ni délai, cette autre est urgente mais enfouie sous le reste. Lundi, huit heures et demie, Éric passe la tête dans son bureau et demande : \"On a répondu à tout le monde ?\" Sandrine ne peut pas le dire. Un client écrit depuis jeudi. Éric ne sait pas ce que ça lui a coûté, mais il sait qu'un devis qui arrive tard est un devis qu'on perd souvent.",
+    "L'agent lit chaque nouvelle demande et la range dans l'une de trois piles : prête à chiffrer, à compléter, urgente. Pour chacune, il remplit une fiche (client, produit, quantité, délai) et prépare un brouillon de réponse : un accusé de réception, ou la liste de ce qui manque pour établir le prix. Sandrine relit, corrige si besoin, et c'est elle qui envoie. Éric, son café à la main, regarde une seule liste : ce qui a reçu une réponse, ce qui attend une information du client, ce qui presse.",
+    "Éric vous dira : \"et si l'assistant répond n'importe quoi à mes clients ?\" Rien ne part sans Sandrine : l'agent prépare, elle valide chaque message. Sandrine, elle, se demandera si on cherche à la remplacer. Non : elle garde son métier, le jugement sur le prix, la relation avec le client, et elle perd la partie qui l'use, le tri et la recopie. Elle est associée dès le premier jour, parce que c'est elle qui sait ce qu'est une demande bien faite.",
   ],
   [
     "Le devis est parti avec l'ancien prix",
-    "Hélène dirige une petite entreprise qui pose des cuisines. Ses fournisseurs lui envoient leurs nouveaux tarifs par mail, en PDF. Jeudi, 17 h : un client demande un devis, et personne ne sait si la liste de prix du tableur est la dernière. Un devis au mauvais prix, c'est soit une marge perdue, soit un client à rappeler pour s'excuser.",
-    'Quand un fournisseur envoie un nouveau tarif, l\'agent lit le document, met à jour la liste de prix et signale à Hélène ce qui a changé : "3 références ont augmenté". Même chose pour les coordonnées : si un contact change de numéro dans un mail, la fiche est corrigée.',
+    "Hélène dirige une petite entreprise qui pose des cuisines. Ses fournisseurs lui envoient leurs nouveaux tarifs par mail, en PDF. Jeudi, en fin d'après-midi : un client demande un devis, et personne ne sait si la liste de prix du tableur est la dernière. Un devis au mauvais prix, c'est soit une marge perdue, soit un client à rappeler pour s'excuser.",
+    'Quand un fournisseur envoie un nouveau tarif, l\'agent lit le document, prépare la mise à jour de la liste de prix et signale à Hélène ce qui a changé : "plusieurs références ont augmenté". Même chose pour les coordonnées : si un contact change de numéro dans un mail, la fiche est proposée à la correction.',
     "Vous allez me dire : \"et s'il se trompe de ligne ?\" Chaque changement est listé avec l'ancien et le nouveau prix, et Hélène valide avant qu'il serve dans un devis. Un agent peut se tromper, c'est pour cela que vous gardez la dernière main.",
   ],
   [
     "Où en est la trésorerie ? Je regarde quel fichier est le bon",
-    "Patrick dirige un bureau d'études de huit personnes. Pour savoir où en est l'entreprise, il doit ouvrir l'outil de facturation, la banque, et un tableur qu'une collègue met à jour quand elle a le temps. Le 28 du mois, 8 h 30 : il hésite à valider une dépense, parce qu'il ne sait pas si les deux factures en retard ont été payées.",
-    "L'agent rassemble les factures, les paiements reçus et les dépenses prévues, et affiche une page simple : ce qui est rentré ce mois-ci, ce qui est en retard, ce qui reste sur le compte dans trente jours. Plus de tableur à ouvrir ni de collègue à déranger. Patrick lit un écran, pas des lignes.",
+    "Patrick dirige un bureau d'études. Pour savoir où en est l'entreprise, il doit ouvrir l'outil de facturation, la banque, et un tableur qu'une collègue met à jour quand elle a le temps. En fin de mois, tôt le matin, il hésite à valider une dépense, parce qu'il ne sait pas si deux factures en retard ont été payées.",
+    "L'agent rassemble les factures, les paiements reçus et les dépenses prévues, et prépare chaque matin une page simple : ce qui est rentré ce mois-ci, ce qui est en retard, les relances à faire. Plus de tableur à ouvrir ni de collègue à déranger. Patrick lit un écran, pas des lignes.",
     'Vous allez me dire : "mes chiffres sont confidentiels". Ils le restent : l\'agent lit seulement ce que vous lui ouvrez, et vous décidez où les données sont stockées. On en parle avant de commencer, pas après.',
   ],
   [
+    "Mélanie passe sa semaine à recopier des fiches",
+    "Mélanie est indépendante en développement commercial. Pour trouver des clients, elle ne fait pas que téléphoner : elle cherche des entreprises dans Apollo, les range dans Notion, suit les échanges dans HubSpot, et demande à Claude et ChatGPT de rédiger ses messages. Tout en versions gratuites, donc cinq outils qui ne se parlent pas. Mardi, neuf heures du soir : elle recopie encore des noms d'un outil à l'autre. Ce temps-là, elle ne le passe pas avec un prospect.",
+    "Cinq outils qui ne se parlent pas ? Un seul endroit où voir qui rappeler. L'agent prépare la liste du jour et un brouillon de message par contact. Mélanie lit, corrige, et c'est elle qui envoie. Le lendemain, elle ouvre un seul outil et sait qui rappeler.",
+    "Vous allez me dire : \"mes prospects ne veulent pas de messages automatiques\". Ils n'en reçoivent pas. L'agent prépare, Mélanie relit et signe chaque message. Le téléphone reste son meilleur outil, l'agent s'occupe de ce qui l'entoure.",
+  ],
+  [
     "On commence par parler, pas par installer",
-    "Trois étapes, et vous pouvez vous arrêter après chacune.",
+    "Trois étapes, et vous pouvez vous arrêter après chacune. Moins de saisie et de relances dans votre équipe, sans changer d'outil pour le plaisir.",
   ],
   [
     "Zacaria Chtatar, développeur",
-    "Je construis des logiciels depuis 2013, et je dirige des équipes techniques depuis 2018. Depuis 2020, je suis lead développeur chez Club Med, sur la plateforme qui alimente leurs applications, où j'ai mis en production trois agents pour des tâches de diagnostic et de développement. Je suis indépendant et je travaille depuis la France.",
+    "Je construis des logiciels depuis plus de dix ans, et je dirige des équipes techniques depuis plusieurs années. Je suis aujourd'hui lead développeur chez Club Med, sur la plateforme qui alimente leurs applications, où j'ai mis en production trois agents pour des tâches de diagnostic et de développement. Je suis indépendant et je travaille depuis la France.",
   ],
   [
     "Parlons de votre tâche qui prend trop de temps",
-    "Écrivez-moi en deux lignes ce qui vous fait perdre du temps. Je vous réponds pour fixer un appel de trente minutes.",
+    "Écrivez-moi en deux lignes ce qui vous fait perdre du temps. Je vous réponds pour fixer un appel d'une demi-heure.",
   ],
 ];
 const siteMap = [
@@ -165,57 +171,41 @@ const siteMap = [
 ];
 const homepageSteps = [
   [
-    "Trente minutes au téléphone.",
+    "Une demi-heure au téléphone.",
     "Vous me décrivez une tâche qui vous fait perdre du temps. Je pose des questions, je ne vends rien. Il est possible que ma réponse soit : ne changez rien.",
   ],
   [
     "Un diagnostic.",
-    "Je regarde comment la tâche se fait vraiment, avec la personne qui la fait. Je vous remets une page : ce qui peut être simplifié, et comment. Parfois, un réglage dans votre logiciel actuel suffit.",
+    "Je regarde comment la tâche se fait vraiment, avec la personne qui la fait. Je vous remets une page : la plus petite amélioration utile, et comment la mettre en place. Parfois, un réglage dans votre logiciel actuel suffit.",
   ],
   [
     "Un essai sur une seule tâche.",
-    "Une personne de votre équipe l'utilise, nous mesurons ce qui change, et vous décidez de continuer ou d'arrêter.",
+    "Une personne de votre équipe l'utilise, nous regardons ce qui change, et vous décidez de continuer ou d'arrêter. L'assistant prépare, elle relit, elle envoie. Rien de ce qui engage l'entreprise ne part sans l'accord d'une personne de chez vous.",
   ],
 ];
 
 const interest = `<section class="interest" id="suivre"><h2>Un processus qui vous fait perdre du temps ?</h2><p>Je publie ce que j’apprends en regardant des processus réels de PME : ce qui se simplifie, ce qui ne vaut pas l’automatisation, ce que l’IA fait ou ne fait pas. Laissez votre courriel pour recevoir ces retours, et être prévenu si je prends de nouvelles missions de conseil.</p><form class="interest-form" method="post" action="https://interest.havesomecode.io/subscribe" data-interest><input type="hidden" name="source" value="landing" /><div class="field"><label for="interest-email">Votre courriel professionnel</label><input id="interest-email" type="email" name="email" autocomplete="email" placeholder="prenom@entreprise.fr" maxlength="254" required /></div><div class="trap" aria-hidden="true"><label>Ne pas remplir<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div><div class="consent"><input id="interest-consent" type="checkbox" name="consent" value="on" required /><label for="interest-consent">Je souhaite recevoir par courriel l’actualité de HaveSomeCode sur le conseil IA pour les PME.</label></div><button type="submit">Je veux suivre</button><p class="interest-note">Seule votre adresse est enregistrée, uniquement pour ces courriels. Un lien de désinscription figure dans chacun. Détails dans la <a href="/confidentialite">politique de confidentialité</a>.</p><p class="interest-status" role="status" data-interest-status></p></form></section>`;
 
 const illustrations = [
-  `<div class="example-visual prospect-visual"><div class="visual-columns"><div class="before-panel"><b>Avant · mardi, 21 h</b><div class="scattered"><svg viewBox="0 0 220 245" role="img" aria-label="Avant : cinq outils dispersés mardi à 21 h. Après : une liste de trois prospects avec leurs brouillons à valider." focusable="false"><defs><marker id="scene-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="currentColor" stroke-width="1.3" /></marker></defs><g fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#scene-arrow)"><path d="M47 38 C130 27 142 109 180 110" /><path d="M173 42 C142 100 60 99 42 150" /><path d="M43 151 C85 120 157 178 175 184" /><path d="M175 184 C130 238 55 210 55 184" /><path d="M58 198 C108 189 129 95 175 51" /></g><circle cx="110" cy="109" r="13" fill="currentColor" /><path d="M83 153 C83 136 94 127 110 127 C126 127 137 136 137 153 L137 162 L83 162 Z" fill="currentColor" /></svg><span>Notion</span><span>Apollo</span><span>HubSpot</span><span>Claude</span><span>ChatGPT</span></div></div><div class="after-panel"><b>Après · Liste du jour</b><div class="prospect-list">${["01", "02", "03"].map((number) => `<div class="prospect-row"><span>Prospect ${number}</span><span>Brouillon</span><span class="validate-pill">Valider</span></div>`).join("")}</div></div></div></div>`,
-  `<div class="example-visual" role="img" aria-label="Un tarif fournisseur met à jour trois prix : 412 à 436 euros, 285 à 299 euros et 168 à 179 euros, à valider."><p>✉ tarif-fournisseur.pdf ↓</p><div class="price-row"><b>Référence</b><b>Ancien</b><b>Nouveau</b><b>Validation</b></div>${[
-    ["412", "436"],
-    ["285", "299"],
-    ["168", "179"],
-  ]
-    .map(
-      ([oldPrice, newPrice], n) =>
-        `<div class="price-row"><span>0${n + 1}</span><del>${oldPrice} €</del><strong>${newPrice} €</strong><span>Valider</span></div>`,
-    )
-    .join("")}</div>`,
-  `<div class="example-visual dashboard" role="img" aria-label="Tableau de trésorerie : 64 200 euros encaissés ce mois-ci, 2 factures en retard et 38 900 euros disponibles dans 30 jours, avec une courbe."><div class="dashboard-grid">${[
-    ["Encaissé ce mois-ci", "64 200 €"],
-    ["En retard", "2 factures en retard"],
-    ["Disponible dans 30 jours", "38 900 €"],
-  ]
-    .map(
-      ([label, value]) => `<div><small>${label}</small><b>${value}</b></div>`,
-    )
-    .join("")}</div><div class="chart-line"></div></div>`,
+  `<div class="example-visual devis-visual"><div class="visual-columns"><div class="before-panel"><b>Avant · Boîte de réception</b><p>Sandrine</p><ul class="inbox-list"><li>Demande de devis</li><li>Réclamation</li><li>Relance fournisseur</li><li class="urgent">Demande de devis · urgent</li><li>Publicité</li><li>Demande de devis</li></ul><p>Éric : « On a répondu à tout le monde ? »</p></div><div class="after-panel"><b>Après</b><p>Éric : Répondu / En attente du client / À traiter maintenant</p><div class="request-columns">${["Prêtes à chiffrer", "À compléter", "Urgentes"].map((label) => `<div><b>${label}</b><p>Demande de devis</p><span>Brouillon</span><span class="validate-pill">Relire et envoyer</span></div>`).join("")}</div></div></div></div>`,
+  `<div class="example-visual price-visual"><p>✉ tarif-fournisseur.pdf ↓</p><div class="price-row"><b>Produit</b><b>Ancien prix</b><b>Nouveau prix</b><b>Validation</b></div>${["Évier", "Plan de travail", "Meuble"].map((name) => `<div class="price-row"><span>${name}</span><span class="price-bar old-bar" aria-hidden="true"></span><span class="price-bar new-bar" aria-hidden="true"></span><span class="validate-pill">Valider</span></div>`).join("")}</div>`,
+  `<div class="example-visual dashboard"><div class="dashboard-grid">${["Encaissé ce mois-ci", "En retard", "Relances à faire"].map((label) => `<div><small>${label}</small><span class="gauge" aria-hidden="true"></span></div>`).join("")}</div></div>`,
+  `<div class="example-visual prospect-visual"><div class="visual-columns"><div class="before-panel"><b>Avant · mardi soir</b><div class="scattered"><svg viewBox="0 0 220 245" role="img" aria-label="Avant : cinq outils dispersés mardi soir. Après : une liste de trois prospects avec leurs brouillons à valider." focusable="false"><defs><marker id="scene-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="currentColor" stroke-width="1.3" /></marker></defs><g fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#scene-arrow)"><path d="M47 38 C130 27 142 109 180 110" /><path d="M173 42 C142 100 60 99 42 150" /><path d="M43 151 C85 120 157 178 175 184" /><path d="M175 184 C130 238 55 210 55 184" /><path d="M58 198 C108 189 129 95 175 51" /></g><circle cx="110" cy="109" r="13" fill="currentColor" /><path d="M83 153 C83 136 94 127 110 127 C126 127 137 136 137 153 L137 162 L83 162 Z" fill="currentColor" /></svg><span>Notion</span><span>Apollo</span><span>HubSpot</span><span>Claude</span><span>ChatGPT</span></div></div><div class="after-panel"><b>Après · Liste du jour</b><div class="prospect-list">${["A", "B", "C"].map((number) => `<div class="prospect-row"><span>Prospect ${number}</span><span>Brouillon</span><span class="validate-pill">Valider</span></div>`).join("")}</div></div></div></div>`,
 ];
 function examples() {
-  return ["prospection", "prix", "tresorerie"]
+  return ["devis", "prix", "tresorerie", "prospection"]
     .map((id, n) => {
       const [title, situation, agent, objection] = homepageCopy[n + 2];
       return `<section class="example-section" id="${id}"><div><h2>${escape(title)}</h2><p>${escape(situation)}</p><h3>Avec un agent</h3><p>${escape(agent)}</p><blockquote><p>${escape(objection)}</p></blockquote></div>${illustrations[n]}</section>`;
     })
     .join("");
 }
-const agent = `<section class="agent-section" id="agent"><h2>${escape(homepageCopy[1][0])}</h2><p>${escape(homepageCopy[1][1])}</p><ol class="agent-flow"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg> Vous écrivez la consigne</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m10 2 4 0 .5 2.2 1.7.7 1.9-1.2 2.8 2.8-1.2 1.9.7 1.7 2.2.5v4l-2.2.5-.7 1.7 1.2 1.9-2.8 2.8-1.9-1.2-1.7.7L14 22h-4l-.5-2.2-1.7-.7-1.9 1.2-2.8-2.8 1.2-1.9-.7-1.7L2 14v-4l2.2-.5.7-1.7-1.2-1.9 2.8-2.8 1.9 1.2 1.7-.7Z"/><circle cx="12" cy="12" r="3"/></svg> L'agent fait la tâche dans vos outils</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg> Vous validez l'envoi</li></ol></section>`;
-const method = `<section class="method" id="demarche"><h2>${escape(homepageCopy[5][0])}</h2><p>${escape(homepageCopy[5][1])}</p><ol class="method-steps">${homepageSteps.map(([title, text]) => `<li class="method-step"><h3>${escape(title)}</h3><p>${escape(text)}</p><p class="exit">Je m'arrête ici →</p></li>`).join("")}</ol><p>Un devis écrit avant tout engagement.</p></section>`;
+const agent = `<section class="agent-section" id="agent"><h2>${escape(homepageCopy[1][0])}</h2><p>${escape(homepageCopy[1][1])}</p><ol class="agent-flow"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg> Vous écrivez la consigne</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m10 2 4 0 .5 2.2 1.7.7 1.9-1.2 2.8 2.8-1.2 1.9.7 1.7 2.2.5v4l-2.2.5-.7 1.7 1.2 1.9-2.8 2.8-1.9-1.2-1.7.7L14 22h-4l-.5-2.2-1.7-.7-1.9 1.2-2.8-2.8 1.2-1.9-.7-1.7L2 14v-4l2.2-.5.7-1.7-1.2-1.9 2.8-2.8 1.9 1.2 1.7-.7Z"/><circle cx="12" cy="12" r="3"/></svg> L'agent prépare la tâche dans vos outils</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg> Vous validez l'envoi</li></ol></section>`;
+const method = `<section class="method" id="demarche"><h2>${escape(homepageCopy[6][0])}</h2><p>${escape(homepageCopy[6][1])}</p><ol class="method-steps">${homepageSteps.map(([title, text]) => `<li class="method-step"><h3>${escape(title)}</h3><p>${escape(text)}</p><p class="exit">Je m'arrête ici →</p></li>`).join("")}</ol><p>Un devis écrit avant tout engagement.</p></section>`;
 function about(snapshot) {
-  return `<section class="about" id="about"><div><h2>${escape(homepageCopy[6][0])}</h2><p>${escape(homepageCopy[6][1])}</p><ul class="markers"><li>Depuis 2013</li><li>Lead technique depuis 2018</li><li>Club Med depuis 2020</li></ul><ul class="contact-links">${snapshot.site.contact.map((c) => `<li>${anchor(c.href, escape(c.label))}</li>`).join("")}</ul></div><img src="/assets/portrait-responsive/portrait-w_600.jpg" alt="Portrait de Zacaria Chtatar" /></section>`;
+  return `<section class="about" id="about"><div><h2>${escape(homepageCopy[7][0])}</h2><p>${escape(homepageCopy[7][1])}</p><ul class="markers"><li>Développeur</li><li>Lead technique</li><li>Club Med</li></ul><ul class="contact-links">${snapshot.site.contact.map((c) => `<li>${anchor(c.href, escape(c.label))}</li>`).join("")}</ul></div><img src="/assets/portrait-responsive/portrait-w_600.jpg" alt="Portrait de Zacaria Chtatar" /></section>`;
 }
-const contact = `<section class="contact-panel" id="contact"><h2>${escape(homepageCopy[7][0])}</h2><p>${escape(homepageCopy[7][1])}</p><p class="quick-links"><a href="${MISSION_HREF}">Discutons de votre projet</a></p><p><a href="mailto:z@havesomecode.io">z@havesomecode.io</a></p></section>`;
+const contact = `<section class="contact-panel" id="contact"><h2>${escape(homepageCopy[8][0])}</h2><p>${escape(homepageCopy[8][1])}</p><p class="quick-links"><a href="${MISSION_HREF}">Discutons de votre projet</a></p><p><a href="mailto:z@havesomecode.io">z@havesomecode.io</a></p></section>`;
 
 const sources = {
   float: "https://github.com/Zacaria/float",
