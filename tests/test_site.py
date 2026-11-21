@@ -62,7 +62,7 @@ class PublicSiteAcceptance(unittest.TestCase):
     def test_homepage_order_and_private_notes(self):
         ids = ['agent', 'devis', 'prix', 'tresorerie', 'prospection', 'demarche', 'about', 'contact', 'suivre', 'projects', 'speaking', 'posts']
         self.assertEqual([i for i in self.page.ids if i in ids], ids)
-        self.assertIn('<h1>Développeur, j&#39;aide les entreprises à mettre l&#39;IA au travail.</h1>', self.source)
+        self.assertIn('<h1>Développeur, j&#39;aide les entreprises à mettre l&#39;IA <em>au travail</em>.</h1>', self.source)
         self.assertNotIn('Notes privées pour Zacaria', self.source)
         self.assertNotIn('—', self.source)
 

@@ -77,7 +77,10 @@ test("SMB offer homepage: outcome hero, one screen per problem, method, then the
     for (const match of screen.matchAll(
       /\*\*(?:Titre|Texte|Ligne de conditions|Avec un agent|Les objections|L'objection) :\*\* « (.*?) »/g,
     ))
-      assert.ok(html.includes(escape(match[1])), match[1]);
+      assert.ok(
+        html.replace(/<\/?em>/g, "").includes(escape(match[1])),
+        match[1],
+      );
   }
   const firstScreens = html.slice(
     html.indexOf('<header class="hero"'),

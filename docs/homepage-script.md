@@ -22,7 +22,7 @@
 
 **Lien secondaire :** « Discutons de votre projet » (mène à l'écran Contact)
 
-**Visuel :** Fond sobre aux couleurs HaveSomeCode. À droite, la même carte que sur la maquette actuelle, mais avec quatre lignes qui servent de plan du site. Chaque ligne a un nom, une phrase, et un lien vers sa section :
+**Visuel :** Une carte du site vivante sur une grille discrète : les blocs de texte deviennent des obstacles et un chemin A* rejoint les quatre destinations à droite. Le tracé réagit au pointeur et aux liens, avec une version statique si les animations sont réduites. Chaque ligne a un nom, une phrase et un lien vers sa section :
 - « Conseil IA » : « Mettre un assistant au travail dans votre entreprise » (vers l'écran 2)
 - « Guides » : « Go, GitOps, Kubernetes, mémoire des agents : comprendre pas à pas » (vers la section Projets, entrées HaveSome)
 - « Notes » : « Ce que j'apprends en construisant, noté au fil de l'eau » (vers Dernières notes)

@@ -348,6 +348,7 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
   });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:8793/");
+  await expect(page.locator(".hero-map")).toBeHidden();
   await expect(page.locator(".hero-illustration li")).toHaveCount(4);
   expect(
     await page.locator(".hero-illustration li").evaluateAll((items) =>
@@ -372,27 +373,37 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
   await context.close();
 });
 
-test("hero animates with JavaScript and respects reduced motion", async ({
-  browser,
-}) => {
-  for (const [reducedMotion, animation] of [
-    ["no-preference", "settle"],
-    ["reduce", "none"],
-  ]) {
+test("hero map respects motion preferences", async ({ browser }) => {
+  for (const reducedMotion of ["no-preference", "reduce"]) {
     const context = await browser.newContext({ reducedMotion });
     const page = await context.newPage();
     await page.goto("http://127.0.0.1:8793/");
-    const styles = await page
-      .locator(".hero-illustration li")
-      .evaluateAll((items) =>
-        items.map((item) => {
-          const style = getComputedStyle(item);
-          return [style.animationName, style.transform, style.opacity];
-        }),
-      );
-    expect(styles.map((style) => style[0])).toEqual(Array(4).fill(animation));
-    if (reducedMotion === "reduce")
-      expect(styles).toEqual(Array(4).fill(["none", "none", "1"]));
+    const canvas = page.locator(".hero-map");
+    await expect(canvas).toBeVisible();
+    await expect(canvas).toHaveAttribute(
+      "data-motion",
+      reducedMotion === "reduce" ? "static" : "live",
+    );
+    if (reducedMotion === "reduce") {
+      expect(
+        await page
+          .locator(".hero *")
+          .evaluateAll(
+            (items) =>
+              items.filter(
+                (item) => getComputedStyle(item).animationName !== "none",
+              ).length,
+          ),
+      ).toBe(0);
+    } else {
+      await page.waitForTimeout(3000);
+      await expect(page.locator(".site-map li.is-target")).toHaveCount(1, {
+        timeout: 5000,
+      });
+      const row = page.locator(".site-map li").last();
+      await row.locator("a").focus();
+      await expect(row).toHaveClass(/is-target/, { timeout: 5000 });
+    }
     await context.close();
   }
 });
