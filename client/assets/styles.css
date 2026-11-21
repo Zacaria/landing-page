@@ -743,9 +743,41 @@ main > section > h2 {
 .hero-illustration li + li {
   border-top: 0;
 }
-.hero-illustration li span {
+.site-map {
+  padding: 8px 30px;
+}
+.site-map li,
+.site-map li + li {
+  padding: 0;
+  border: 0;
+}
+.site-map li + li {
+  border-top: 1px solid var(--border);
+}
+.hero .quick-links {
+  margin-top: 24px;
+}
+.site-map a {
+  display: grid;
+  gap: 4px;
+  padding: 18px 0;
+  text-decoration: none;
+  color: inherit;
+}
+.site-map a:hover b,
+.site-map a:focus-visible b {
+  text-decoration: underline;
+}
+.site-map b {
+  font:
+    400 26px/1.1 "Instrument Serif",
+    serif;
   color: var(--line-1);
-  margin-right: 12px;
+}
+.site-map span {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted-foreground);
 }
 .hero-illustration figcaption {
   margin-top: 18px;
@@ -761,6 +793,9 @@ main > section > h2 {
   }
   .hero-illustration li:nth-child(3) {
     animation-delay: 0.3s;
+  }
+  .hero-illustration li:nth-child(4) {
+    animation-delay: 0.45s;
   }
 }
 @keyframes settle {
@@ -1045,12 +1080,15 @@ main > section > h2 {
 }
 @media (prefers-reduced-motion: no-preference) {
   .hero-illustration li:nth-child(1) {
-    --stack-y: 62px;
+    --stack-y: 48px;
   }
   .hero-illustration li:nth-child(2) {
-    --stack-y: 0px;
+    --stack-y: 16px;
   }
   .hero-illustration li:nth-child(3) {
-    --stack-y: -62px;
+    --stack-y: -16px;
+  }
+  .hero-illustration li:nth-child(4) {
+    --stack-y: -48px;
   }
 }

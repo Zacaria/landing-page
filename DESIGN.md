@@ -86,7 +86,7 @@ components:
 
 On 22 October 2026, the owner replaced the CV/Sandstone direction with `https://webdev.teknium.io/#react` (Uncommon Web), then accepted a HaveSomeCode adaptation. Keep the recruiter-focused content cleanup: name, hands-on role, professional evidence and direct CV/contact access before personal experiments. This accepts the reference direction, not a production release or article publication.
 
-The homepage follows `docs/homepage-script.md`: an outcome-led hero and CSS illustration, navigation below it, an explanation of agents, three clearly fictional examples, a three-step process, biography and contact. Preserved secondary content follows. The examples use accessible HTML/CSS illustrations, not product screenshots. No prices, testimonials or claimed results are shown.
+The homepage follows `docs/homepage-script.md`: a hero that says where the reader landed and maps the site (AI consulting, guides, notes, projects) in four linked lines, navigation below it, an explanation of agents, three clearly fictional examples, a three-step process, biography and contact. Preserved secondary content follows. The examples use accessible HTML/CSS illustrations, not product screenshots. No prices, testimonials or claimed results are shown.
 
 Use Instrument Serif for the name and large section/project titles, including an italic accent; Geist Sans for reading; Geist Mono for compact metadata and process-step numbering; homepage section headings are unnumbered. Capture the real reference at desktop/mobile dimensions and compare its bottom-weighted hero, below-hero navigation, restrained surfaces and thin rules—not only its palette. Locally bundle licensed fonts; no network font dependency. Keep the attached CV private and do not turn the homepage into its chronology.
 
@@ -94,7 +94,7 @@ The inspected reference is a custom HTML/CSS/JavaScript shell; `#react` is a cat
 
 ## Composition and behavior
 
-Use a left-aligned editorial frame up to 1200px, a full-bleed hero band, monumental serif headline and navigation below the hero. The hero illustration resolves to a checked list without JavaScript or motion. Give the three examples distinct, explicitly fictional visual treatments and maintain readable layouts at 320px without horizontal overflow. Present each project once in a compact ruled list.
+Use a left-aligned editorial frame up to 1200px, a full-bleed hero band, monumental serif headline and navigation below the hero. The hero site map resolves to four readable links without JavaScript or motion. Give the three examples distinct, explicitly fictional visual treatments and maintain readable layouts at 320px without horizontal overflow. Present each project once in a compact ruled list.
 
 Appearance choices sit in the subdued footer beside the site credit, not in the identity/header or as a primary call to action (owner revision, 13 October 2026). Keep their transparent, borderless text styling and 44px touch targets. They carry aria-pressed, persist when storage works, and Auto follows device changes. No-JavaScript Auto uses the OS preference through CSS. Focus is visible and reduced motion disables smooth scrolling.
 

@@ -154,7 +154,7 @@ test("owner bands recolor the current hero without changing homepage geometry or
     await expect(page.locator("#speaking .post")).toHaveCount(3);
     await expect(page.locator(".topline")).toBeVisible();
     await expect(page.locator(".hero h1")).toHaveText(
-      "Moins de saisie, moins de relances. Plus de temps pour vos clients.",
+      "Développeur, j'aide les entreprises à mettre l'IA au travail.",
     );
   }
   // Vercel accent and contrast intentionally share black; soft remains distinct.

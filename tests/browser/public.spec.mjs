@@ -17,7 +17,7 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.locator("#no-articles, #topics")).toHaveCount(0);
     await expect(page.locator("#posts .post[data-search]")).toHaveCount(3);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Moins de saisie, moins de relances. Plus de temps pour vos clients.",
+      "Développeur, j'aide les entreprises à mettre l'IA au travail.",
     );
     await expect(
       page.locator(".hero a", { hasText: "Discutons de votre projet" }),
@@ -31,7 +31,15 @@ for (const width of [1440, 768, 390, 320]) {
     ).toHaveCount(3);
     await expect(page.locator(".method-step")).toHaveCount(3);
     await expect(page.locator('.hero a[href="#contact"]')).toBeVisible();
-    await expect(page.locator(".hero-illustration li")).toHaveCount(3);
+    await expect(page.locator(".hero-illustration li")).toHaveCount(4);
+    expect(
+      await page
+        .locator(".hero-illustration a")
+        .evaluateAll((links) => links.map((a) => a.getAttribute("href"))),
+    ).toEqual(["#agent", "#projects", "#posts", "#projects"]);
+    await expect(page.locator('.hero a[href="#agent"]').first()).toHaveText(
+      "Voir ce qu'on trouve ici",
+    );
     const sections = await page
       .locator("main > section")
       .evaluateAll((els) => els.map((el) => el.id));
@@ -339,7 +347,7 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
   });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:8793/");
-  await expect(page.locator(".hero-illustration li")).toHaveCount(3);
+  await expect(page.locator(".hero-illustration li")).toHaveCount(4);
   expect(
     await page.locator(".hero-illustration li").evaluateAll((items) =>
       items.map((item) => {
@@ -347,7 +355,7 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
         return [style.animationName, style.transform, style.opacity];
       }),
     ),
-  ).toEqual(Array(3).fill(["none", "none", "1"]));
+  ).toEqual(Array(4).fill(["none", "none", "1"]));
   await expect(page.locator(".hero-illustration li").first()).toBeVisible();
   await expect(page.locator("#about")).toBeVisible();
   await expect(page.locator("#topics")).toHaveCount(0);
@@ -381,9 +389,9 @@ test("hero animates with JavaScript and respects reduced motion", async ({
           return [style.animationName, style.transform, style.opacity];
         }),
       );
-    expect(styles.map((style) => style[0])).toEqual(Array(3).fill(animation));
+    expect(styles.map((style) => style[0])).toEqual(Array(4).fill(animation));
     if (reducedMotion === "reduce")
-      expect(styles).toEqual(Array(3).fill(["none", "none", "1"]));
+      expect(styles).toEqual(Array(4).fill(["none", "none", "1"]));
     await context.close();
   }
 });

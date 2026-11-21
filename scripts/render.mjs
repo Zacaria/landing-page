@@ -102,9 +102,9 @@ const theme = `<div class="theme-control" role="group" aria-label="Apparence"><s
 
 const homepageCopy = [
   [
-    "Moins de saisie, moins de relances. Plus de temps pour vos clients.",
-    "Je regarde comment votre équipe travaille vraiment, puis je mets en place un assistant informatique qui prend les tâches répétitives. Votre équipe garde la main sur tout ce qui engage l'entreprise.",
-    "30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel.",
+    "Développeur, j'aide les entreprises à mettre l'IA au travail.",
+    "Bienvenue sur mon site. Vous y trouvez mon accompagnement pour les entreprises qui veulent y voir clair sur l'IA, mais aussi des guides pour apprendre, mes notes de travail et mes projets personnels.",
+    "Accompagnement : 30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel.",
   ],
   [
     "Un agent, c'est un assistant qui fait le travail à côté de vous",
@@ -139,6 +139,28 @@ const homepageCopy = [
   [
     "Parlons de votre tâche qui prend trop de temps",
     "Écrivez-moi en deux lignes ce qui vous fait perdre du temps. Je vous réponds pour fixer un appel de trente minutes.",
+  ],
+];
+const siteMap = [
+  [
+    "Conseil IA",
+    "Mettre un assistant au travail dans votre entreprise",
+    "#agent",
+  ],
+  [
+    "Guides",
+    "Go, GitOps, Kubernetes, mémoire des agents : comprendre pas à pas",
+    "#projects",
+  ],
+  [
+    "Notes",
+    "Ce que j'apprends en construisant, noté au fil de l'eau",
+    "#posts",
+  ],
+  [
+    "Projets",
+    "Des outils que je construis pour moi : Kibana MCP, Pathfinding, Float",
+    "#projects",
   ],
 ];
 const homepageSteps = [
@@ -216,7 +238,7 @@ function header(snapshot, article) {
     .join("");
   const hero = article
     ? `<header id="top"><p class="author">Zacaria Chtatar · HaveSomeCode</p></header>`
-    : `<header class="hero" id="top"><div class="pitch"><p class="role">Zacaria Chtatar · HaveSomeCode</p><h1>${escape(homepageCopy[0][0])}</h1><p class="intro">${escape(homepageCopy[0][1])}</p><p class="conditions">${escape(homepageCopy[0][2])}</p><p class="quick-links"><a href="#contact">Discutons de votre projet</a></p></div><figure class="hero-illustration"><ol>${["Message à recopier", "Prix à mettre à jour", "Facture à relancer"].map((label) => `<li><span aria-hidden="true">✓</span> ${label}</li>`).join("")}</ol></figure></header>`;
+    : `<header class="hero" id="top"><div class="pitch"><p class="role">Zacaria Chtatar · HaveSomeCode</p><h1>${escape(homepageCopy[0][0])}</h1><p class="intro">${escape(homepageCopy[0][1])}</p><p class="conditions">${escape(homepageCopy[0][2])}</p><p class="quick-links"><a href="#agent">Voir ce qu'on trouve ici</a><a href="#contact">Discutons de votre projet</a></p></div><div class="hero-illustration site-map"><ol>${siteMap.map(([name, text, href]) => `<li><a href="${href}"><b>${escape(name)}</b><span>${escape(text)}</span></a></li>`).join("")}</ol></div></header>`;
   return `${hero}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div>`;
 }
 function topics(snapshot) {

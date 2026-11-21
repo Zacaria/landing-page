@@ -8,15 +8,25 @@
 
 ## Écran 1. Hero
 
-**Titre :** « Moins de saisie, moins de relances. Plus de temps pour vos clients. »
+**Surtitre :** « Zacaria Chtatar · HaveSomeCode »
 
-**Texte :** « Je regarde comment votre équipe travaille vraiment, puis je mets en place un assistant informatique qui prend les tâches répétitives. Votre équipe garde la main sur tout ce qui engage l'entreprise. »
+**Titre :** « Développeur, j'aide les entreprises à mettre l'IA au travail. »
 
-**Ligne de conditions :** « 30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel. »
+**Texte :** « Bienvenue sur mon site. Vous y trouvez mon accompagnement pour les entreprises qui veulent y voir clair sur l'IA, mais aussi des guides pour apprendre, mes notes de travail et mes projets personnels. »
 
-**Bouton :** « Discutons de votre projet » (mène à l'écran Contact)
+**Ligne de conditions :** « Accompagnement : 30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel. »
 
-**Visuel :** Fond sobre aux couleurs HaveSomeCode. À droite, une pile de petites cartes qui se rangent d'elles-mêmes en une liste propre : « Message à recopier », « Prix à mettre à jour », « Facture à relancer » deviennent trois lignes cochées.
+**Bouton principal :** « Voir ce qu'on trouve ici » (défile jusqu'à l'écran 2)
+
+**Lien secondaire :** « Discutons de votre projet » (mène à l'écran Contact)
+
+**Visuel :** Fond sobre aux couleurs HaveSomeCode. À droite, la même carte que sur la maquette actuelle, mais avec quatre lignes qui servent de plan du site. Chaque ligne a un nom, une phrase, et un lien vers sa section :
+- « Conseil IA » : « Mettre un assistant au travail dans votre entreprise » (vers l'écran 2)
+- « Guides » : « Go, GitOps, Kubernetes, mémoire des agents : comprendre pas à pas » (vers la section Projets, entrées HaveSome)
+- « Notes » : « Ce que j'apprends en construisant, noté au fil de l'eau » (vers Dernières notes)
+- « Projets » : « Des outils que je construis pour moi : Kibana MCP, Pathfinding, Float » (vers Projets personnels)
+
+Retirer l'ancienne pile « Message à recopier / Prix à mettre à jour / Facture à relancer » : elle reste dans l'écran 3 à 5, où elle est à sa place.
 
 ---
 
