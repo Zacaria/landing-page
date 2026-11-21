@@ -3,7 +3,7 @@
   "files": {
     "scripts/render.mjs": "f0a760de14b944d7548289dddd75a0b9cd89930778247c355fa6a7064a8cc393",
     "scripts/schema.mjs": "c3452d7c01a861d433161c9a82a1582ba2b8c7dfe6538ba897d299889910c975",
-    "client/assets/styles.css": "e4047e7e8d36262c34f614dd9532ea8532621d82a4702d7033bf263afc23b365",
+    "client/assets/styles.css": "54dfc416f7069e3b8261e9401340f9927c83fe0560dde1bcf60aa91295c5462d",
     "client/assets/design-tokens.json": "7997e6d8b09646b6586ec54ec415a88b3f3538d9e972b6f110d5102af6faf977",
     "client/assets/theme-init.js": "0575f552a767babf9105d8f9bdc18e09e756b42c55f03818660d160223cea560",
     "client/assets/site.js": "e46ad4894a6aabc5aa0be85a41ad5a847c8dc6abeedc3a7716c15ce799f88154",

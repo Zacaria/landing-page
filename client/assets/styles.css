@@ -955,7 +955,6 @@ main > section > h2 {
   border: 1px solid var(--border);
   padding: 16px;
 }
-.dashboard-grid small,
 .exit {
   border-top: 1px solid var(--border);
   padding-top: 12px;
@@ -1125,6 +1124,13 @@ main > section > h2 {
   background: var(--line-1);
   width: 70%;
   margin-top: 18px;
+}
+.dashboard-grid > div:nth-child(2) .gauge {
+  width: 30%;
+  background: var(--muted-foreground);
+}
+.dashboard-grid > div:nth-child(3) .gauge {
+  width: 45%;
 }
 @media (max-width: 1100px) {
   .devis-visual .visual-columns,
