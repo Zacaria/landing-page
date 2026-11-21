@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "revision": "c68cf06ab164096facdefffa74c097996ed7071de8e02f856cb09f5cfa93535a",
+  "revision": "5475a01e6078ef005b30746062410c0549472f9ed26b633cc2dfcd06cc37a177",
   "articles": [
     {
       "schemaVersion": 1,
@@ -329,7 +329,7 @@
   },
   "navigation": [
     {
-      "label": "Exemples",
+      "label": "En pratique",
       "href": "/#prospection",
       "visible": true,
       "order": 0

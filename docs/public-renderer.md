@@ -22,7 +22,7 @@ Digests match the service canonical JSON order in `server/cms.ts`: article conte
 
 ## Homepage structure
 
-`docs/homepage-script.md` is the source for the homepage copy and sequence. The renderer owns its public copy and CSS illustrations; private notes in the script are never rendered. Scene visuals have accessible descriptions, ordinary amounts, and no visible scene labels; objections are rendered as quotations. The navigation retains “Exemples”. The contact links remain snapshot data. The hero precedes navigation, followed by agent, three examples, process, about and contact; interest, projects, speaking and posts remain available.
+`docs/homepage-script.md` is the source for the homepage copy and sequence. The renderer owns its public copy and CSS illustrations; private notes in the script are never rendered. Scene visuals have accessible descriptions, ordinary amounts, and no visible scene labels; objections are rendered as quotations. The navigation links “En pratique” to the first scene. The contact links remain snapshot data. The hero precedes navigation, followed by agent, three examples, process, about and contact; interest, projects, speaking and posts remain available.
 
 ## Exact shared renderer
 

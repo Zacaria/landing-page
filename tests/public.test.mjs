@@ -109,7 +109,7 @@ test("SMB offer homepage: outcome hero, one screen per problem, method, then the
   ])
     assert.ok(scenes.includes(value), value);
   assert.equal((scenes.match(/<blockquote>/g) ?? []).length, 3);
-  assert.match(html, /EXEMPLES/);
+  assert.match(html, /\[ EN PRATIQUE \]/);
   assert.doesNotMatch(firstScreens, /\b(?:API|MCP|workflow|automatisation)\b/i);
   assert.doesNotMatch(html, /—/);
   assert.doesNotMatch(

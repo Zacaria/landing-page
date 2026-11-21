@@ -94,7 +94,7 @@ for (const width of [1440, 768, 390, 320]) {
     expect(before.font).toContain("Geist");
     expect(before.font).not.toContain("Geist Mono");
     for (const [label, id] of [
-      ["Exemples", "prospection"],
+      ["En pratique", "prospection"],
       ["Démarche", "demarche"],
       ["Projets", "projects"],
       ["À propos", "about"],
