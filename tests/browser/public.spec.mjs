@@ -199,7 +199,7 @@ test("Uncommon identity uses editorial serif, below-hero navigation and local fo
     expect(style.nameFont).toContain("Instrument Serif");
     expect(style.nameFont).not.toContain("Mono");
     expect(style.navFont).toContain("Geist Mono");
-    expect(style.marker).toContain("section");
+    expect(style.marker).toBe("none");
     expect(style.fonts).toEqual([true, true, true, true]);
     expect(style.navTop).toBeGreaterThanOrEqual(style.heroBottom - 1);
   }
