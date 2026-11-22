@@ -76,8 +76,22 @@ test("specimen homepage renders the four static demonstrations and section order
   const html = renderIndex(empty);
   assert.match(
     html,
-    /<h1>Des assistants IA\.<br \/><em>En marche, ici\.<\/em><\/h1>/,
+    /<h1>Qu’est-ce qui vous coûte <br \/><em>le plus de temps<\/em> chaque jour&nbsp;\?<\/h1>/,
   );
+  assert.match(
+    html,
+    /<form class="hero-ask" action="mailto:z@havesomecode\.io" method="get" data-hero-ask>/,
+  );
+  assert.match(
+    html,
+    /<label for="hero-ask-text">Ce qui me prend le plus de temps, c’est…<\/label><textarea id="hero-ask-text" name="body"/,
+  );
+  assert.match(html, /<button type="submit">Envoyer à Zacaria →<\/button>/);
+  assert.match(
+    html,
+    /Je vous réponds moi-même\. 30 minutes pour en parler, sans engagement\./,
+  );
+  assert.doesNotMatch(html, /autonomi/i);
   assert.deepEqual(
     [...html.matchAll(/data-demo="([^"]+)"/g)].map((m) => m[1]),
     ["tri", "matin", "prix", "echeance", "veille", "mails"],
@@ -86,7 +100,6 @@ test("specimen homepage renders the four static demonstrations and section order
   assert.match(html, /aria-label="Assistants en démonstration"/);
   assert.match(html, /aria-label="Rejouer la démo : Le tri des demandes"/);
   assert.match(html, /<h3>Le tri des demandes<\/h3>/);
-  assert.match(html, /href="#contact">Discutons de votre projet<\/a>/);
   assert.equal((html.match(/validé ✓/g) ?? []).length, 4);
   assert.match(
     html,

@@ -23,6 +23,15 @@
   device.addEventListener("change", applyTheme);
   applyTheme();
 
+  const ask = document.querySelector("[data-hero-ask]");
+  ask?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const text = ask.elements.body.value.trim();
+    window.location.href =
+      "mailto:z@havesomecode.io" +
+      (text ? `?body=${encodeURIComponent(text)}` : "");
+  });
+
   const input = document.getElementById("search");
   if (!input) return;
   const rows = [...document.querySelectorAll(".post[data-search]")];

@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "files": {
-    "scripts/render.mjs": "8da7bc655069559b81ec43b318ebba1fb8223a6b4e1f478da8a5fe2305a400c7",
+    "scripts/render.mjs": "f6bfd371b2664d15327a3cbb90df38123c5bf1f7f147ee761a703a7c5bb8d162",
     "scripts/schema.mjs": "c3452d7c01a861d433161c9a82a1582ba2b8c7dfe6538ba897d299889910c975",
-    "client/assets/styles.css": "58ff8e6bda33798f9ab09e864c22374dece4d385bc2c9c2e220307979c3651e9",
+    "client/assets/styles.css": "4ae592d7b12f78e29de7bbcf2a20eb8d57d9f30d8fb6eda84c7946e500c7dcff",
     "client/assets/design-tokens.json": "7997e6d8b09646b6586ec54ec415a88b3f3538d9e972b6f110d5102af6faf977",
     "client/assets/theme-init.js": "a4186cc897008e9707d19962aa5531b63dad13dab4cf4362414ae1f6266d2916",
-    "client/assets/site.js": "e46ad4894a6aabc5aa0be85a41ad5a847c8dc6abeedc3a7716c15ce799f88154",
+    "client/assets/site.js": "404c2ef3e8044cad3cdabd462b13963bacb15b832af7004e822bc715d44f4812",
     "client/assets/fonts/geist-mono.woff2": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
     "client/assets/fonts/geist-regular.woff2": "12e7c80de776bc74044973a26bb96842ca4bfe9e16fc6128fa5c6420e8e1d8fc",
     "client/assets/fonts/geist-bold.woff2": "25c8b03dbf9668157bfb8448c0a8aa234d8c85222499295845035acbae184870",

@@ -6,11 +6,15 @@ Les textes entre « » s’affichent tels quels. Les noms d’entreprises et de 
 
 ## Hero
 
-- Surtitre mono : « Carnet · Vol. 1 » puis « Novembre 2026 » en chartreuse.
-- Titre : « Des assistants IA. » / « *En marche, ici.* » (italique chartreuse).
+Direction A choisie par Zacaria le 22/11 après un grill : la question qu’il pose en face à face, et un champ pour y répondre tout de suite. Maquette : `docs/maquettes/hero-v2-2026-11-22.html` (bloc A).
+
+- Surtitre mono : « HaveSomeCode » puis « Zacaria Chtatar » en chartreuse.
+- Titre : « Qu’est-ce qui vous coûte *le plus de temps* chaque jour ? » (italique chartreuse sur « le plus de temps »).
+- Sous-titre : « Je fais communiquer vos outils entre eux pour réduire les tâches sans valeur ajoutée. Vous gardez la main sur chaque action finale. »
+- À droite (dessous sous 760 px) : petit libellé mono « Racontez-moi », champ multi-ligne étiqueté « Ce qui me prend le plus de temps, c’est… », bouton « Envoyer à Zacaria → ». Le bouton ouvre `mailto:z@havesomecode.io` avec le texte saisi en corps ; champ vide, le même mail sans corps. Rien n’est stocké côté serveur. Sans JavaScript, le formulaire `mailto:` en GET fait la même chose.
+- Ligne sous le hero : « Je vous réponds moi-même. 30 minutes pour en parler, sans engagement. »
+- Pas un mot sur l’autonomie dans le hero (décision de Zacaria).
 - Aucun nombre d’assistants, nulle part (hero, meta, JSON-LD, llms.txt) : décision de Zacaria du 22/11.
-- Bouton : « Discutons de votre projet » (vers le contact).
-- Conditions : « 30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel. »
 
 ## Grille des assistants (`#assistants`)
 

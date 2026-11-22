@@ -17,13 +17,15 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.locator("#no-articles, #topics")).toHaveCount(0);
     await expect(page.locator("#posts .post[data-search]")).toHaveCount(3);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Des assistants IA.En marche, ici.",
+      "Qu’est-ce qui vous coûte le plus de temps chaque jour ?",
     );
     await expect(
-      page.locator(".hero a", { hasText: "Discutons de votre projet" }),
+      page.getByRole("button", { name: "Envoyer à Zacaria →" }),
+    ).toBeInViewport();
+    await expect(
+      page.getByLabel("Ce qui me prend le plus de temps, c’est…"),
     ).toBeInViewport();
     await expect(page.locator(".card")).toHaveCount(6);
-    await expect(page.locator('.hero a[href="#contact"]')).toBeVisible();
     await expect(page.locator('.demo-visual[role="img"]')).toHaveCount(6);
     const sections = await page
       .locator("main > section")
@@ -502,3 +504,26 @@ test("offers animate once and preserve complete no-JavaScript visuals", async ({
   );
   await context.close();
 });
+
+for (const [typed, expected] of [
+  [
+    "Les devis du matin, & le reste ?",
+    "mailto:z@havesomecode.io?body=Les%20devis%20du%20matin%2C%20%26%20le%20reste%20%3F",
+  ],
+  ["", "mailto:z@havesomecode.io"],
+]) {
+  test(`hero answer opens a mail to Zacaria (${typed ? "typed" : "empty"})`, async ({
+    page,
+  }) => {
+    const mails = [];
+    page.on("request", (r) => {
+      if (r.url().startsWith("mailto:")) mails.push(r.url());
+    });
+    await page.goto("/");
+    await page
+      .getByLabel("Ce qui me prend le plus de temps, c’est…")
+      .fill(typed);
+    await page.getByRole("button", { name: "Envoyer à Zacaria →" }).click();
+    await expect.poll(() => mails).toEqual([expected]);
+  });
+}

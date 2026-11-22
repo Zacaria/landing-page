@@ -102,7 +102,7 @@ const theme = `<div class="theme-control" role="group" aria-label="Apparence"><s
 
 const homepageCopy = [
   [
-    "Des assistants IA.",
+    "Je fais communiquer vos outils entre eux pour réduire les tâches sans valeur ajoutée. Vous gardez la main sur chaque action finale.",
     "Des assistants IA pour les PME : tri des demandes, point du matin, rappel d’échéances. Chaque envoi reste soumis à votre accord.",
   ],
   [
@@ -236,7 +236,7 @@ function header(snapshot, article, offers = false) {
     ? ""
     : article
       ? `<header id="top"><p class="author">Zacaria Chtatar · HaveSomeCode</p></header>`
-      : `<header class="hero" id="top"><p class="kicker"><span>Carnet · Vol. 1</span><b>Novembre 2026</b></p><h1>Des assistants IA.<br /><em>En marche, ici.</em></h1><a class="hero-cta" href="#contact">Discutons de votre projet</a><p class="conditions">30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel.</p></header>`;
+      : `<header class="hero" id="top"><div class="hero-grid"><div><p class="kicker"><span>HaveSomeCode</span><b>Zacaria Chtatar</b></p><h1>Qu’est-ce qui vous coûte <br /><em>le plus de temps</em> chaque jour&nbsp;?</h1><p class="hero-sub">${escape(homepageCopy[0][0])}</p></div><form class="hero-ask" action="mailto:z@havesomecode.io" method="get" data-hero-ask><span class="mono">Racontez-moi</span><label for="hero-ask-text">Ce qui me prend le plus de temps, c’est…</label><textarea id="hero-ask-text" name="body" rows="4"></textarea><button type="submit">Envoyer à Zacaria →</button></form></div><p class="conditions">Je vous réponds moi-même. 30 minutes pour en parler, sans engagement.</p></header>`;
   return `${hero}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div>`;
 }
 function topics(snapshot) {

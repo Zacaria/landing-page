@@ -732,20 +732,70 @@ main > section > h2 {
 }
 .hero h1 {
   font:
-    400 clamp(46px, 8.4vw, 118px)/0.9 "Instrument Serif",
+    400 clamp(42px, 5.6vw, 80px)/0.95 "Instrument Serif",
     serif;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   margin: 18px 0 0;
 }
-.hero-cta {
-  display: inline-flex;
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: end;
+}
+.hero-sub {
+  margin: 22px 0 0;
+  max-width: 34em;
+  font-size: 18px;
+  line-height: 1.45;
+  color: #d6d1c7;
+}
+.hero-ask {
+  display: grid;
+  gap: 10px;
+  border: 1px solid #373730;
+  border-radius: 12px;
+  padding: 18px;
+}
+.hero-ask label {
+  font:
+    italic 400 22px/1.2 "Instrument Serif",
+    serif;
+  color: #ece8e1;
+}
+.hero-ask textarea {
+  min-height: 96px;
+  resize: vertical;
+  background: transparent;
+  color: #ece8e1;
+  border: 0;
+  border-bottom: 1px solid #5a5a50;
+  font: inherit;
+  font-size: 16px;
+  padding: 6px 0;
+  caret-color: #d7f25c;
+}
+.hero-ask textarea:focus-visible {
+  outline: 2px solid #d7f25c;
+  outline-offset: 4px;
+}
+.hero-ask button {
+  justify-self: start;
+  min-height: 44px;
   background: #d7f25c;
   color: #0c0c0b;
+  border: 0;
   border-radius: 999px;
-  padding: 14px 22px;
-  margin-top: 26px;
-  text-decoration: none;
+  padding: 12px 20px;
+  font: inherit;
   font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+@media (max-width: 760px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
 }
 .hero .conditions {
   color: #cfc9bb;

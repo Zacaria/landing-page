@@ -1,0 +1,52 @@
+<style>
+.wrap{display:grid;gap:22px;font-family:Geist,system-ui,sans-serif}
+.opt{background:#0b0b0c;color:#ece8e1;border-radius:12px;padding:30px 28px 22px;position:relative}
+.tag{position:absolute;top:10px;right:14px;font:11px ui-monospace,monospace;color:#aaa597}
+.head{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px;align-items:end}
+@media(max-width:680px){.head{grid-template-columns:1fr}}
+.k{font:11px ui-monospace,monospace;color:#aaa597;text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px}
+h1{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(34px,5vw,56px);line-height:1;margin:0}
+h1 em{color:#d7f25c}
+.sub{margin:16px 0 0;font-size:17px;line-height:1.45;color:#d6d1c7;max-width:34em}
+.cta{display:inline-block;margin-top:18px;background:#d7f25c;color:#0b0b0c;font-weight:700;padding:10px 16px;border-radius:8px;font-size:15px}
+.cond{font:12px ui-monospace,monospace;color:#aaa597;margin:10px 0 0}
+.mono{font:11px ui-monospace,monospace;color:#aaa597;text-transform:uppercase;letter-spacing:.06em}
+.field{border:1px solid #373730;border-radius:10px;padding:14px}
+.field label{display:block;font-family:"Instrument Serif",serif;font-style:italic;font-size:20px;margin:6px 0 10px}
+.field .in{border-bottom:1px solid #5a5a50;min-height:46px;color:#7d786d;font-size:15px;padding:4px 0}
+.field .in::after{content:"|";color:#d7f25c;animation:b 1s steps(1) infinite}
+@keyframes b{50%{opacity:0}}
+.field .send{margin-top:12px;font:600 12px ui-monospace,monospace;color:#0b0b0c;background:#d7f25c;border-radius:6px;padding:7px 10px;display:inline-block}
+.ex{list-style:none;margin:0;padding:0;border-top:1px solid #373730}
+.ex li{padding:9px 0;border-bottom:1px solid #373730;font-size:15px;display:flex;gap:10px}
+.ex li span{color:#d7f25c;font:12px ui-monospace,monospace;padding-top:2px}
+.pick{margin-top:16px;font:12px ui-monospace,monospace;background:none;border:1px solid #373730;color:#d7f25c;padding:6px 10px;border-radius:6px;cursor:pointer}
+</style>
+<div class="wrap">
+
+<div class="opt"><span class="tag">A · Il répond tout de suite</span>
+<div class="head"><div><p class="k">HaveSomeCode — Zacaria Chtatar</p>
+<h1>Qu'est-ce qui vous coûte<br><em>le plus de temps</em> chaque jour&nbsp;?</h1>
+<p class="sub">Je fais communiquer vos outils entre eux pour réduire les tâches sans valeur ajoutée. Vous gardez la main sur chaque action finale.</p></div>
+<div class="field"><span class="mono">Racontez-moi</span><label>Ce qui me prend le plus de temps, c'est…</label><div class="in"></div><span class="send">Envoyer à Zacaria →</span></div></div>
+<p class="cond">Je vous réponds moi-même. 30 minutes pour en parler, sans engagement.</p>
+<button class="pick" data-hermes-send="Je prends la direction A (question en titre + champ « Ce qui me prend le plus de temps, c'est… ») pour le hero HaveSomeCode.">Choisir A</button></div>
+
+<div class="opt"><span class="tag">B · Des exemples de journées</span>
+<div class="head"><div><p class="k">HaveSomeCode — Zacaria Chtatar</p>
+<h1>Parlez-moi<br><em>de votre journée.</em></h1>
+<p class="sub">Qu'est-ce qui vous freine, vous et vos équipes&nbsp;? Je fais communiquer vos outils pour réduire ces tâches. Vous gardez la main sur chaque action finale.</p>
+<span class="cta">Prendre 30 minutes pour en parler</span></div>
+<div><span class="mono">Ce que je fais déjà disparaître</span><ul class="ex" style="margin-top:8px"><li><span>→</span>Trier les demandes de devis du matin</li><li><span>→</span>Faire le point de ce qui avance et de ce qui attend</li><li><span>→</span>Prévenir la bonne personne avant une échéance</li></ul></div></div>
+<p class="cond">Chaque ligne descend vers sa démo en direct.</p>
+<button class="pick" data-hermes-send="Je prends la direction B (« Parlez-moi de votre journée » + exemples cliquables vers les démos) pour le hero HaveSomeCode.">Choisir B</button></div>
+
+<div class="opt"><span class="tag">C · Rien à côté</span>
+<p class="k">HaveSomeCode — Zacaria Chtatar</p>
+<h1 style="max-width:14em">Qu'est-ce qui vous coûte <em>le plus de temps</em> chaque jour, à vous et à vos équipes&nbsp;?</h1>
+<p class="sub">Je fais communiquer vos outils entre eux pour réduire les tâches sans valeur ajoutée. Vous gardez la main sur chaque action finale.</p>
+<span class="cta">Racontez-moi votre journée</span>
+<p class="cond">30 minutes, sans engagement. Les démos juste en dessous montrent à quoi ça ressemble.</p>
+<button class="pick" data-hermes-send="Je prends la direction C (question pleine largeur, pas de bloc à côté) pour le hero HaveSomeCode.">Choisir C</button></div>
+
+</div>
