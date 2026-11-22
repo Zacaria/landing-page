@@ -20,11 +20,23 @@ export function indexNowPayload(urlList) {
   };
 }
 
+// Vercel reports a deployment as successful a little before the production
+// domain serves it, so wait for the key file.
+async function waitForKey(attempts = 20, delayMs = 15000) {
+  for (let i = 1; ; i++) {
+    const response = await fetch(`${SITE}/${INDEXNOW_KEY}.txt`, {
+      cache: "no-store",
+    });
+    const text = (await response.text()).trim();
+    if (response.status === 200 && text === INDEXNOW_KEY) return;
+    if (i >= attempts)
+      throw new Error(`Key file not served (HTTP ${response.status})`);
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+}
+
 async function main() {
-  const keyResponse = await fetch(`${SITE}/${INDEXNOW_KEY}.txt`);
-  const keyText = (await keyResponse.text()).trim();
-  if (keyResponse.status !== 200 || keyText !== INDEXNOW_KEY)
-    throw new Error(`Key file not served (HTTP ${keyResponse.status})`);
+  await waitForKey();
   const sitemap = await fetch(`${SITE}/sitemap.xml`);
   if (sitemap.status !== 200)
     throw new Error(`Sitemap unavailable (HTTP ${sitemap.status})`);
