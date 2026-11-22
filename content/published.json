@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "revision": "675b42f0b5947b6a0119ab0d9e83ea36db91a71e835a943e25146c836df68015",
+  "revision": "1818c19143bdd063853bcb6a7de6266d9360b373b8717a12b8d64e620fef1517",
   "articles": [
     {
       "schemaVersion": 1,
@@ -369,6 +369,12 @@
       "href": "/#contact",
       "visible": true,
       "order": 7
+    },
+    {
+      "label": "Offres",
+      "href": "/offres",
+      "visible": true,
+      "order": 1
     }
   ]
 }

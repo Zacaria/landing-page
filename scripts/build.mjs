@@ -11,7 +11,12 @@ import {
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { renderIndex, renderArticle, renderBlogIndex } from "./render.mjs";
+import {
+  renderIndex,
+  renderArticle,
+  renderBlogIndex,
+  renderOffers,
+} from "./render.mjs";
 import { validateSnapshot } from "./schema.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export async function build({
@@ -25,6 +30,7 @@ export async function build({
     throw new Error("Published snapshot is too large");
   const snapshot = validateSnapshot(JSON.parse(raw));
   const index = renderIndex(snapshot);
+  const offers = renderOffers(snapshot);
   const articles = snapshot.articles.map((a) => [
     a.slug,
     renderArticle(a, snapshot),
@@ -93,6 +99,7 @@ export async function build({
     ])
       await cp(path.join(root, "client", page), path.join(stage, page));
     await writeFile(path.join(stage, "index.html"), index);
+    await writeFile(path.join(stage, "offres.html"), offers);
     if (articles.length) {
       await mkdir(path.join(stage, "blog"));
       await writeFile(
@@ -109,6 +116,7 @@ export async function build({
     }
     const urls = [
       "/",
+      "/offres",
       ...(articles.length ? ["/blog"] : []),
       ...snapshot.articles.map((a) => `/blog/${a.slug}`),
     ];

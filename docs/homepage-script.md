@@ -7,8 +7,8 @@ Les textes entre « » s’affichent tels quels. Les noms d’entreprises et de 
 ## Hero
 
 - Surtitre mono : « Carnet · Vol. 1 » puis « Novembre 2026 » en chartreuse.
-- Titre : « Quatre assistants. » / « *En marche, ici.* » (italique chartreuse).
-- Trois chiffres : « 4 » démos en direct, « 2 » tournent chez moi, « 0 » envoi sans votre accord.
+- Titre : « Six assistants. » / « *En marche, ici.* » (italique chartreuse).
+- Trois chiffres : « 6 » démos en direct, « 4 » tournent chez moi, « 0 » envoi sans votre accord.
 - Bouton : « Discutons de votre projet » (vers le contact).
 - Conditions : « 30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel. »
 
@@ -21,6 +21,11 @@ Chaque carte : zone de démo noire avec « en direct » et « ⟲ rejouer », nu
 3. **« Les prix à jour »** : « Le tarif fournisseur arrive, chaque écart attend votre accord. » Étiquettes : pdf, catalogue, validation humaine. Démo : cinq lignes passent de « en attente » à « hausse · à valider » ou « baisse · à valider », puis « validé ✓ » ; une reste « inchangé ». Barres seulement.
 4. **« Le rappel d’échéance »** : « À J-7 puis J-1, la bonne personne est prévenue. Rien de plus. » Étiquettes : tourne chez moi, agenda, message. Démo : le curseur avance vers l’échéance TVA ; « Rappel · TVA à déclarer dans 7 jours → Marc », puis « … demain → Marc ».
 
+5. **« Veille missions »** : « Chaque lundi à 8 h, au plus cinq missions classées, avec le lien pour les lire. » Étiquettes : tourne chez moi, sources publiques, lecture seule. Démo : dix annonces, quatre classées avec source et lien.
+6. **« Tri des mails »** : « À 7 h 30, ma boîte est rangée en quatre piles, avec un brouillon pour chaque mail qui attend une réponse. » Étiquettes : tourne chez moi, gmail, rien n’est envoyé. Démo : six mails étiquetés puis un brouillon se tape.
+
+Sous la grille : « Voir les quatre offres → » vers `/offres`. La navigation inclut « Offres ».
+
 Sans JavaScript ou avec les animations réduites, chaque carte affiche son état final. Les démos tournent seulement quand la carte est visible.
 
 **Ajouter une carte :** une entrée dans `specimens` (`scripts/render.mjs` : id, titre, phrase, étiquettes, description accessible, état final en HTML), une fonction du même id dans `client/assets/specimens.js`, puis mettre à jour le chiffre « démos en direct » et les tests.
@@ -31,3 +36,7 @@ Sans JavaScript ou avec les animations réduites, chaque carte affiche son état
 - **Contact** (`#contact`) : « Parlons de votre tâche qui prend trop de temps » ; « Écrivez-moi en deux lignes ce qui vous fait perdre du temps. Je vous réponds pour fixer un appel d’une demi-heure. »
 - Liste d’intérêt (`#suivre`), inchangée.
 - Projets personnels et guides HaveSome (`#projects`), conférences (`#speaking`), dernières notes (`#posts`).
+
+## Page Offres (/offres)
+
+Sept écrans : hero, tri des demandes, point du matin, rappel d’échéances, veille d’appels d’offres, conversation et contact. Source : `/home/hermes/Documents/AI consulting/OFFRES-PAGE.md`. Les durées « Mise en place » sont des hypothèses non validées à confirmer avec Zacaria avant production.

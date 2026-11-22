@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "files": {
-    "scripts/render.mjs": "527ebc71ed3fb61e9b2ef09dc923a78e284196d9eeedeec81c143b1286a17b30",
+    "scripts/render.mjs": "d9b979a5710d5b5e5118b4c3e9cf5c54140bcc792fe8a182b66ad769ba4001b9",
     "scripts/schema.mjs": "c3452d7c01a861d433161c9a82a1582ba2b8c7dfe6538ba897d299889910c975",
-    "client/assets/styles.css": "4a1894e2c95bd40dde8073b4fe0f5b77b03e526b44ad2a1af41263470f63ebd1",
+    "client/assets/styles.css": "0864061058e8412d712efdf64ed70142fb5ff29bd5c4a8f6e89f151a76d6b557",
     "client/assets/design-tokens.json": "7997e6d8b09646b6586ec54ec415a88b3f3538d9e972b6f110d5102af6faf977",
     "client/assets/theme-init.js": "a4186cc897008e9707d19962aa5531b63dad13dab4cf4362414ae1f6266d2916",
     "client/assets/site.js": "e46ad4894a6aabc5aa0be85a41ad5a847c8dc6abeedc3a7716c15ce799f88154",
@@ -15,12 +15,13 @@
     "licenses/geist-mono-OFL.txt": "17a3dc24a665b5fc448aa6997ced191fafd7424244d2e85608c4026e86324d53",
     "licenses/geist-OFL.txt": "930853ee1daa68554d9e35c8a9175affb74f699fad9a5da6ee5ebe76379d9137",
     "licenses/instrument-serif-OFL.txt": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
-    "content/published.json": "d847955ad40d7d6fc43e2a82d17a6715c5a9f16365cf3dc652c2d66ba4304e52",
+    "content/published.json": "c679d3cb0d3e303ee0be0509ec9e534defde8e36793332597e222df1273aa56c",
     "scripts/appearance.mjs": "0989933e349843f5f092302b55c1f8f5b274de80a1f5fc39bae51613d0abf82a",
     "appearance/catalogue.json": "8b32f175931264a4c7377e1fc61b148c3a51dceea88daf28c0878537f2aabcb9",
     "client/appearance-fallback.css": "dc185a1d648e4d3fa02192cda2879a18b12d8e6283ca19106a73483bd3cd4ce5",
-    "client/assets/specimens.js": "c973edb35b11e67347e7a89875465861614bf857959b9c1a149d1a1fa8c160b7",
+    "client/assets/specimens.js": "a6d47d7a4865510526a3c2c09575755f73601d23a1d1f5c56ed5ef0b36a470c1",
     "client/assets/vendor/motion.js": "d8b344a48578cb8616dad0110658017a1434cdb99873adc96d0efe64abc07e8c",
-    "licenses/motion-MIT.txt": "1bf0dc3f7727723e5a032ed12164a47cf92c05204cb1a3485f123c24e2833ed1"
+    "licenses/motion-MIT.txt": "1bf0dc3f7727723e5a032ed12164a47cf92c05204cb1a3485f123c24e2833ed1",
+    "client/assets/offres.js": "1079d081a981610e46da4e69631784e3fcbcc91aff899b1d53dc76ae25ab87d0"
   }
 }

@@ -158,7 +158,70 @@
     );
     schedule(state, () => show("demain"), 4600);
   }
-  const registry = { tri, matin, prix, echeance };
+  function veille(card, state) {
+    const list = card.querySelector(".veille-list");
+    const final = list.innerHTML;
+    list.innerHTML =
+      "<p>Lundi 8 h · lecture</p>" +
+      Array.from({ length: 10 }, () => '<div class="candidate"></div>').join(
+        "",
+      );
+    list.querySelectorAll(".candidate").forEach((row, i) => {
+      state.animations.push(
+        animate(
+          row,
+          { opacity: [0, 1, i < 4 ? 1 : 0.15] },
+          { duration: 1.2, delay: i * 0.09 },
+        ),
+      );
+    });
+    schedule(
+      state,
+      () => {
+        list.innerHTML = final;
+        list
+          .querySelectorAll(".veille-row")
+          .forEach((row, i) =>
+            state.animations.push(
+              animate(
+                row,
+                { opacity: [0, 1], y: [8, 0] },
+                { duration: 0.4, delay: i * 0.18 },
+              ),
+            ),
+          );
+      },
+      2100,
+    );
+  }
+  function mails(card, state) {
+    const chips = card.querySelectorAll(".inbox-chip");
+    const draft = card.querySelector(".draft p");
+    const text = draft.textContent;
+    chips.forEach((chip) => (chip.style.visibility = "hidden"));
+    draft.textContent = "";
+    chips.forEach((chip, i) =>
+      schedule(
+        state,
+        () => {
+          chip.style.visibility = "visible";
+          state.animations.push(
+            animate(chip, { opacity: [0, 1], x: [12, 0] }, { duration: 0.3 }),
+          );
+        },
+        300 + i * 350,
+      ),
+    );
+    for (let i = 1; i <= text.length; i++)
+      schedule(
+        state,
+        () => {
+          draft.textContent = text.slice(0, i);
+        },
+        2500 + i * 25,
+      );
+  }
+  const registry = { tri, matin, prix, echeance, veille, mails };
   function start(card) {
     stop(card);
     if (reduced.matches || document.hidden) return;

@@ -17,14 +17,14 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.locator("#no-articles, #topics")).toHaveCount(0);
     await expect(page.locator("#posts .post[data-search]")).toHaveCount(3);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Quatre assistants.En marche, ici.",
+      "Six assistants.En marche, ici.",
     );
     await expect(
       page.locator(".hero a", { hasText: "Discutons de votre projet" }),
     ).toBeInViewport();
-    await expect(page.locator(".card")).toHaveCount(4);
+    await expect(page.locator(".card")).toHaveCount(6);
     await expect(page.locator('.hero a[href="#contact"]')).toBeVisible();
-    await expect(page.locator('.demo-visual[role="img"]')).toHaveCount(4);
+    await expect(page.locator('.demo-visual[role="img"]')).toHaveCount(6);
     const sections = await page
       .locator("main > section")
       .evaluateAll((els) => els.map((el) => el.id));
@@ -327,7 +327,7 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
   });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:8793/");
-  await expect(page.locator(".card")).toHaveCount(4);
+  await expect(page.locator(".card")).toHaveCount(6);
   await expect(page.locator(".bin b")).toHaveText(["3", "2", "1"]);
   await expect(page.locator(".toast")).toContainText("demain");
   await expect(page.locator('[data-demo="prix"] .st')).toHaveText([
@@ -424,4 +424,81 @@ test("morning typing and price approvals replay in sequence", async ({
     "inchangé",
   ]);
   await expect(price.locator(".st.ok")).toHaveCount(4);
+});
+
+test("new specimens replay and restore offscreen", async ({ page }) => {
+  await page.goto("/");
+  const veille = page.locator('[data-demo="veille"]');
+  await veille.scrollIntoViewIfNeeded();
+  await veille.locator(".restart").click();
+  await expect(veille.locator(".candidate")).toHaveCount(10);
+  await expect(veille.locator(".veille-row")).toHaveCount(4, { timeout: 5000 });
+  await page.locator("footer").scrollIntoViewIfNeeded();
+  await expect(veille.locator(".veille-row")).toHaveCount(4);
+  const mails = page.locator('[data-demo="mails"]');
+  await mails.scrollIntoViewIfNeeded();
+  await mails.locator(".restart").click();
+  await expect(mails.locator(".draft p")).toHaveText("");
+  await expect(mails.locator(".draft p")).toContainText("Zacaria", {
+    timeout: 6000,
+  });
+  await page.locator("footer").scrollIntoViewIfNeeded();
+  await expect(mails.locator(".inbox-chip")).toHaveCount(6);
+  await expect(mails.locator(".draft p")).toContainText("Zacaria");
+});
+for (const width of [1280, 390, 320])
+  test(`offers responsive and reduced motion ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    const errors = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.goto("/offres");
+    await expect(page.locator("[data-offer-visual]")).toHaveCount(4);
+    await expect(page.locator(".offer-reveal")).toHaveCount(13);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    if (width === 390) {
+      const boxes = await page.locator(".offer-sheet").evaluateAll((els) =>
+        els.map((el) => {
+          const r = el.getBoundingClientRect();
+          return { top: r.top, bottom: r.bottom };
+        }),
+      );
+      for (let i = 1; i < boxes.length; i++)
+        expect(boxes[i].top).toBeGreaterThanOrEqual(boxes[i - 1].bottom);
+    }
+    expect(errors).toEqual([]);
+  });
+
+test("offers animate once and preserve complete no-JavaScript visuals", async ({
+  page,
+  browser,
+}) => {
+  const errors = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto("/offres");
+  await page.locator("#tri-des-demandes").scrollIntoViewIfNeeded();
+  await expect(page.locator(".sort-inbox")).toBeVisible();
+  await expect(page.locator(".sort-inbox")).toHaveCount(0, { timeout: 4000 });
+  await page.locator("#rappel-echeances").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(400);
+  expect(errors).toEqual([]);
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 320, height: 800 },
+  });
+  const staticPage = await context.newPage();
+  await staticPage.goto("http://127.0.0.1:8793/offres");
+  await expect(staticPage.locator(".sort-column")).toHaveCount(4);
+  await expect(staticPage.locator(".offer-ad")).toHaveCount(3);
+  await expect(staticPage.locator(".offer-timeline")).toContainText(
+    "la veille",
+  );
+  await expect(staticPage.locator(".offer-message").first()).toContainText(
+    "En retard",
+  );
+  await context.close();
 });

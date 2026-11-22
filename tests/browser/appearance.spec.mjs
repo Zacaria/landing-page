@@ -154,7 +154,7 @@ test("owner bands recolor the current hero without changing homepage geometry or
     await expect(page.locator("#speaking .post")).toHaveCount(3);
     await expect(page.locator(".topline")).toBeVisible();
     await expect(page.locator(".hero h1")).toHaveText(
-      "Quatre assistants.En marche, ici.",
+      "Six assistants.En marche, ici.",
     );
   }
   // Vercel accent and contrast intentionally share black; soft remains distinct.

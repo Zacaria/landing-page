@@ -19,6 +19,7 @@ import {
   renderArticle,
   renderArticleBody,
   renderBlogIndex,
+  renderOffers,
 } from "../scripts/render.mjs";
 import { fixture } from "./fixtures.mjs";
 const root = path.resolve(".local");
@@ -67,12 +68,12 @@ test("baseline is verified public content with the three first blog articles", (
 });
 test("specimen homepage renders the four static demonstrations and section order", () => {
   const html = renderIndex(empty);
-  assert.match(html, /Quatre assistants\.<br \/><em>En marche, ici\.<\/em>/);
+  assert.match(html, /Six assistants\.<br \/><em>En marche, ici\.<\/em>/);
   assert.deepEqual(
     [...html.matchAll(/data-demo="([^"]+)"/g)].map((m) => m[1]),
-    ["tri", "matin", "prix", "echeance"],
+    ["tri", "matin", "prix", "echeance", "veille", "mails"],
   );
-  assert.equal((html.match(/role="img"/g) ?? []).length, 4);
+  assert.equal((html.match(/role="img"/g) ?? []).length, 6);
   assert.match(html, /aria-label="Assistants en démonstration"/);
   assert.match(html, /aria-label="Rejouer la démo : Le tri des demandes"/);
   assert.match(html, /<h3>Le tri des demandes<\/h3>/);
@@ -442,5 +443,44 @@ test("frozen image copy uses exact bytes/digest and rejects corruption and symli
     await assert.rejects(
       build({ snapshotPath, output, assetRoot: dir }),
       /symlinked/,
+    );
+  }));
+
+test("offers render seven sections, exact headings and contact without private notes", () => {
+  const html = renderOffers(baseline);
+  for (const id of [
+    "offres-top",
+    "tri-des-demandes",
+    "point-du-matin",
+    "rappel-echeances",
+    "veille-appels-offres",
+    "conversation",
+    "contact",
+  ])
+    assert.match(html, new RegExp(`id="${id}"`));
+  assert.match(
+    html,
+    /Quatre petites choses qui font gagner du temps à votre équipe/,
+  );
+  for (const dt of ["Je vous livre", "Vous gardez", "Mise en place"])
+    assert.equal(html.split(`<dt>${dt}</dt>`).length - 1, 4);
+  assert.match(
+    html,
+    /mailto:z@havesomecode.io\?subject=Parlons-en%2030%20minutes/,
+  );
+  assert.doesNotMatch(html, /Notes privées|€/);
+  assert.equal(safeHref("/offres"), true);
+});
+test("build generates offers and sitemap route", () =>
+  sandbox(async (dir) => {
+    const output = path.join(dir, "dist");
+    await build({ output });
+    assert.match(
+      await readFile(path.join(output, "offres.html"), "utf8"),
+      /id="offres-top"/,
+    );
+    assert.match(
+      await readFile(path.join(output, "sitemap.xml"), "utf8"),
+      /havesomecode.io\/offres<\/loc>/,
     );
   }));
