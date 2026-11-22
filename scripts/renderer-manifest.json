@@ -3,7 +3,7 @@
   "files": {
     "scripts/render.mjs": "527ebc71ed3fb61e9b2ef09dc923a78e284196d9eeedeec81c143b1286a17b30",
     "scripts/schema.mjs": "c3452d7c01a861d433161c9a82a1582ba2b8c7dfe6538ba897d299889910c975",
-    "client/assets/styles.css": "8d57ea92275978ee76a0809f4fff27359c1ad08090f18d6f52bc260a2ebf3287",
+    "client/assets/styles.css": "4a1894e2c95bd40dde8073b4fe0f5b77b03e526b44ad2a1af41263470f63ebd1",
     "client/assets/design-tokens.json": "7997e6d8b09646b6586ec54ec415a88b3f3538d9e972b6f110d5102af6faf977",
     "client/assets/theme-init.js": "a4186cc897008e9707d19962aa5531b63dad13dab4cf4362414ae1f6266d2916",
     "client/assets/site.js": "e46ad4894a6aabc5aa0be85a41ad5a847c8dc6abeedc3a7716c15ce799f88154",
@@ -19,7 +19,7 @@
     "scripts/appearance.mjs": "0989933e349843f5f092302b55c1f8f5b274de80a1f5fc39bae51613d0abf82a",
     "appearance/catalogue.json": "8b32f175931264a4c7377e1fc61b148c3a51dceea88daf28c0878537f2aabcb9",
     "client/appearance-fallback.css": "dc185a1d648e4d3fa02192cda2879a18b12d8e6283ca19106a73483bd3cd4ce5",
-    "client/assets/specimens.js": "a2de6291d8bb525b4c06a32dbcd9543d6a8aee15e4855efa0dadb2c74f863a2e",
+    "client/assets/specimens.js": "c973edb35b11e67347e7a89875465861614bf857959b9c1a149d1a1fa8c160b7",
     "client/assets/vendor/motion.js": "d8b344a48578cb8616dad0110658017a1434cdb99873adc96d0efe64abc07e8c",
     "licenses/motion-MIT.txt": "1bf0dc3f7727723e5a032ed12164a47cf92c05204cb1a3485f123c24e2833ed1"
   }

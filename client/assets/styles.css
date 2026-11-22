@@ -776,7 +776,7 @@ main > section > h2 {
   color: #cfc9bb;
 }
 .specimens {
-  padding: 0 0 60px;
+  padding: clamp(24px, 4vw, 40px) 0 60px;
 }
 .cards {
   display: grid;
@@ -931,7 +931,7 @@ main > section > h2 {
 }
 .prow {
   display: grid;
-  grid-template-columns: 75px 1fr 76px;
+  grid-template-columns: 75px minmax(0, 1fr) auto;
   gap: 6px;
   align-items: center;
   font:
@@ -954,10 +954,6 @@ main > section > h2 {
 .track .new {
   background: #d7f25c;
   transform-origin: left;
-}
-.st {
-  color: #f2a65c;
-  font-size: 9px;
 }
 .tl {
   position: absolute;
@@ -1077,7 +1073,7 @@ main > section > h2 {
   left: 78%;
 }
 .tl .cur {
-  left: 100%;
+  left: 69%;
 }
 
 .envelope {
@@ -1127,15 +1123,21 @@ main > section > h2 {
   width: 40%;
 }
 .st {
+  min-width: 66px;
+  padding: 4px 6px;
+  border: 1px solid #383830;
+  border-radius: 5px;
   color: #aaa597;
+  font-size: 9px;
+  text-align: center;
+  white-space: nowrap;
 }
 .st.wait {
+  border-color: rgba(242, 166, 92, 0.4);
   color: #f2a65c;
 }
 .st.ok {
-  color: #0c0c0b;
+  border-color: #d7f25c;
   background: #d7f25c;
-  border-radius: 5px;
-  padding: 4px 6px;
-  text-align: center;
+  color: #0c0c0b;
 }

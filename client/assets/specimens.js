@@ -133,24 +133,30 @@
   function echeance(card, state) {
     const cursor = card.querySelector(".cur");
     const toast = card.querySelector(".toast");
-    state.animations.push(
-      animate(cursor, { left: ["0%", "100%"] }, { duration: 5 }),
-    );
-    toast.innerHTML = "<b>Rappel</b> · TVA à déclarer dans 7 jours → Marc";
+    const show = (text) => {
+      toast.innerHTML = `<b>Rappel</b> · TVA à déclarer ${text} → Marc`;
+      state.animations.push(
+        animate(toast, { opacity: [0, 1], y: [12, 0] }, { duration: 0.35 }),
+      );
+    };
+    toast.style.opacity = "0";
     state.animations.push(
       animate(
-        toast,
-        { opacity: [0, 1, 1, 0, 1], y: [12, 0, 0, 12, 0] },
-        { duration: 5 },
+        cursor,
+        { left: ["0%", "78%"] },
+        { duration: 5.2, ease: "linear" },
       ),
     );
+    schedule(state, () => show("dans 7 jours"), 1000);
     schedule(
       state,
-      () => {
-        toast.innerHTML = "<b>Rappel</b> · TVA à déclarer demain → Marc";
-      },
-      3400,
+      () =>
+        state.animations.push(
+          animate(toast, { opacity: [1, 0], y: [0, 12] }, { duration: 0.35 }),
+        ),
+      3000,
     );
+    schedule(state, () => show("demain"), 4600);
   }
   const registry = { tri, matin, prix, echeance };
   function start(card) {
