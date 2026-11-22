@@ -836,10 +836,6 @@ main > section > h2 {
   border-radius: 6px;
   color: #aaa597;
 }
-.tags .real {
-  color: #d7f25c;
-  border-color: #718033;
-}
 .bins {
   position: absolute;
   left: 12px;

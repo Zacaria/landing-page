@@ -14,15 +14,15 @@ Les textes entre « » s’affichent tels quels. Les noms d’entreprises et de 
 
 ## Grille des assistants (`#assistants`)
 
-Chaque carte : zone de démo noire avec « en direct » et « ⟲ rejouer », numéro, titre, une phrase, étiquettes (« tourne chez moi » en chartreuse).
+Chaque carte : zone de démo noire avec « en direct » et « ⟲ rejouer », numéro, titre, une phrase, étiquettes.
 
 1. **« Le tri des demandes »** : « Chaque mail est rangé, avec un brouillon de réponse prêt à relire. » Étiquettes : mails, tableur, validation humaine. Démo : six mails tombent dans Prêt / À compléter / Urgent. État final : 3 / 2 / 1.
-2. **« Le point du matin »** : « À 9 h, un mail court : ce qui avance, ce qui attend, ce qui est en retard. » Étiquettes : tourne chez moi, google sheets, lecture seule. Démo : l’objet « Point du matin du 11/05 : 2 avancés, 3 à décider, 1 en retard » se tape, puis les lignes Ce qui a avancé / À votre décision / En retard apparaissent.
+2. **« Le point du matin »** : « À 9 h, un mail court : ce qui avance, ce qui attend, ce qui est en retard. » Étiquettes : google sheets, lecture seule. Démo : l’objet « Point du matin du 11/05 : 2 avancés, 3 à décider, 1 en retard » se tape, puis les lignes Ce qui a avancé / À votre décision / En retard apparaissent.
 3. **« Les prix à jour »** : « Le tarif fournisseur arrive, chaque écart attend votre accord. » Étiquettes : pdf, catalogue, validation humaine. Démo : cinq lignes passent de « en attente » à « hausse · à valider » ou « baisse · à valider », puis « validé ✓ » ; une reste « inchangé ». Barres seulement.
-4. **« Le rappel d’échéance »** : « À J-7 puis J-1, la bonne personne est prévenue. Rien de plus. » Étiquettes : tourne chez moi, agenda, message. Démo : le curseur avance vers l’échéance TVA ; « Rappel · TVA à déclarer dans 7 jours → Marc », puis « … demain → Marc ».
+4. **« Le rappel d’échéance »** : « À J-7 puis J-1, la bonne personne est prévenue. Rien de plus. » Étiquettes : agenda, message. Démo : le curseur avance vers l’échéance TVA ; « Rappel · TVA à déclarer dans 7 jours → Marc », puis « … demain → Marc ».
 
-5. **« Veille missions »** : « Chaque lundi à 8 h, au plus cinq missions classées, avec le lien pour les lire. » Étiquettes : tourne chez moi, sources publiques, lecture seule. Démo : dix annonces, quatre classées avec source et lien.
-6. **« Tri des mails »** : « À 7 h 30, ma boîte est rangée en quatre piles, avec un brouillon pour chaque mail qui attend une réponse. » Étiquettes : tourne chez moi, gmail, rien n’est envoyé. Démo : six mails étiquetés puis un brouillon se tape.
+5. **« Veille missions »** : « Chaque lundi à 8 h, au plus cinq missions classées, avec le lien pour les lire. » Étiquettes : sources publiques, lecture seule. Démo : dix annonces, quatre classées avec source et lien.
+6. **« Tri des mails »** : « À 7 h 30, ma boîte est rangée en quatre piles, avec un brouillon pour chaque mail qui attend une réponse. » Étiquettes : gmail, rien n’est envoyé. Démo : six mails étiquetés puis un brouillon se tape.
 
 Sous la grille : « Voir les quatre offres → » vers `/offres`. La navigation inclut « Offres ».
 

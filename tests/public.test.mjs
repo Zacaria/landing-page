@@ -556,6 +556,14 @@ test("homepage, its meta and llms.txt never state how many assistants exist", ()
     assert.doesNotMatch(JSON.stringify(block), assistantCount);
   assert.doesNotMatch(renderLlmsTxt(baseline), assistantCount);
 });
+test("homepage and llms.txt never say an assistant runs at Zacaria's", () => {
+  const atHome = /chez (moi|Zacaria)/i;
+  const html = renderIndex(baseline);
+  assert.doesNotMatch(html, atHome);
+  assert.doesNotMatch(html, /class="real"/);
+  assert.match(html, /<span>google sheets<\/span>/);
+  assert.doesNotMatch(renderLlmsTxt(baseline), atHome);
+});
 test("llms.txt names who, what, for whom and links key pages and notes", () => {
   const text = renderLlmsTxt(baseline);
   assert.match(text, /^# HaveSomeCode\n\n> /);

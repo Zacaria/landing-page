@@ -127,7 +127,7 @@ const specimens = [
     id: "matin",
     title: "Le point du matin",
     text: "À 9 h, un mail court : ce qui avance, ce qui attend, ce qui est en retard.",
-    tags: ["tourne chez moi", "google sheets", "lecture seule"],
+    tags: ["google sheets", "lecture seule"],
     label: "Un mail récapitule les avancées, les décisions et les retards.",
     visual: `<div class="mail"><strong class="subject">Point du matin du 11/05 : 2 avancés, 3 à décider, 1 en retard</strong><div class="mail-line"><b class="mail-reveal">Ce qui a avancé</b><span class="mail-entry mail-reveal">· Devis D001 · Boulangerie Lefort → à valider</span><span class="mail-entry mail-reveal">· Nouveau : devis D013 · Pâtisserie du Moulin</span></div><div class="mail-line"><b class="mail-reveal">À votre décision</b><span class="mail-entry mail-reveal">· Devis D004 · Atelier des Saules · 13/05</span><span class="mail-entry mail-reveal">· Remise D013 · 22/05</span></div><div class="mail-line late"><b class="mail-reveal">En retard</b><span class="mail-entry mail-reveal">· Facture F002 · Garage des Tilleuls · 3 j</span></div></div>`,
   },
@@ -155,7 +155,7 @@ const specimens = [
     id: "echeance",
     title: "Le rappel d’échéance",
     text: "À J-7 puis J-1, la bonne personne est prévenue. Rien de plus.",
-    tags: ["tourne chez moi", "agenda", "message"],
+    tags: ["agenda", "message"],
     label:
       "Deux rappels, à J-7 et J-1, précèdent l’échéance TVA ; Marc est prévenu.",
     visual: `<div class="tl"><span class="mk mark-seven">J-7</span><span class="mk mark-one">J-1</span><span class="mk due">TVA</span><span class="cur"></span></div><div class="toast"><b>Rappel</b> · TVA à déclarer demain → Marc</div>`,
@@ -164,7 +164,7 @@ const specimens = [
     id: "veille",
     title: "Veille missions",
     text: "Chaque lundi à 8 h, au plus cinq missions classées, avec le lien pour les lire.",
-    tags: ["tourne chez moi", "sources publiques", "lecture seule"],
+    tags: ["sources publiques", "lecture seule"],
     label:
       "Une dizaine d’annonces lues, quatre retenues et classées, chacune avec sa source et son lien.",
     visual: `<div class="veille-list"><p>Lundi 8 h · 4 retenues</p>${[
@@ -183,7 +183,7 @@ const specimens = [
     id: "mails",
     title: "Tri des mails",
     text: "À 7 h 30, ma boîte est rangée en quatre piles, avec un brouillon pour chaque mail qui attend une réponse.",
-    tags: ["tourne chez moi", "gmail", "rien n’est envoyé"],
+    tags: ["gmail", "rien n’est envoyé"],
     label:
       "Six mails reçoivent une étiquette : un urgent, deux à répondre, un à compléter, deux à ignorer ; un brouillon de réponse est prêt.",
     visual: `<div class="inbox-demo">${[
@@ -204,7 +204,7 @@ const specimens = [
   },
 ];
 function cards() {
-  return `<section id="assistants" class="specimens" aria-label="Assistants en démonstration"><div class="cards">${specimens.map((card, index) => `<article class="card" data-demo="${card.id}"><div class="demo"><div class="bar"><span class="mono live">en direct</span><button type="button" class="mono restart" aria-label="Rejouer la démo : ${escape(card.title)}">⟲ rejouer</button></div><div class="demo-visual" role="img" aria-label="${escape(card.label)}">${card.visual}</div></div><div class="card-body"><span class="mono">0${index + 1}</span><h3>${escape(card.title)}</h3><p>${escape(card.text)}</p><div class="tags">${card.tags.map((tag) => `<span${tag === "tourne chez moi" ? ' class="real"' : ""}>${escape(tag)}</span>`).join("")}</div></div></article>`).join("")}</div><p class="offers-link"><a href="/offres">Voir les quatre offres →</a></p></section>`;
+  return `<section id="assistants" class="specimens" aria-label="Assistants en démonstration"><div class="cards">${specimens.map((card, index) => `<article class="card" data-demo="${card.id}"><div class="demo"><div class="bar"><span class="mono live">en direct</span><button type="button" class="mono restart" aria-label="Rejouer la démo : ${escape(card.title)}">⟲ rejouer</button></div><div class="demo-visual" role="img" aria-label="${escape(card.label)}">${card.visual}</div></div><div class="card-body"><span class="mono">0${index + 1}</span><h3>${escape(card.title)}</h3><p>${escape(card.text)}</p><div class="tags">${card.tags.map((tag) => `<span>${escape(tag)}</span>`).join("")}</div></div></article>`).join("")}</div><p class="offers-link"><a href="/offres">Voir les quatre offres →</a></p></section>`;
 }
 const interest = `<section class="interest" id="suivre"><h2>Un processus qui vous fait perdre du temps ?</h2><p>Je publie ce que j’apprends en regardant des processus réels de PME : ce qui se simplifie, ce qui ne vaut pas l’automatisation, ce que l’IA fait ou ne fait pas. Laissez votre courriel pour recevoir ces retours, et être prévenu si je prends de nouvelles missions de conseil.</p><form class="interest-form" method="post" action="https://interest.havesomecode.io/subscribe" data-interest><input type="hidden" name="source" value="landing" /><div class="field"><label for="interest-email">Votre courriel professionnel</label><input id="interest-email" type="email" name="email" autocomplete="email" placeholder="prenom@entreprise.fr" maxlength="254" required /></div><div class="trap" aria-hidden="true"><label>Ne pas remplir<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div><div class="consent"><input id="interest-consent" type="checkbox" name="consent" value="on" required /><label for="interest-consent">Je souhaite recevoir par courriel l’actualité de HaveSomeCode sur le conseil IA pour les PME.</label></div><button type="submit">Je veux suivre</button><p class="interest-note">Seule votre adresse est enregistrée, uniquement pour ces courriels. Un lien de désinscription figure dans chacun. Détails dans la <a href="/confidentialite">politique de confidentialité</a>.</p><p class="interest-status" role="status" data-interest-status></p></form></section>`;
 
@@ -387,7 +387,7 @@ ${offerList.map(([id, name, text]) => `- [${name}](${ORIGIN}/offres#${id}): ${te
 
 ## Pages clés
 
-- [Accueil](${ORIGIN}/): des assistants IA en démonstration animée, dont certains tournent chaque jour chez Zacaria.
+- [Accueil](${ORIGIN}/): des assistants IA en démonstration animée.
 - [Offres](${ORIGIN}/offres): le détail des quatre offres, ce qui est livré et ce que vous gardez.
 - [À propos](${ORIGIN}/#about): qui est Zacaria Chtatar.
 ${articles.length ? `- [Blog](${ORIGIN}/blog): notes sur les API, l'observabilité et les agents de code.\n` : ""}
