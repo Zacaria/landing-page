@@ -69,7 +69,10 @@ test("baseline is verified public content with the three first blog articles", (
 });
 test("specimen homepage renders the four static demonstrations and section order", () => {
   const html = renderIndex(empty);
-  assert.match(html, /Six assistants\.<br \/><em>En marche, ici\.<\/em>/);
+  assert.match(
+    html,
+    /<h1>Des assistants IA\.<br \/><em>En marche, ici\.<\/em><\/h1>/,
+  );
   assert.deepEqual(
     [...html.matchAll(/data-demo="([^"]+)"/g)].map((m) => m[1]),
     ["tri", "matin", "prix", "echeance", "veille", "mails"],
@@ -538,6 +541,20 @@ test("homepage describes HaveSomeCode, its founder and its four offers in JSON-L
   // Only the public homepage carries it; previews and other pages do not.
   assert.equal(jsonLd(renderIndex(baseline, { preview: true })).length, 0);
   assert.equal(jsonLd(renderOffers(baseline)).length, 0);
+});
+test("homepage, its meta and llms.txt never state how many assistants exist", () => {
+  const assistantCount =
+    /\b(un|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|\d+)\s+(assistants?|démos?|tournent)\b/i;
+  const html = renderIndex(baseline);
+  assert.doesNotMatch(html, assistantCount);
+  assert.doesNotMatch(html, /class="stats"/);
+  assert.match(
+    html,
+    /<meta name="description" content="Des assistants IA pour les PME : tri des demandes, point du matin, rappel d’échéances\. Chaque envoi reste soumis à votre accord\." \/>/,
+  );
+  for (const block of jsonLd(html))
+    assert.doesNotMatch(JSON.stringify(block), assistantCount);
+  assert.doesNotMatch(renderLlmsTxt(baseline), assistantCount);
 });
 test("llms.txt names who, what, for whom and links key pages and notes", () => {
   const text = renderLlmsTxt(baseline);

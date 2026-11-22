@@ -7,8 +7,8 @@ Les textes entre « » s’affichent tels quels. Les noms d’entreprises et de 
 ## Hero
 
 - Surtitre mono : « Carnet · Vol. 1 » puis « Novembre 2026 » en chartreuse.
-- Titre : « Six assistants. » / « *En marche, ici.* » (italique chartreuse).
-- Trois chiffres : « 6 » démos en direct, « 4 » tournent chez moi, « 0 » envoi sans votre accord.
+- Titre : « Des assistants IA. » / « *En marche, ici.* » (italique chartreuse).
+- Aucun nombre d’assistants, nulle part (hero, meta, JSON-LD, llms.txt) : décision de Zacaria du 22/11.
 - Bouton : « Discutons de votre projet » (vers le contact).
 - Conditions : « 30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel. »
 
@@ -28,7 +28,7 @@ Sous la grille : « Voir les quatre offres → » vers `/offres`. La navigation 
 
 Sans JavaScript ou avec les animations réduites, chaque carte affiche son état final. Les démos tournent seulement quand la carte est visible.
 
-**Ajouter une carte :** une entrée dans `specimens` (`scripts/render.mjs` : id, titre, phrase, étiquettes, description accessible, état final en HTML), une fonction du même id dans `client/assets/specimens.js`, puis mettre à jour le chiffre « démos en direct » et les tests.
+**Ajouter une carte :** une entrée dans `specimens` (`scripts/render.mjs` : id, titre, phrase, étiquettes, description accessible, état final en HTML), une fonction du même id dans `client/assets/specimens.js`, puis mettre à jour les tests.
 
 ## Sous la grille, en version courte
 
@@ -39,7 +39,7 @@ Sans JavaScript ou avec les animations réduites, chaque carte affiche son état
 
 ## Pour les moteurs et les assistants IA
 
-- Meta description de l’accueil : « Six assistants pour les tâches qui prennent trop de temps. », alignée sur le titre du hero.
+- Meta et og:description de l’accueil : « Des assistants IA pour les PME : tri des demandes, point du matin, rappel d’échéances. Chaque envoi reste soumis à votre accord. »
 - L’accueil public porte un bloc JSON-LD (`structuredData` dans `scripts/render.mjs`) : `WebSite`, `Organization` + `ProfessionalService` HaveSomeCode avec les quatre offres de /offres en `Service`, `Person` Zacaria Chtatar (fondateur ; LinkedIn, GitHub, CV en `sameAs`), `WebApplication` Calmly publiée par HaveSomeCode. Calmly n’est pas en `sameAs` : ce n’est pas la même entité. Les aperçus privés et les autres pages n’en ont pas.
 - `/llms.txt` est généré au build (`renderLlmsTxt`) : qui, pour qui, les offres, les pages clés, Calmly, les notes publiées et le llms.txt du CV.
 - Phrases reprises du site uniquement : pas de client, de chiffre, de durée de mise en place ni d’avis.

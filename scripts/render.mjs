@@ -102,8 +102,8 @@ const theme = `<div class="theme-control" role="group" aria-label="Apparence"><s
 
 const homepageCopy = [
   [
-    "Six assistants.",
-    "Six assistants IA pour les PME : tri des demandes, point du matin, rappel d’échéances. Chaque envoi reste soumis à votre accord.",
+    "Des assistants IA.",
+    "Des assistants IA pour les PME : tri des demandes, point du matin, rappel d’échéances. Chaque envoi reste soumis à votre accord.",
   ],
   [
     "Zacaria Chtatar, développeur",
@@ -236,7 +236,7 @@ function header(snapshot, article, offers = false) {
     ? ""
     : article
       ? `<header id="top"><p class="author">Zacaria Chtatar · HaveSomeCode</p></header>`
-      : `<header class="hero" id="top"><div class="b-head"><div><p class="kicker"><span>Carnet · Vol. 1</span><b>Novembre 2026</b></p><h1>Six assistants.<br /><em>En marche, ici.</em></h1></div><div class="stats"><div><strong>6</strong><span>démos en direct</span></div><div><strong>4</strong><span>tournent chez moi</span></div><div><strong>0</strong><span>envoi sans votre accord</span></div></div></div><a class="hero-cta" href="#contact">Discutons de votre projet</a><p class="conditions">30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel.</p></header>`;
+      : `<header class="hero" id="top"><p class="kicker"><span>Carnet · Vol. 1</span><b>Novembre 2026</b></p><h1>Des assistants IA.<br /><em>En marche, ici.</em></h1><a class="hero-cta" href="#contact">Discutons de votre projet</a><p class="conditions">30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel.</p></header>`;
   return `${hero}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div>`;
 }
 function topics(snapshot) {
@@ -387,7 +387,7 @@ ${offerList.map(([id, name, text]) => `- [${name}](${ORIGIN}/offres#${id}): ${te
 
 ## Pages clés
 
-- [Accueil](${ORIGIN}/): six assistants en démonstration animée, dont quatre tournent chaque jour chez Zacaria.
+- [Accueil](${ORIGIN}/): des assistants IA en démonstration animée, dont certains tournent chaque jour chez Zacaria.
 - [Offres](${ORIGIN}/offres): le détail des quatre offres, ce qui est livré et ce que vous gardez.
 - [À propos](${ORIGIN}/#about): qui est Zacaria Chtatar.
 ${articles.length ? `- [Blog](${ORIGIN}/blog): notes sur les API, l'observabilité et les agents de code.\n` : ""}

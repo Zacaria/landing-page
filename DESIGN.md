@@ -86,7 +86,7 @@ components:
 
 On 22 October 2026, the owner replaced the CV/Sandstone direction with `https://webdev.teknium.io/#react` (Uncommon Web), then accepted a HaveSomeCode adaptation. Keep the recruiter-focused content cleanup: name, hands-on role, professional evidence and direct CV/contact access before personal experiments. This accepts the reference direction, not a production release or article publication.
 
-The homepage follows `docs/homepage-script.md`: the direction B specimen notebook, six demonstrations, biography, contact and preserved secondary content. The demonstrations have accessible static final states and optional replayable animation.
+The homepage follows `docs/homepage-script.md`: the direction B specimen notebook, the assistant demonstrations, biography, contact and preserved secondary content. The demonstrations have accessible static final states and optional replayable animation.
 
 Use Instrument Serif for the name and large section/project titles, including an italic accent; Geist Sans for reading; Geist Mono for compact metadata and process-step numbering; homepage section headings are unnumbered. Capture the real reference at desktop/mobile dimensions and compare its bottom-weighted hero, below-hero navigation, restrained surfaces and thin rules—not only its palette. Locally bundle licensed fonts; no network font dependency. Keep the attached CV private and do not turn the homepage into its chronology.
 
@@ -94,7 +94,7 @@ The inspected reference is a custom HTML/CSS/JavaScript shell; `#react` is a cat
 
 ## Composition and behavior
 
-Use a left-aligned editorial frame up to 1200px, a black full-bleed hero, ivory serif headline, lime accent and navigation below the hero. Six specimen cards remain readable without JavaScript or motion and at 320px without horizontal overflow. Present each project once in a compact ruled list.
+Use a left-aligned editorial frame up to 1200px, a black full-bleed hero, ivory serif headline, lime accent and navigation below the hero. Specimen cards remain readable without JavaScript or motion and at 320px without horizontal overflow. Present each project once in a compact ruled list.
 
 Appearance choices sit in the subdued footer beside the site credit, not in the identity/header or as a primary call to action (owner revision, 13 October 2026). Keep their transparent, borderless text styling and 44px touch targets. They carry aria-pressed, persist when storage works, and Auto follows device changes. Dark is the default, including without JavaScript. Focus is visible and reduced motion disables smooth scrolling.
 

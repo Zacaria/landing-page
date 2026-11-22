@@ -17,7 +17,7 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.locator("#no-articles, #topics")).toHaveCount(0);
     await expect(page.locator("#posts .post[data-search]")).toHaveCount(3);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Six assistants.En marche, ici.",
+      "Des assistants IA.En marche, ici.",
     );
     await expect(
       page.locator(".hero a", { hasText: "Discutons de votre projet" }),
