@@ -8,7 +8,7 @@ The accepted content architecture is the signed service spec `35096fa5964fd2591a
 
 ## Public schema v1
 
-Homepage correction: follow the nine screens in `docs/homepage-script.md`, keep CV/contact directly available, render projects once, and omit empty notes/search/topics plus their links. Preserve all existing real destinations and the date-only article contract. This presentation release does not authorize Notion publication, private-service activation or preview renderer updates; reconcile new shared pins before future CMS delivery.
+Homepage correction: follow `docs/homepage-script.md` and the direction B specimen cards. Keep CV/contact and the existing published projects and notes available. Navigation points to `/#assistants`; snapshot pins remain mandatory.
 
 Approved HaveSome curation: replace the existing Speaking heading with Talks & learning, retaining `#speaking`. Show the HaveSome… series as three compact list entries: OIDC (interactive guide, 2026), Worktrees (slides, 2026) and Rust APIs (API Days Paris, 2023). Retain the existing talk video, add its slides, and link All presentations to `https://github.com/Zacaria/zacaria#links`. Years and destinations come from that public profile; no new section, cards, article collection, remote embed, dependency or Notion write is needed. The existing schema and published snapshot remain unchanged.
 
@@ -22,14 +22,16 @@ Digests match the service canonical JSON order in `server/cms.ts`: article conte
 
 ## Homepage structure
 
-`docs/homepage-script.md` is the source for the homepage copy and sequence. The renderer owns its public copy and CSS illustrations; private notes in the script are never rendered. Scene visuals have accessible descriptions, no amounts or digits, and no visible scene labels; the prospect drawing stacks on narrow screens. Homepage section headings are unnumbered, while process steps retain their numbering. Objections are rendered as quotations. The navigation links “En pratique” to the first scene. The contact links remain snapshot data. The hero precedes navigation, followed by agent, four examples (quote-request triage, pricing, cash flow, prospecting), process, about and contact; interest, projects, speaking and posts remain available.
+`docs/homepage-script.md` defines the homepage sequence. Four data-driven specimen cards render meaningful static final states, with optional Motion animations and replay controls. The morning subject types before its exact reference lines appear; price rows progress from pending through approval to validated, or unchanged. Reduced-motion and no-JavaScript users retain the final states. About, contact, interest, projects, talks and notes follow in that order.
+
+Motion 12.43.0 is vendored from the npm `motion` package distribution (`package/dist/motion.js`); its MIT license is retained in `licenses/motion-MIT.txt`. Only the homepage loads the vendor and specimens scripts. The shared renderer manifest pins both scripts and the vendor license.
 
 ## Exact shared renderer
 
 Vendor these files without editing their bytes and retain a per-file SHA256 manifest:
 
 - `scripts/render.mjs` and `scripts/schema.mjs` (Node >=22; no runtime package dependencies).
-- `client/assets/styles.css`, `client/assets/theme-init.js`, `client/assets/site.js`.
+- `client/assets/styles.css`, `client/assets/theme-init.js`, `client/assets/site.js`, `client/assets/specimens.js`, `client/assets/vendor/motion.js` and `licenses/motion-MIT.txt`.
 - `client/assets/fonts/geist-mono.woff2` and `licenses/geist-mono-OFL.txt`.
 - `client/assets/fonts/geist-regular.woff2` and `geist-bold.woff2`, with `licenses/geist-OFL.txt`; `instrument-serif-regular.woff2` and `instrument-serif-italic.woff2`, with `licenses/instrument-serif-OFL.txt`. The latest identity follows Uncommon Web, superseding the interrupted Sandstone candidate. Font origins are recorded in `docs/font-provenance.md`.
 - `content/published.json` as the verified public baseline for homepage/About/navigation/project preview context.
@@ -52,7 +54,7 @@ The first three articles (18 November 2026) were committed directly into `conten
 
 `api/appearance.mjs` reads only `public.appearance_settings`, fixed singleton `id='appearance'`, using a server-only SELECT role through the native Neon HTTPS SQL protocol. `HSC_APPEARANCE_DATABASE_URL` never enters browser bundles. The admin alone owns authenticated/CSRF-protected CAS writes; article publication stores and source snapshots are unchanged. Git retains code, the 40 public palettes and licensed fonts, not active settings commits.
 
-Site and CV selections are independent. Defaults are `{theme:"teknium",band:"soft",type:"uncommon"}`. `scripts/appearance.mjs` maps site palettes to the current Uncommon CSS tokens and recolors only the existing `.hero`; it does not restore the obsolete announcement, sidebar rail or prior homepage. CV rules remain under `@media screen`, scoped to `body.resume-app`; print remains outside this override. Both reuse the already-frozen `/assets/fonts/` files, with CORS limited to the five required font filenames. Reader Light/Dark/Auto remains independent of owner palette selection.
+Site and CV selections are independent. Defaults use the dark theme, with a black, ivory and lime hero. `scripts/appearance.mjs` maps site palettes to the current Uncommon CSS tokens while the hero retains its black, ivory and lime colors. CV rules remain under `@media screen`, scoped to `body.resume-app`; print remains outside this override. Both reuse the already-frozen `/assets/fonts/` files, with CORS limited to the five required font filenames. Reader Light/Dark/Auto remains independent of owner palette selection.
 
 Public HTML loads the source-generated `appearance-fallback.css` before the dynamic stylesheet. Protected preview HTML omits the public dynamic endpoint. Success is cached for 60 seconds in the browser/shared cache, so a saved choice can take that window to appear. Missing configuration, an empty row or unavailable transport returns uncached default CSS; malformed settings return 502/no-store. The response envelope is limited to 16,384 bytes, document to 8,192 bytes with exact SHA256 and fatal UTF-8 validation, and the entire transport/body has a two-second deadline. No redirects or caller-supplied SQL/host are allowed. Only this function is placed in `cdg1`, near the dedicated Frankfurt database.
 

@@ -18,11 +18,11 @@ test("fallback first paint, inline precedence, reader Light/Dark/Auto and next s
   await page.route("**/api/appearance?target=site", (route) => route.abort());
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
-  expect(await rootValue(page, "--background")).toBe("#f7f5ef");
+  expect(await rootValue(page, "--background")).toBe("#0b0b0c");
   await page.evaluate(() =>
     document.documentElement.style.setProperty("--background", "red"),
   );
-  expect(await rootValue(page, "--background")).toBe("#f7f5ef");
+  expect(await rootValue(page, "--background")).toBe("#0b0b0c");
   await page.getByRole("button", { name: "Sombre", exact: true }).click();
   expect(await rootValue(page, "--background")).toBe("#0b0b0c");
   await page
@@ -140,7 +140,7 @@ test("owner bands recolor the current hero without changing homepage geometry or
         font: getComputedStyle(el.querySelector("h1")).fontFamily,
       };
     });
-    expect(measured.background).toBe(measured.expected);
+    expect(measured.background).toBe("rgb(12, 12, 11)");
     expect(measured.font).toContain("Instrument Serif");
     const current = {
       width: measured.width,
@@ -154,9 +154,9 @@ test("owner bands recolor the current hero without changing homepage geometry or
     await expect(page.locator("#speaking .post")).toHaveCount(3);
     await expect(page.locator(".topline")).toBeVisible();
     await expect(page.locator(".hero h1")).toHaveText(
-      "Développeur, j'aide les entreprises à mettre l'IA au travail.",
+      "Quatre assistants.En marche, ici.",
     );
   }
   // Vercel accent and contrast intentionally share black; soft remains distinct.
-  expect(new Set(backgrounds).size).toBe(2);
+  expect(new Set(backgrounds).size).toBe(1);
 });

@@ -1,6 +1,6 @@
 (() => {
   document.documentElement.classList.add("js");
-  let mode = "system";
+  let mode = "dark";
   try {
     const saved = localStorage.getItem("hsc-theme");
     if (["light", "dark", "system"].includes(saved)) mode = saved;

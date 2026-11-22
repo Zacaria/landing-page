@@ -17,39 +17,19 @@ for (const width of [1440, 768, 390, 320]) {
     await expect(page.locator("#no-articles, #topics")).toHaveCount(0);
     await expect(page.locator("#posts .post[data-search]")).toHaveCount(3);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "Développeur, j'aide les entreprises à mettre l'IA au travail.",
+      "Quatre assistants.En marche, ici.",
     );
     await expect(
       page.locator(".hero a", { hasText: "Discutons de votre projet" }),
     ).toBeInViewport();
-    await expect(page.locator(".example-section")).toHaveCount(4);
-    await expect(page.locator(".agent-flow li")).toHaveCount(3);
-    await expect(
-      page.locator(
-        '.agent-flow li > svg[aria-hidden="true"][focusable="false"]',
-      ),
-    ).toHaveCount(3);
-    await expect(page.locator(".method-step")).toHaveCount(3);
+    await expect(page.locator(".card")).toHaveCount(4);
     await expect(page.locator('.hero a[href="#contact"]')).toBeVisible();
-    await expect(page.locator(".hero-illustration li")).toHaveCount(4);
-    expect(
-      await page
-        .locator(".hero-illustration a")
-        .evaluateAll((links) => links.map((a) => a.getAttribute("href"))),
-    ).toEqual(["#agent", "#projects", "#posts", "#projects"]);
-    await expect(page.locator('.hero a[href="#agent"]').first()).toHaveText(
-      "Voir ce qu'on trouve ici",
-    );
+    await expect(page.locator('.demo-visual[role="img"]')).toHaveCount(4);
     const sections = await page
       .locator("main > section")
       .evaluateAll((els) => els.map((el) => el.id));
     expect(sections).toEqual([
-      "agent",
-      "devis",
-      "prix",
-      "tresorerie",
-      "prospection",
-      "demarche",
+      "assistants",
       "about",
       "contact",
       "suivre",
@@ -103,8 +83,7 @@ for (const width of [1440, 768, 390, 320]) {
     expect(before.font).toContain("Geist");
     expect(before.font).not.toContain("Geist Mono");
     for (const [label, id] of [
-      ["En pratique", "devis"],
-      ["Démarche", "demarche"],
+      ["Assistants", "assistants"],
       ["Projets", "projects"],
       ["À propos", "about"],
       ["Contact", "contact"],
@@ -220,7 +199,7 @@ test("Light/Dark persistence, Auto preference changes and keyboard controls", as
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(
-    page.getByRole("button", { name: "Auto : suivre le thème de l’appareil" }),
+    page.getByRole("button", { name: "Sombre", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   const light = page.getByRole("button", { name: "Clair", exact: true });
   await light.focus();
@@ -348,17 +327,19 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
   });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:8793/");
-  await expect(page.locator(".hero-map")).toBeHidden();
-  await expect(page.locator(".hero-illustration li")).toHaveCount(4);
-  expect(
-    await page.locator(".hero-illustration li").evaluateAll((items) =>
-      items.map((item) => {
-        const style = getComputedStyle(item);
-        return [style.animationName, style.transform, style.opacity];
-      }),
-    ),
-  ).toEqual(Array(4).fill(["none", "none", "1"]));
-  await expect(page.locator(".hero-illustration li").first()).toBeVisible();
+  await expect(page.locator(".card")).toHaveCount(4);
+  await expect(page.locator(".bin b")).toHaveText(["3", "2", "1"]);
+  await expect(page.locator(".toast")).toContainText("demain");
+  await expect(page.locator('[data-demo="prix"] .st')).toHaveText([
+    "validé ✓",
+    "validé ✓",
+    "validé ✓",
+    "validé ✓",
+    "inchangé",
+  ]);
+  await expect(page.locator('[data-demo="matin"] .mail')).toContainText(
+    "Facture F002 · Garage des Tilleuls · 3 j",
+  );
   await expect(page.locator("#about")).toBeVisible();
   await expect(page.locator("#topics")).toHaveCount(0);
   await expect(page.locator('a[href="/blog"]').first()).toBeVisible();
@@ -373,37 +354,74 @@ test("JavaScript disabled: all useful destinations and auto-dark content remain 
   await context.close();
 });
 
-test("hero map respects motion preferences", async ({ browser }) => {
-  for (const reducedMotion of ["no-preference", "reduce"]) {
-    const context = await browser.newContext({ reducedMotion });
-    const page = await context.newPage();
-    await page.goto("http://127.0.0.1:8793/");
-    const canvas = page.locator(".hero-map");
-    await expect(canvas).toBeVisible();
-    await expect(canvas).toHaveAttribute(
-      "data-motion",
-      reducedMotion === "reduce" ? "static" : "live",
-    );
-    if (reducedMotion === "reduce") {
-      expect(
-        await page
-          .locator(".hero *")
-          .evaluateAll(
-            (items) =>
-              items.filter(
-                (item) => getComputedStyle(item).animationName !== "none",
-              ).length,
-          ),
-      ).toBe(0);
-    } else {
-      await page.waitForTimeout(3000);
-      await expect(page.locator(".site-map li.is-target")).toHaveCount(1, {
-        timeout: 5000,
-      });
-      const row = page.locator(".site-map li").last();
-      await row.locator("a").focus();
-      await expect(row).toHaveClass(/is-target/, { timeout: 5000 });
-    }
-    await context.close();
-  }
+test("specimens retain static states with reduced motion and replay", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ reducedMotion: "reduce" });
+  const page = await context.newPage();
+  await page.goto("http://127.0.0.1:8793/");
+  await page.locator(".restart").first().click();
+  await expect(page.locator(".bin b")).toHaveText(["3", "2", "1"]);
+  await expect(page.locator(".toast")).toContainText("demain");
+  await expect(page.locator('[data-demo="prix"] .st')).toHaveText([
+    "validé ✓",
+    "validé ✓",
+    "validé ✓",
+    "validé ✓",
+    "inchangé",
+  ]);
+  await expect(page.locator('[data-demo="matin"] .mail')).toContainText(
+    "Facture F002 · Garage des Tilleuls · 3 j",
+  );
+  await context.close();
+});
+
+test("live specimens replay and restore their static state offscreen", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const card = page.locator('[data-demo="tri"]');
+  await card.scrollIntoViewIfNeeded();
+  await card.locator(".restart").click();
+  await expect(card.locator(".envelope")).toBeVisible();
+  await expect(card.locator(".bin b").first()).not.toHaveText("3");
+  await page.locator("footer").scrollIntoViewIfNeeded();
+  await expect(card.locator(".bin b")).toHaveText(["3", "2", "1"]);
+  await expect(card.locator(".envelope")).toHaveCount(0);
+});
+
+test("morning typing and price approvals replay in sequence", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const morning = page.locator('[data-demo="matin"]');
+  await morning.scrollIntoViewIfNeeded();
+  await morning.locator(".restart").click();
+  await expect(morning.locator(".caret")).toBeVisible();
+  await expect(morning.locator(".mail-entry").first()).toBeHidden();
+  await expect(morning.locator(".subject")).toHaveText(
+    "Point du matin du 11/05 : 2 avancés, 3 à décider, 1 en retard",
+  );
+  await expect(morning.locator(".mail-entry")).toHaveText([
+    "· Devis D001 · Boulangerie Lefort → à valider",
+    "· Nouveau : devis D013 · Pâtisserie du Moulin",
+    "· Devis D004 · Atelier des Saules · 13/05",
+    "· Remise D013 · 22/05",
+    "· Facture F002 · Garage des Tilleuls · 3 j",
+  ]);
+  await expect(morning.locator(".mail-entry").last()).toBeVisible();
+  const price = page.locator('[data-demo="prix"]');
+  await price.scrollIntoViewIfNeeded();
+  await price.locator(".restart").click();
+  await expect(price.locator(".st")).toHaveText(Array(5).fill("en attente"));
+  await expect(price.locator(".st").nth(1)).toHaveText("baisse · à valider");
+  await expect(price.locator(".st").first()).toHaveText("hausse · à valider");
+  await expect(price.locator(".st")).toHaveText([
+    "validé ✓",
+    "validé ✓",
+    "validé ✓",
+    "validé ✓",
+    "inchangé",
+  ]);
+  await expect(price.locator(".st.ok")).toHaveCount(4);
 });

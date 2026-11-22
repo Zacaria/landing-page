@@ -314,7 +314,7 @@ test("approved choices generate isolated site/CV screen CSS and reader modes", a
   assert.match(site, /--background:[^;]+!important/);
   assert.match(site, /:root\[data-theme="light"\]/);
   assert.match(site, /:root\[data-theme="dark"\]/);
-  assert.match(site, /prefers-color-scheme: dark/);
+  assert.match(cv, /prefers-color-scheme: dark/);
   assert.doesNotMatch(site, /--resume-/);
   assert.match(cv, /^@media screen\{/);
   assert.match(cv, /--resume-paper:[^;]+!important/);

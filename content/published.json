@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "revision": "090e2895394373d0cd2bc03a51aa7bc6326c527220344b6b8b8690a2dd88ecfc",
+  "revision": "675b42f0b5947b6a0119ab0d9e83ea36db91a71e835a943e25146c836df68015",
   "articles": [
     {
       "schemaVersion": 1,
@@ -329,16 +329,10 @@
   },
   "navigation": [
     {
-      "label": "En pratique",
-      "href": "/#devis",
+      "label": "Assistants",
+      "href": "/#assistants",
       "visible": true,
       "order": 0
-    },
-    {
-      "label": "Démarche",
-      "href": "/#demarche",
-      "visible": true,
-      "order": 1
     },
     {
       "label": "Blog",

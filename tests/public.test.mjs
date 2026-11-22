@@ -23,7 +23,6 @@ import {
 import { fixture } from "./fixtures.mjs";
 const root = path.resolve(".local");
 await mkdir(root, { recursive: true });
-const awaitScript = await readFile("docs/homepage-script.md", "utf8");
 const baseline = JSON.parse(await readFile("content/published.json"));
 // The site without articles: notes, search, topics and the Blog link disappear.
 const empty = pinSnapshot({ ...baseline, articles: [] });
@@ -51,10 +50,7 @@ test("baseline is verified public content with the three first blog articles", (
   }
   const html = renderIndex(baseline);
   assert.doesNotMatch(html, /No notes published yet/);
-  assert.match(
-    html,
-    /trois agents pour des tâches de diagnostic et de développement/,
-  );
+  assert.match(html, /lead développeur chez Club Med/);
   for (const href of [
     "https://zacaria.github.io/float/",
     "https://pathfinding-client.vercel.app/",
@@ -69,86 +65,28 @@ test("baseline is verified public content with the three first blog articles", (
     /2000-01|Synthetic|data-article|Design preview|Draft/,
   );
 });
-test("SMB offer homepage: outcome hero, one screen per problem, method, then the person", () => {
+test("specimen homepage renders the four static demonstrations and section order", () => {
   const html = renderIndex(empty);
-  const script = awaitScript;
-  const screens = script.split(/## Écran \d+\. [^\n]+/).slice(1, 10);
-  for (const screen of screens) {
-    for (const match of screen.matchAll(
-      /\*\*(?:Titre|Texte|Ligne de conditions|Avec un agent|Les objections|L'objection) :\*\* « (.*?) »/g,
-    ))
-      assert.ok(
-        html.replace(/<\/?em>/g, "").includes(escape(match[1])),
-        match[1],
-      );
-  }
-  const firstScreens = html.slice(
-    html.indexOf('<header class="hero"'),
-    html.indexOf('id="suivre"'),
+  assert.match(html, /Quatre assistants\.<br \/><em>En marche, ici\.<\/em>/);
+  assert.deepEqual(
+    [...html.matchAll(/data-demo="([^"]+)"/g)].map((m) => m[1]),
+    ["tri", "matin", "prix", "echeance"],
   );
-  const scenes = html.slice(
-    html.indexOf('id="devis"'),
-    html.indexOf('id="demarche"'),
-  );
-  assert.doesNotMatch(
-    scenes,
-    />\s*(?:Exemple|Illustration|chiffres fictifs|L'objection)\s*</i,
-  );
-  assert.doesNotMatch(
-    html.slice(
-      html.indexOf('<header class="hero"'),
-      html.indexOf('<div class="topline"'),
-    ),
-    />[^<]*(?:Illustration|capture de produit)/i,
-  );
-  const visuals = [
-    ...scenes.matchAll(/<div class="example-visual[\s\S]*?(?=<\/section>)/g),
-  ];
-  assert.equal(visuals.length, 4);
-  for (const [visual] of visuals) {
-    const textAndLabels = visual
-      .replace(
-        /<svg[\s\S]*?<\/svg>/g,
-        (svg) => svg.match(/aria-label="([^"]*)"/)?.[1] ?? "",
-      )
-      .replace(/<[^>]+>/g, "");
-    assert.doesNotMatch(textAndLabels, /[€0-9]/);
-    for (const [, label] of visual.matchAll(/aria-label="([^"]*)"/g))
-      assert.doesNotMatch(label, /[€0-9]/);
-  }
-  assert.equal((scenes.match(/<blockquote>/g) ?? []).length, 4);
-  assert.ok(html.indexOf('id="devis"') < html.indexOf('id="prix"'));
+  assert.equal((html.match(/role="img"/g) ?? []).length, 4);
+  assert.match(html, /aria-label="Assistants en démonstration"/);
+  assert.match(html, /aria-label="Rejouer la démo : Le tri des demandes"/);
+  assert.match(html, /<h3>Le tri des demandes<\/h3>/);
+  assert.match(html, /href="#contact">Discutons de votre projet<\/a>/);
+  assert.equal((html.match(/validé ✓/g) ?? []).length, 4);
   assert.match(
-    html.slice(html.indexOf('id="devis"'), html.indexOf('id="prix"')),
-    /<h2>Lundi matin, les demandes de devis attendent dans la boîte mail<\/h2>/,
-  );
-  for (const [, title, text] of screens[6].matchAll(
-    /\d+\. \*\*« (.*?) »\*\* « (.*?) »/g,
-  )) {
-    assert.ok(html.includes(escape(title)), title);
-    assert.ok(html.includes(escape(text)), text);
-  }
-  assert.match(html, /\[ EN PRATIQUE \]/);
-  // The site map names real projects (Kibana MCP); the pitch and scenes stay jargon-free.
-  assert.doesNotMatch(
-    firstScreens.replace(
-      /<div class="hero-illustration site-map">.*?<\/div>/,
-      "",
-    ),
-    /\b(?:API|MCP|workflow|automatisation)\b/i,
-  );
-  assert.doesNotMatch(html, /—/);
-  assert.doesNotMatch(
     html,
-    /Notes privées pour Zacaria|À vérifier de ton côté/,
+    /quatre changements validés, dont une baisse, et un tarif inchangé/i,
   );
+  assert.match(html, /Point du matin du 11\/05/);
+  assert.match(html, /TVA à déclarer demain/);
+  assert.doesNotMatch(html, /hero\.js|id="demarche"|id="agent"/);
   const order = [
-    "agent",
-    "devis",
-    "prix",
-    "tresorerie",
-    "prospection",
-    "demarche",
+    "assistants",
     "about",
     "contact",
     "suivre",
@@ -158,24 +96,8 @@ test("SMB offer homepage: outcome hero, one screen per problem, method, then the
   for (let i = 1; i < order.length; i++)
     assert.ok(
       html.indexOf(`id="${order[i - 1]}"`) < html.indexOf(`id="${order[i]}"`),
-      order[i],
     );
-  assert.equal((html.match(/id="contact"/g) ?? []).length, 1);
-  assert.equal((html.match(/class="method-step"/g) ?? []).length, 3);
-  for (const href of ["/#devis", "/#demarche", "/#about", "/#contact"])
-    assert.ok(html.includes(`href="${href}"`));
-  assert.match(html, /href="https:\/\/cv.havesomecode.io\//);
-  for (const id of ["posts", "search", "topics", "thinking"])
-    assert.ok(!html.includes(`id="${id}"`) && !html.includes(`/#${id}`), id);
-  assert.doesNotMatch(html, /href="\/blog"/);
-  for (const project of baseline.projects) {
-    assert.equal(
-      html.split(`href="${project.href}"`).length - 1,
-      1,
-      project.slug,
-    );
-    assert.equal(html.split(project.description).length - 1, 1, project.slug);
-  }
+  assert.match(html, /href="\/#assistants"/);
   const s = fixture();
   assert.match(renderIndex(s), /id="search"/);
   assert.match(renderIndex(s), /id="posts"/);

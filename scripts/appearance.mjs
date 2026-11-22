@@ -107,7 +107,9 @@ export function appearanceCss(choice, target = "site") {
     );
   const typography =
     target === "site"
-      ? `html{background:var(--background)!important;color:var(--foreground)!important;}body{font-family:${sans}!important;color:var(--foreground)!important;}h1,h2,h3,h4,.brand-line{font-family:${heading}!important;}.hero{background:var(--appearance-band);--foreground:var(--appearance-band-fg)!important;--primary:var(--appearance-band-fg)!important;--primary-foreground:var(--appearance-band)!important;--accent:var(--appearance-band-fg)!important;--muted-foreground:var(--appearance-band-fg)!important;--border:var(--appearance-band-line)!important;color:var(--foreground);}`
+      ? `html{background:var(--background)!important;color:var(--foreground)!important;}body{font-family:${sans}!important;color:var(--foreground)!important;}h1,h2,h3,h4,.brand-line{font-family:${heading}!important;}.hero{background:#0c0c0b;color:#efeadf;}`
       : `body.resume-app .resume-header{background:var(--resume-banner);--resume-ink:var(--resume-banner-fg)!important;--resume-text:var(--resume-banner-fg)!important;--resume-muted:var(--resume-banner-fg)!important;--resume-green:var(--resume-banner-fg)!important;--resume-clay:var(--resume-banner-fg)!important;--resume-line:var(--resume-banner-line)!important;color:var(--resume-ink);}`;
-  return `@media screen{${fonts}${rules(theme.light, `${auto},${light}`)}${rules(theme.dark, dark)}@media(prefers-color-scheme: dark){${rules(theme.dark, auto)}}${typography}}\n`;
+  return target === "site"
+    ? `@media screen{${fonts}${rules(theme.light, light)}${rules(theme.dark, `${auto},${dark}`)}${typography}}\n`
+    : `@media screen{${fonts}${rules(theme.light, `${auto},${light}`)}${rules(theme.dark, dark)}@media(prefers-color-scheme: dark){${rules(theme.dark, auto)}}${typography}}\n`;
 }

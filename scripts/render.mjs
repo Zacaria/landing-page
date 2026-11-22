@@ -102,110 +102,74 @@ const theme = `<div class="theme-control" role="group" aria-label="Apparence"><s
 
 const homepageCopy = [
   [
-    "Développeur, j'aide les entreprises à mettre l'IA au travail.",
-    "Bienvenue sur mon site. Vous y trouvez mon accompagnement pour les entreprises qui veulent y voir clair sur l'IA, mais aussi des guides pour apprendre, mes notes de travail et mes projets personnels.",
-    "Accompagnement : 30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel.",
-  ],
-  [
-    "Un agent, c'est un assistant qui fait le travail à côté de vous",
-    "Vous lui expliquez une tâche, comme à un nouveau collègue : \"quand un client demande un devis, regarde si la demande est complète, prépare la réponse\". Il utilise alors vos outils habituels (messagerie, tableur, logiciel de facturation) et prépare le travail. Pour tout ce qui engage l'entreprise, il demande avant d'agir.",
-  ],
-  [
-    "Lundi matin, les demandes de devis attendent dans la boîte mail",
-    "Éric dirige une imprimerie. Chaque jour, des demandes de devis arrivent sur l'adresse de l'entreprise, mélangées à des réclamations, des relances de fournisseurs et des publicités. Sandrine, à l'administration des ventes, les ouvre une à une : celle-ci est complète, celle-là n'indique ni quantité ni délai, cette autre est urgente mais enfouie sous le reste. Lundi, huit heures et demie, Éric passe la tête dans son bureau et demande : \"On a répondu à tout le monde ?\" Sandrine ne peut pas le dire. Un client écrit depuis jeudi. Éric ne sait pas ce que ça lui a coûté, mais il sait qu'un devis qui arrive tard est un devis qu'on perd souvent.",
-    "L'agent lit chaque nouvelle demande et la range dans l'une de trois piles : prête à chiffrer, à compléter, urgente. Pour chacune, il remplit une fiche (client, produit, quantité, délai) et prépare un brouillon de réponse : un accusé de réception, ou la liste de ce qui manque pour établir le prix. Sandrine relit, corrige si besoin, et c'est elle qui envoie. Éric, son café à la main, regarde une seule liste : ce qui a reçu une réponse, ce qui attend une information du client, ce qui presse.",
-    "Éric vous dira : \"et si l'assistant répond n'importe quoi à mes clients ?\" Rien ne part sans Sandrine : l'agent prépare, elle valide chaque message. Sandrine, elle, se demandera si on cherche à la remplacer. Non : elle garde son métier, le jugement sur le prix, la relation avec le client, et elle perd la partie qui l'use, le tri et la recopie. Elle est associée dès le premier jour, parce que c'est elle qui sait ce qu'est une demande bien faite.",
-  ],
-  [
-    "Le devis est parti avec l'ancien prix",
-    "Hélène dirige une petite entreprise qui pose des cuisines. Ses fournisseurs lui envoient leurs nouveaux tarifs par mail, en PDF. Jeudi, en fin d'après-midi : un client demande un devis, et personne ne sait si la liste de prix du tableur est la dernière. Un devis au mauvais prix, c'est soit une marge perdue, soit un client à rappeler pour s'excuser.",
-    'Quand un fournisseur envoie un nouveau tarif, l\'agent lit le document, prépare la mise à jour de la liste de prix et signale à Hélène ce qui a changé : "plusieurs références ont augmenté". Même chose pour les coordonnées : si un contact change de numéro dans un mail, la fiche est proposée à la correction.',
-    "Vous allez me dire : \"et s'il se trompe de ligne ?\" Chaque changement est listé avec l'ancien et le nouveau prix, et Hélène valide avant qu'il serve dans un devis. Un agent peut se tromper, c'est pour cela que vous gardez la dernière main.",
-  ],
-  [
-    "Où en est la trésorerie ? Je regarde quel fichier est le bon",
-    "Patrick dirige un bureau d'études. Pour savoir où en est l'entreprise, il doit ouvrir l'outil de facturation, la banque, et un tableur qu'une collègue met à jour quand elle a le temps. En fin de mois, tôt le matin, il hésite à valider une dépense, parce qu'il ne sait pas si deux factures en retard ont été payées.",
-    "L'agent rassemble les factures, les paiements reçus et les dépenses prévues, et prépare chaque matin une page simple : ce qui est rentré ce mois-ci, ce qui est en retard, les relances à faire. Plus de tableur à ouvrir ni de collègue à déranger. Patrick lit un écran, pas des lignes.",
-    'Vous allez me dire : "mes chiffres sont confidentiels". Ils le restent : l\'agent lit seulement ce que vous lui ouvrez, et vous décidez où les données sont stockées. On en parle avant de commencer, pas après.',
-  ],
-  [
-    "Mélanie passe sa semaine à recopier des fiches",
-    "Mélanie est indépendante en développement commercial. Pour trouver des clients, elle ne fait pas que téléphoner : elle cherche des entreprises dans Apollo, les range dans Notion, suit les échanges dans HubSpot, et demande à Claude et ChatGPT de rédiger ses messages. Tout en versions gratuites, donc cinq outils qui ne se parlent pas. Mardi, neuf heures du soir : elle recopie encore des noms d'un outil à l'autre. Ce temps-là, elle ne le passe pas avec un prospect.",
-    "Cinq outils qui ne se parlent pas ? Un seul endroit où voir qui rappeler. L'agent prépare la liste du jour et un brouillon de message par contact. Mélanie lit, corrige, et c'est elle qui envoie. Le lendemain, elle ouvre un seul outil et sait qui rappeler.",
-    "Vous allez me dire : \"mes prospects ne veulent pas de messages automatiques\". Ils n'en reçoivent pas. L'agent prépare, Mélanie relit et signe chaque message. Le téléphone reste son meilleur outil, l'agent s'occupe de ce qui l'entoure.",
-  ],
-  [
-    "On commence par parler, pas par installer",
-    "Trois étapes, et vous pouvez vous arrêter après chacune. Moins de saisie et de relances dans votre équipe, sans changer d'outil pour le plaisir.",
+    "Quatre assistants.",
+    "Quatre assistants pour les tâches qui prennent trop de temps.",
   ],
   [
     "Zacaria Chtatar, développeur",
-    "Je construis des logiciels depuis plus de dix ans, et je dirige des équipes techniques depuis plusieurs années. Je suis aujourd'hui lead développeur chez Club Med, sur la plateforme qui alimente leurs applications, où j'ai mis en production trois agents pour des tâches de diagnostic et de développement. Je suis indépendant et je travaille depuis la France.",
+    "Je construis des logiciels depuis plus de dix ans, et je dirige des équipes techniques depuis plusieurs années. Je suis aujourd’hui lead développeur chez Club Med. Je suis indépendant et je travaille depuis la France.",
   ],
   [
     "Parlons de votre tâche qui prend trop de temps",
-    "Écrivez-moi en deux lignes ce qui vous fait perdre du temps. Je vous réponds pour fixer un appel d'une demi-heure.",
+    "Écrivez-moi en deux lignes ce qui vous fait perdre du temps. Je vous réponds pour fixer un appel d’une demi-heure.",
   ],
 ];
-const siteMap = [
-  [
-    "Conseil IA",
-    "Mettre un assistant au travail dans votre entreprise",
-    "#agent",
-  ],
-  [
-    "Guides",
-    "Go, GitOps, Kubernetes, mémoire des agents : comprendre pas à pas",
-    "#projects",
-  ],
-  [
-    "Notes",
-    "Ce que j'apprends en construisant, noté au fil de l'eau",
-    "#posts",
-  ],
-  [
-    "Projets",
-    "Des outils que je construis pour moi : Kibana MCP, Pathfinding, Float",
-    "#projects",
-  ],
+const specimens = [
+  {
+    id: "tri",
+    title: "Le tri des demandes",
+    text: "Chaque mail est rangé, avec un brouillon de réponse prêt à relire.",
+    tags: ["mails", "tableur", "validation humaine"],
+    label: "Trois demandes prêtes, deux à compléter et une urgente.",
+    visual: `<div class="bins"><div class="bin"><b>3</b><span>Prêt</span></div><div class="bin"><b>2</b><span>À compléter</span></div><div class="bin"><b>1</b><span>Urgent</span></div></div>`,
+  },
+  {
+    id: "matin",
+    title: "Le point du matin",
+    text: "À 9 h, un mail court : ce qui avance, ce qui attend, ce qui est en retard.",
+    tags: ["tourne chez moi", "google sheets", "lecture seule"],
+    label: "Un mail récapitule les avancées, les décisions et les retards.",
+    visual: `<div class="mail"><strong class="subject">Point du matin du 11/05 : 2 avancés, 3 à décider, 1 en retard</strong><div class="mail-line"><b class="mail-reveal">Ce qui a avancé</b><span class="mail-entry mail-reveal">· Devis D001 · Boulangerie Lefort → à valider</span><span class="mail-entry mail-reveal">· Nouveau : devis D013 · Pâtisserie du Moulin</span></div><div class="mail-line"><b class="mail-reveal">À votre décision</b><span class="mail-entry mail-reveal">· Devis D004 · Atelier des Saules · 13/05</span><span class="mail-entry mail-reveal">· Remise D013 · 22/05</span></div><div class="mail-line late"><b class="mail-reveal">En retard</b><span class="mail-entry mail-reveal">· Facture F002 · Garage des Tilleuls · 3 j</span></div></div>`,
+  },
+  {
+    id: "prix",
+    title: "Les prix à jour",
+    text: "Le tarif fournisseur arrive, chaque écart attend votre accord.",
+    tags: ["pdf", "catalogue", "validation humaine"],
+    label:
+      "Cinq tarifs comparés : quatre changements validés, dont une baisse, et un tarif inchangé.",
+    visual: `<div class="rows">${[
+      ["Papier A4 80g", 62, 70, "hausse"],
+      ["Encre noire", 48, 40, "baisse"],
+      ["Bâche 3×1", 74, 86, "hausse"],
+      ["Carton 350g", 38, 44, "hausse"],
+      ["Vernis sélectif", 55, 55, "inchangé"],
+    ]
+      .map(
+        ([name, old, current, change]) =>
+          `<div class="prow" data-change="${change}"><span>${name}</span><span class="track"><i class="old old-${old}"></i><i class="new width-${current}"></i></span><span class="st${change === "inchangé" ? "" : " ok"}">${change === "inchangé" ? "inchangé" : "validé ✓"}</span></div>`,
+      )
+      .join("")}</div>`,
+  },
+  {
+    id: "echeance",
+    title: "Le rappel d’échéance",
+    text: "À J-7 puis J-1, la bonne personne est prévenue. Rien de plus.",
+    tags: ["tourne chez moi", "agenda", "message"],
+    label:
+      "Deux rappels, à J-7 et J-1, précèdent l’échéance TVA ; Marc est prévenu.",
+    visual: `<div class="tl"><span class="mk mark-seven">J-7</span><span class="mk mark-one">J-1</span><span class="mk due">TVA</span><span class="cur"></span></div><div class="toast"><b>Rappel</b> · TVA à déclarer demain → Marc</div>`,
+  },
 ];
-const homepageSteps = [
-  [
-    "Une demi-heure au téléphone.",
-    "Vous me décrivez une tâche qui vous fait perdre du temps. Je pose des questions, je ne vends rien. Il est possible que ma réponse soit : ne changez rien.",
-  ],
-  [
-    "Un diagnostic.",
-    "Je regarde comment la tâche se fait vraiment, avec la personne qui la fait. Je vous remets une page : la plus petite amélioration utile, et comment la mettre en place. Parfois, un réglage dans votre logiciel actuel suffit.",
-  ],
-  [
-    "Un essai sur une seule tâche.",
-    "Une personne de votre équipe l'utilise, nous regardons ce qui change, et vous décidez de continuer ou d'arrêter. L'assistant prépare, elle relit, elle envoie. Rien de ce qui engage l'entreprise ne part sans l'accord d'une personne de chez vous.",
-  ],
-];
-
+function cards() {
+  return `<section id="assistants" class="specimens" aria-label="Assistants en démonstration"><div class="cards">${specimens.map((card, index) => `<article class="card" data-demo="${card.id}"><div class="demo"><div class="bar"><span class="mono live">en direct</span><button type="button" class="mono restart" aria-label="Rejouer la démo : ${escape(card.title)}">⟲ rejouer</button></div><div class="demo-visual" role="img" aria-label="${escape(card.label)}">${card.visual}</div></div><div class="card-body"><span class="mono">0${index + 1}</span><h3>${escape(card.title)}</h3><p>${escape(card.text)}</p><div class="tags">${card.tags.map((tag) => `<span${tag === "tourne chez moi" ? ' class="real"' : ""}>${escape(tag)}</span>`).join("")}</div></div></article>`).join("")}</div></section>`;
+}
 const interest = `<section class="interest" id="suivre"><h2>Un processus qui vous fait perdre du temps ?</h2><p>Je publie ce que j’apprends en regardant des processus réels de PME : ce qui se simplifie, ce qui ne vaut pas l’automatisation, ce que l’IA fait ou ne fait pas. Laissez votre courriel pour recevoir ces retours, et être prévenu si je prends de nouvelles missions de conseil.</p><form class="interest-form" method="post" action="https://interest.havesomecode.io/subscribe" data-interest><input type="hidden" name="source" value="landing" /><div class="field"><label for="interest-email">Votre courriel professionnel</label><input id="interest-email" type="email" name="email" autocomplete="email" placeholder="prenom@entreprise.fr" maxlength="254" required /></div><div class="trap" aria-hidden="true"><label>Ne pas remplir<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div><div class="consent"><input id="interest-consent" type="checkbox" name="consent" value="on" required /><label for="interest-consent">Je souhaite recevoir par courriel l’actualité de HaveSomeCode sur le conseil IA pour les PME.</label></div><button type="submit">Je veux suivre</button><p class="interest-note">Seule votre adresse est enregistrée, uniquement pour ces courriels. Un lien de désinscription figure dans chacun. Détails dans la <a href="/confidentialite">politique de confidentialité</a>.</p><p class="interest-status" role="status" data-interest-status></p></form></section>`;
 
-const illustrations = [
-  `<div class="example-visual devis-visual"><div class="visual-columns"><div class="before-panel"><b>Avant · Boîte de réception</b><p>Sandrine</p><ul class="inbox-list"><li>Demande de devis</li><li>Réclamation</li><li>Relance fournisseur</li><li class="urgent">Demande de devis · urgent</li><li>Publicité</li><li>Demande de devis</li></ul><p>Éric : « On a répondu à tout le monde ? »</p></div><div class="after-panel"><b>Après</b><p>Éric : Répondu / En attente du client / À traiter maintenant</p><div class="request-columns">${["Prêtes à chiffrer", "À compléter", "Urgentes"].map((label) => `<div><b>${label}</b><p>Demande de devis</p><span>Brouillon</span><span class="validate-pill">Relire et envoyer</span></div>`).join("")}</div></div></div></div>`,
-  `<div class="example-visual price-visual"><p>✉ tarif-fournisseur.pdf ↓</p><div class="price-row"><b>Produit</b><b>Ancien prix</b><b>Nouveau prix</b><b>Validation</b></div>${["Évier", "Plan de travail", "Meuble"].map((name) => `<div class="price-row"><span>${name}</span><span class="price-bar old-bar" aria-hidden="true"></span><span class="price-bar new-bar" aria-hidden="true"></span><span class="validate-pill">Valider</span></div>`).join("")}</div>`,
-  `<div class="example-visual dashboard"><div class="dashboard-grid">${["Encaissé ce mois-ci", "En retard", "Relances à faire"].map((label) => `<div><small>${label}</small><span class="gauge" aria-hidden="true"></span></div>`).join("")}</div></div>`,
-  `<div class="example-visual prospect-visual"><div class="visual-columns"><div class="before-panel"><b>Avant · mardi soir</b><div class="scattered"><svg viewBox="0 0 220 245" role="img" aria-label="Avant : cinq outils dispersés mardi soir. Après : une liste de trois prospects avec leurs brouillons à valider." focusable="false"><defs><marker id="scene-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="currentColor" stroke-width="1.3" /></marker></defs><g fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#scene-arrow)"><path d="M47 38 C130 27 142 109 180 110" /><path d="M173 42 C142 100 60 99 42 150" /><path d="M43 151 C85 120 157 178 175 184" /><path d="M175 184 C130 238 55 210 55 184" /><path d="M58 198 C108 189 129 95 175 51" /></g><circle cx="110" cy="109" r="13" fill="currentColor" /><path d="M83 153 C83 136 94 127 110 127 C126 127 137 136 137 153 L137 162 L83 162 Z" fill="currentColor" /></svg><span>Notion</span><span>Apollo</span><span>HubSpot</span><span>Claude</span><span>ChatGPT</span></div></div><div class="after-panel"><b>Après · Liste du jour</b><div class="prospect-list">${["A", "B", "C"].map((number) => `<div class="prospect-row"><span>Prospect ${number}</span><span>Brouillon</span><span class="validate-pill">Valider</span></div>`).join("")}</div></div></div></div>`,
-];
-function examples() {
-  return ["devis", "prix", "tresorerie", "prospection"]
-    .map((id, n) => {
-      const [title, situation, agent, objection] = homepageCopy[n + 2];
-      return `<section class="example-section" id="${id}"><div><h2>${escape(title)}</h2><p>${escape(situation)}</p><h3>Avec un agent</h3><p>${escape(agent)}</p><blockquote><p>${escape(objection)}</p></blockquote></div>${illustrations[n]}</section>`;
-    })
-    .join("");
-}
-const agent = `<section class="agent-section" id="agent"><h2>${escape(homepageCopy[1][0])}</h2><p>${escape(homepageCopy[1][1])}</p><ol class="agent-flow"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg> Vous écrivez la consigne</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m10 2 4 0 .5 2.2 1.7.7 1.9-1.2 2.8 2.8-1.2 1.9.7 1.7 2.2.5v4l-2.2.5-.7 1.7 1.2 1.9-2.8 2.8-1.9-1.2-1.7.7L14 22h-4l-.5-2.2-1.7-.7-1.9 1.2-2.8-2.8 1.2-1.9-.7-1.7L2 14v-4l2.2-.5.7-1.7-1.2-1.9 2.8-2.8 1.9 1.2 1.7-.7Z"/><circle cx="12" cy="12" r="3"/></svg> L'agent prépare la tâche dans vos outils</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 4 4L19 6"/></svg> Vous validez l'envoi</li></ol></section>`;
-const method = `<section class="method" id="demarche"><h2>${escape(homepageCopy[6][0])}</h2><p>${escape(homepageCopy[6][1])}</p><ol class="method-steps">${homepageSteps.map(([title, text]) => `<li class="method-step"><h3>${escape(title)}</h3><p>${escape(text)}</p><p class="exit">Je m'arrête ici →</p></li>`).join("")}</ol><p>Un devis écrit avant tout engagement.</p></section>`;
 function about(snapshot) {
-  return `<section class="about" id="about"><div><h2>${escape(homepageCopy[7][0])}</h2><p>${escape(homepageCopy[7][1])}</p><ul class="markers"><li>Développeur</li><li>Lead technique</li><li>Club Med</li></ul><ul class="contact-links">${snapshot.site.contact.map((c) => `<li>${anchor(c.href, escape(c.label))}</li>`).join("")}</ul></div><img src="/assets/portrait-responsive/portrait-w_600.jpg" alt="Portrait de Zacaria Chtatar" /></section>`;
+  return `<section class="about" id="about"><div><h2>${escape(homepageCopy[1][0])}</h2><p>${escape(homepageCopy[1][1])}</p><ul class="markers"><li>Développeur</li><li>Lead technique</li><li>Club Med</li></ul><ul class="contact-links">${snapshot.site.contact.map((c) => `<li>${anchor(c.href, escape(c.label))}</li>`).join("")}</ul></div><img src="/assets/portrait-responsive/portrait-w_600.jpg" alt="Portrait de Zacaria Chtatar" /></section>`;
 }
-const contact = `<section class="contact-panel" id="contact"><h2>${escape(homepageCopy[8][0])}</h2><p>${escape(homepageCopy[8][1])}</p><p class="quick-links"><a href="${MISSION_HREF}">Discutons de votre projet</a></p><p><a href="mailto:z@havesomecode.io">z@havesomecode.io</a></p></section>`;
+const contact = `<section class="contact-panel" id="contact"><h2>${escape(homepageCopy[2][0])}</h2><p>${escape(homepageCopy[2][1])}</p><p class="quick-links"><a href="${MISSION_HREF}">Discutons de votre projet</a></p><p><a href="mailto:z@havesomecode.io">z@havesomecode.io</a></p></section>`;
 
 const sources = {
   float: "https://github.com/Zacaria/float",
@@ -228,7 +192,7 @@ function header(snapshot, article) {
     .join("");
   const hero = article
     ? `<header id="top"><p class="author">Zacaria Chtatar · HaveSomeCode</p></header>`
-    : `<header class="hero" id="top"><canvas class="hero-map" aria-hidden="true"></canvas><span class="hero-start" aria-hidden="true">Vous êtes ici</span><div class="pitch"><p class="role">Zacaria Chtatar · HaveSomeCode</p><h1>${escape(homepageCopy[0][0]).replace("au travail", "<em>au travail</em>")}</h1><p class="intro">${escape(homepageCopy[0][1])}</p><p class="conditions">${escape(homepageCopy[0][2])}</p><p class="quick-links"><a href="#agent">Voir ce qu'on trouve ici</a><a href="#contact">Discutons de votre projet</a></p></div><div class="hero-illustration site-map"><ol>${siteMap.map(([name, text, href]) => `<li><a href="${href}"><i class="node" aria-hidden="true"></i><b>${escape(name)}</b><span>${escape(text)}</span></a></li>`).join("")}</ol></div><a class="hero-scroll" href="#agent">Défiler<span aria-hidden="true"></span></a><span class="hero-caption" aria-hidden="true">Chemin calculé en direct · A*</span></header>`;
+    : `<header class="hero" id="top"><div class="b-head"><div><p class="kicker"><span>Carnet · Vol. 1</span><b>Novembre 2026</b></p><h1>Quatre assistants.<br /><em>En marche, ici.</em></h1></div><div class="stats"><div><strong>4</strong><span>démos en direct</span></div><div><strong>2</strong><span>tournent chez moi</span></div><div><strong>0</strong><span>envoi sans votre accord</span></div></div></div><a class="hero-cta" href="#contact">Discutons de votre projet</a><p class="conditions">30 minutes pour en parler, sans engagement. Je ne vends pas de logiciel.</p></header>`;
   return `${hero}<div class="topline"><p class="brand-line"><a href="/">HAVESOMECODE</a></p><nav aria-label="Navigation principale">${navigation}</nav></div>`;
 }
 function topics(snapshot) {
@@ -254,7 +218,7 @@ ${options.preview ? '<meta name="robots" content="noindex, nofollow" />' : `<lin
 <meta property="og:type" content="${path === "/" ? "website" : "article"}" /><meta property="og:title" content="${escape(title)}" /><meta property="og:description" content="${escape(description)}" /><meta property="og:image" content="${ORIGIN}/assets/social-card.png" /><meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" href="/assets/favicon.ico" sizes="any" /><link rel="preload" href="/assets/fonts/instrument-serif-regular.woff2" as="font" type="font/woff2" crossorigin /><link rel="preload" href="/assets/fonts/geist-regular.woff2" as="font" type="font/woff2" crossorigin /><link rel="preload" href="/assets/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin /><link rel="stylesheet" href="/assets/styles.css" />
 <link rel="stylesheet" href="/appearance-fallback.css" />${options.preview ? "" : '<link rel="stylesheet" href="/api/appearance?target=site" />'}
-<script src="/assets/theme-init.js"></script><script defer src="/assets/site.js"></script>${path === "/" ? '<script defer src="/assets/hero.js"></script>' : ""}<script defer src="/assets/interest.js"></script>${options.preview ? "" : analyticsSnippet}</head><body>
+<script src="/assets/theme-init.js"></script><script defer src="/assets/site.js"></script>${path === "/" ? '<script defer src="/assets/vendor/motion.js"></script><script defer src="/assets/specimens.js"></script>' : ""}<script defer src="/assets/interest.js"></script>${options.preview ? "" : analyticsSnippet}</head><body>
 <a class="skip" href="#main-content">Aller au contenu</a><div class="outer"><div class="site">${options.preview ? '<p class="preview-banner" role="status">APERÇU PRIVÉ · Non publié</p>' : ""}${header(snapshot, path !== "/")}<main id="main-content">${content}${path === "/" ? topics(snapshot) : sidebar(snapshot)}</main>${footer()}</div></div></body></html>\n`;
 }
 function noteDate(article) {
@@ -296,7 +260,7 @@ export function renderIndex(snapshot, options = {}) {
   const notes = articles.length
     ? `<section id="posts"><h2 class="kicker" id="posts-label">DERNIÈRES NOTES :</h2><div class="searchbox"><label for="search" class="sr-only">Rechercher dans les notes</label><input type="search" id="search" placeholder="Rechercher dans les notes" /></div>${selected.map((a) => `<article class="featured" data-featured><span class="tag">À LA UNE</span>${anchor(`/blog/${a.slug}`, escape(a.title))}<p>${escape(a.excerpt)}</p></article>`).join("")}<ul class="post-list">${articles.map(row).join("")}</ul><p class="empty" id="no-results" role="status" hidden>Aucune note ne correspond. Videz la recherche ou essayez un autre sujet.</p><p id="result-count" class="sr-only" role="status"></p><a class="more" href="/blog">Voir toutes les notes →</a></section>`
     : "";
-  const content = `${agent}${examples()}${method}${about(snapshot)}${contact}${interest}${projects(snapshot)}${talk()}${notes}`;
+  const content = `${cards()}${about(snapshot)}${contact}${interest}${projects(snapshot)}${talk()}${notes}`;
   return document(
     "HaveSomeCode · Zacaria Chtatar",
     homepageCopy[0][1],
