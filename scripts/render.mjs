@@ -103,7 +103,7 @@ const theme = `<div class="theme-control" role="group" aria-label="Apparence"><s
 const homepageCopy = [
   [
     "Six assistants.",
-    "Six assistants pour les tâches qui prennent trop de temps.",
+    "Six assistants IA pour les PME : tri des demandes, point du matin, rappel d’échéances. Chaque envoi reste soumis à votre accord.",
   ],
   [
     "Zacaria Chtatar, développeur",
