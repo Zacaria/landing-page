@@ -12,6 +12,11 @@ import {
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { build } from "../scripts/build.mjs";
+import {
+  INDEXNOW_KEY,
+  sitemapUrls,
+  indexNowPayload,
+} from "../scripts/indexnow.mjs";
 import { validateSnapshot, safeHref, pinSnapshot } from "../scripts/schema.mjs";
 import {
   escape,
@@ -591,4 +596,24 @@ test("build publishes llms.txt beside robots.txt", () =>
       await readFile(path.join(output, "llms.txt"), "utf8"),
       renderLlmsTxt(baseline),
     );
+  }));
+test("build serves the IndexNow key and the payload lists only sitemap URLs", () =>
+  sandbox(async (dir) => {
+    const output = path.join(dir, "dist");
+    await build({ output });
+    assert.match(INDEXNOW_KEY, /^[0-9a-f]{32}$/);
+    assert.equal(
+      await readFile(path.join(output, `${INDEXNOW_KEY}.txt`), "utf8"),
+      INDEXNOW_KEY,
+    );
+    const urls = sitemapUrls(
+      await readFile(path.join(output, "sitemap.xml"), "utf8"),
+    );
+    assert.ok(urls.includes("https://www.havesomecode.io/offres"));
+    assert.deepEqual(indexNowPayload(urls), {
+      host: "www.havesomecode.io",
+      key: INDEXNOW_KEY,
+      keyLocation: `https://www.havesomecode.io/${INDEXNOW_KEY}.txt`,
+      urlList: urls,
+    });
   }));

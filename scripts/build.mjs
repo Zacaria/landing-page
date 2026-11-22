@@ -19,6 +19,7 @@ import {
   renderLlmsTxt,
 } from "./render.mjs";
 import { validateSnapshot } from "./schema.mjs";
+import { INDEXNOW_KEY } from "./indexnow.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export async function build({
   snapshotPath = path.join(root, "content/published.json"),
@@ -103,6 +104,7 @@ export async function build({
     await writeFile(path.join(stage, "index.html"), index);
     await writeFile(path.join(stage, "offres.html"), offers);
     await writeFile(path.join(stage, "llms.txt"), llms);
+    await writeFile(path.join(stage, `${INDEXNOW_KEY}.txt`), INDEXNOW_KEY);
     if (articles.length) {
       await mkdir(path.join(stage, "blog"));
       await writeFile(

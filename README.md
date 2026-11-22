@@ -33,6 +33,6 @@ The public snapshot keeps the approved Club Med scale sentence, real projects, t
 
 ## Release
 
-The existing public project is `havesomecode-landing` on Vercel, production domain `www.havesomecode.io`; apex remains the Gandi-managed redirect. `vercel.json` builds `dist/` and enables clean article URLs. The GitHub workflow verifies only; it performs no publication/deployment.
+The existing public project is `havesomecode-landing` on Vercel, production domain `www.havesomecode.io`; apex remains the Gandi-managed redirect. `vercel.json` builds `dist/` and enables clean article URLs. The Verify workflow performs no publication/deployment. After each successful Vercel production deployment, the IndexNow workflow runs `node scripts/indexnow.mjs`: it checks the public key file `/<key>.txt` (key in `scripts/indexnow.mjs`, written by the build) and POSTs the live sitemap URLs to `https://api.indexnow.org/indexnow` so Bing picks them up. Run it by hand the same way.
 
 The existing review/integration/release chain must accept the exact signed candidate before a release worker uses the preserved deployment commands. Renderer/style vendoring must retain the manifest and exact bytes. This implementation does not deploy or publish drafts.
