@@ -37,6 +37,13 @@ Sans JavaScript ou avec les animations réduites, chaque carte affiche son état
 - Liste d’intérêt (`#suivre`), inchangée.
 - Projets personnels et guides HaveSome (`#projects`), conférences (`#speaking`), dernières notes (`#posts`).
 
+## Pour les moteurs et les assistants IA
+
+- Meta description de l’accueil : « Six assistants pour les tâches qui prennent trop de temps. », alignée sur le titre du hero.
+- L’accueil public porte un bloc JSON-LD (`structuredData` dans `scripts/render.mjs`) : `WebSite`, `Organization` + `ProfessionalService` HaveSomeCode avec les quatre offres de /offres en `Service`, `Person` Zacaria Chtatar (fondateur ; LinkedIn, GitHub, CV en `sameAs`), `WebApplication` Calmly publiée par HaveSomeCode. Calmly n’est pas en `sameAs` : ce n’est pas la même entité. Les aperçus privés et les autres pages n’en ont pas.
+- `/llms.txt` est généré au build (`renderLlmsTxt`) : qui, pour qui, les offres, les pages clés, Calmly, les notes publiées et le llms.txt du CV.
+- Phrases reprises du site uniquement : pas de client, de chiffre, de durée de mise en place ni d’avis.
+
 ## Page Offres (/offres)
 
 Sept écrans : hero, tri des demandes, point du matin, rappel d’échéances, veille d’appels d’offres, conversation et contact. Source : `/home/hermes/Documents/AI consulting/OFFRES-PAGE.md`. Les durées « Mise en place » sont des hypothèses non validées à confirmer avec Zacaria avant production.

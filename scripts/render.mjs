@@ -250,6 +250,157 @@ function sidebar(snapshot) {
 function footer() {
   return `<footer class="footer"><a href="/confidentialite">Confidentialité</a><div class="bottom-note"><p>Zacaria Chtatar · HaveSomeCode</p>${theme}</div></footer>`;
 }
+// What the site offers, as read by search engines and AI assistants.
+// Names and sentences are the ones shown on /offres.
+const offerList = [
+  [
+    "tri-des-demandes",
+    "Tri des demandes",
+    "Chaque matin, vos demandes de devis sont rangées, avec une réponse prête à relire.",
+  ],
+  [
+    "point-du-matin",
+    "Le point du matin",
+    "Chaque matin, un message court vous dit ce qui attend votre décision.",
+  ],
+  [
+    "rappel-echeances",
+    "Rappel d'échéances",
+    "Les dates qu'on oublie arrivent dans la boîte de la bonne personne, avant qu'il soit trop tard.",
+  ],
+  [
+    "veille-appels-offres",
+    "Veille d'appels d'offres",
+    "Chaque semaine, quelques annonces qui vous concernent, classées, avec le lien pour les lire.",
+  ],
+];
+const PERSON_TEXT =
+  "Zacaria Chtatar construit des logiciels depuis plus de dix ans et dirige des équipes techniques depuis plusieurs années. Il est aujourd’hui lead développeur chez Club Med. Il est indépendant et travaille depuis la France.";
+const CALMLY = "https://calmly.havesomecode.io/";
+const CALMLY_TEXT =
+  "Des cours clairs, des métaphores simples, des quiz et des outils concrets pour apprendre l'IA sans jargon et sans stress.";
+const ORG_TEXT =
+  "Conseil IA pour les PME : des assistants qui prennent en charge les tâches qui prennent trop de temps, chaque envoi restant soumis à votre accord.";
+function structuredData(snapshot) {
+  const org = `${ORIGIN}/#organization`,
+    person = `${ORIGIN}/#zacaria`;
+  const contact = (label) =>
+    snapshot.site.contact.find((c) => c.label === label)?.href;
+  const data = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${ORIGIN}/#website`,
+        url: `${ORIGIN}/`,
+        name: "HaveSomeCode",
+        inLanguage: "fr",
+        publisher: { "@id": org },
+      },
+      {
+        "@type": ["Organization", "ProfessionalService"],
+        "@id": org,
+        name: "HaveSomeCode",
+        url: `${ORIGIN}/`,
+        description: ORG_TEXT,
+        logo: `${ORIGIN}/assets/social-card.png`,
+        image: `${ORIGIN}/assets/social-card.png`,
+        email: "z@havesomecode.io",
+        founder: { "@id": person },
+        areaServed: { "@type": "Country", name: "France" },
+        knowsLanguage: "fr",
+        sameAs: ["https://github.com/Havesomecode"],
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Offres",
+          url: `${ORIGIN}/offres`,
+          itemListElement: offerList.map(([id, name, description]) => ({
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name,
+              description,
+              url: `${ORIGIN}/offres#${id}`,
+              provider: { "@id": org },
+              areaServed: { "@type": "Country", name: "France" },
+            },
+          })),
+        },
+      },
+      {
+        "@type": "Person",
+        "@id": person,
+        name: "Zacaria Chtatar",
+        givenName: "Zacaria",
+        familyName: "Chtatar",
+        url: `${ORIGIN}/#about`,
+        image: `${ORIGIN}/assets/portrait-responsive/portrait-w_600.jpg`,
+        jobTitle: "Lead développeur",
+        description: PERSON_TEXT,
+        email: "z@havesomecode.io",
+        worksFor: [
+          { "@id": org },
+          { "@type": "Organization", name: "Club Med" },
+        ],
+        sameAs: [contact("LinkedIn"), contact("GitHub"), contact("CV")].filter(
+          Boolean,
+        ),
+      },
+      {
+        "@type": "WebApplication",
+        "@id": `${CALMLY}#app`,
+        name: "Calmly",
+        url: CALMLY,
+        description: CALMLY_TEXT,
+        applicationCategory: "EducationalApplication",
+        inLanguage: "fr",
+        publisher: { "@id": org },
+      },
+    ],
+  };
+  return `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
+}
+export function renderLlmsTxt(snapshot) {
+  validateSnapshot(snapshot);
+  const articles = [...snapshot.articles].sort((a, b) =>
+    noteDate(b).localeCompare(noteDate(a)),
+  );
+  const contact = snapshot.site.contact
+    .filter((c) => c.label !== "E-mail")
+    .map((c) => `- [${c.label}](${c.href})`)
+    .join("\n");
+  return `# HaveSomeCode
+
+> HaveSomeCode est l'activité de conseil IA de Zacaria Chtatar, développeur indépendant en France. Il met en place, pour les PME, des assistants qui prennent en charge les tâches qui prennent trop de temps : tri des demandes, point du matin, rappel d'échéances, veille d'appels d'offres. Chaque envoi reste soumis à votre accord.
+
+Qui : ${PERSON_TEXT}
+
+Pour qui : les dirigeants et les équipes de PME qui perdent du temps sur une tâche répétitive (mails, devis, tableurs, échéances, annonces).
+
+Comment ça commence : une conversation de 30 minutes, sans engagement. Si l'une des offres répond au besoin, on part de là ; sinon, Zacaria dit ce qu'il ferait à votre place, y compris ne rien changer. Un devis écrit avant tout engagement. HaveSomeCode ne vend pas de logiciel.
+
+Contact : [z@havesomecode.io](mailto:z@havesomecode.io)
+
+## Offres
+
+${offerList.map(([id, name, text]) => `- [${name}](${ORIGIN}/offres#${id}): ${text}`).join("\n")}
+
+## Pages clés
+
+- [Accueil](${ORIGIN}/): six assistants en démonstration animée, dont quatre tournent chaque jour chez Zacaria.
+- [Offres](${ORIGIN}/offres): le détail des quatre offres, ce qui est livré et ce que vous gardez.
+- [À propos](${ORIGIN}/#about): qui est Zacaria Chtatar.
+${articles.length ? `- [Blog](${ORIGIN}/blog): notes sur les API, l'observabilité et les agents de code.\n` : ""}
+## Produit
+
+- [Calmly](${CALMLY}): produit de HaveSomeCode. ${CALMLY_TEXT}
+${articles.length ? `\n## Notes\n\n${articles.map((a) => `- [${a.title}](${ORIGIN}/blog/${a.slug}): ${a.excerpt}`).join("\n")}\n` : ""}
+## Zacaria Chtatar
+
+${contact}
+- [CV pour les IA (llms.txt)](https://cv.havesomecode.io/llms.txt)
+`;
+}
 // Cloudflare Web Analytics, public pages only (previews stay out).
 const analyticsSnippet =
   '<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{"token": "04f11759a0bd40a5900231a4e43dc019"}\'></script>';
@@ -262,7 +413,7 @@ ${options.preview ? '<meta name="robots" content="noindex, nofollow" />' : `<lin
 <meta property="og:type" content="${path === "/" ? "website" : "article"}" /><meta property="og:title" content="${escape(title)}" /><meta property="og:description" content="${escape(description)}" /><meta property="og:image" content="${ORIGIN}/assets/social-card.png" /><meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" href="/assets/favicon.ico" sizes="any" /><link rel="preload" href="/assets/fonts/instrument-serif-regular.woff2" as="font" type="font/woff2" crossorigin /><link rel="preload" href="/assets/fonts/geist-regular.woff2" as="font" type="font/woff2" crossorigin /><link rel="preload" href="/assets/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin /><link rel="stylesheet" href="/assets/styles.css" />
 <link rel="stylesheet" href="/appearance-fallback.css" />${options.preview ? "" : '<link rel="stylesheet" href="/api/appearance?target=site" />'}
-<script src="/assets/theme-init.js"></script><script defer src="/assets/site.js"></script>${path === "/" ? '<script defer src="/assets/vendor/motion.js"></script><script defer src="/assets/specimens.js"></script>' : path === "/offres" ? '<script defer src="/assets/vendor/motion.js"></script><script defer src="/assets/offres.js"></script>' : ""}<script defer src="/assets/interest.js"></script>${options.preview ? "" : analyticsSnippet}</head><body>
+${path === "/" && !options.preview ? structuredData(snapshot) : ""}<script src="/assets/theme-init.js"></script><script defer src="/assets/site.js"></script>${path === "/" ? '<script defer src="/assets/vendor/motion.js"></script><script defer src="/assets/specimens.js"></script>' : path === "/offres" ? '<script defer src="/assets/vendor/motion.js"></script><script defer src="/assets/offres.js"></script>' : ""}<script defer src="/assets/interest.js"></script>${options.preview ? "" : analyticsSnippet}</head><body>
 <a class="skip" href="#main-content">Aller au contenu</a><div class="outer"><div class="site">${options.preview ? '<p class="preview-banner" role="status">APERÇU PRIVÉ · Non publié</p>' : ""}${header(snapshot, path !== "/", path === "/offres")}<main id="main-content">${content}${path === "/" ? topics(snapshot) : path === "/offres" ? "" : sidebar(snapshot)}</main>${footer()}</div></div></body></html>\n`;
 }
 function noteDate(article) {

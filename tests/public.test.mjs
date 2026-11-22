@@ -20,6 +20,7 @@ import {
   renderArticleBody,
   renderBlogIndex,
   renderOffers,
+  renderLlmsTxt,
 } from "../scripts/render.mjs";
 import { fixture } from "./fixtures.mjs";
 const root = path.resolve(".local");
@@ -482,5 +483,87 @@ test("build generates offers and sitemap route", () =>
     assert.match(
       await readFile(path.join(output, "sitemap.xml"), "utf8"),
       /havesomecode.io\/offres<\/loc>/,
+    );
+  }));
+
+function jsonLd(html) {
+  const blocks = [
+    ...html.matchAll(/<script type="application\/ld\+json">([^<]*)<\/script>/g),
+  ];
+  return blocks.map((m) => JSON.parse(m[1]));
+}
+test("homepage describes HaveSomeCode, its founder and its four offers in JSON-LD", () => {
+  const [data, ...extra] = jsonLd(renderIndex(baseline));
+  assert.equal(extra.length, 0);
+  assert.equal(data["@context"], "https://schema.org");
+  const byId = Object.fromEntries(data["@graph"].map((n) => [n["@id"], n]));
+  const org = byId["https://www.havesomecode.io/#organization"];
+  assert.deepEqual(org["@type"], ["Organization", "ProfessionalService"]);
+  assert.equal(org.name, "HaveSomeCode");
+  assert.equal(org.founder["@id"], "https://www.havesomecode.io/#zacaria");
+  const person = byId["https://www.havesomecode.io/#zacaria"];
+  assert.equal(person["@type"], "Person");
+  assert.equal(person.name, "Zacaria Chtatar");
+  for (const url of [
+    "https://www.linkedin.com/in/zacariachtatar/",
+    "https://github.com/Zacaria",
+    "https://cv.havesomecode.io/",
+  ])
+    assert.ok(person.sameAs.includes(url), url);
+  const services = org.hasOfferCatalog.itemListElement.map(
+    (o) => o.itemOffered,
+  );
+  assert.deepEqual(
+    services.map((s) => s.name),
+    [
+      "Tri des demandes",
+      "Le point du matin",
+      "Rappel d'échéances",
+      "Veille d'appels d'offres",
+    ],
+  );
+  const offers = renderOffers(baseline);
+  for (const s of services) {
+    assert.equal(s["@type"], "Service");
+    assert.ok(offers.includes(s.description), s.description);
+    assert.ok(offers.includes(`id="${s.url.split("#")[1]}"`), s.url);
+  }
+  const calmly = data["@graph"].find((n) => n.name === "Calmly");
+  assert.equal(calmly.url, "https://calmly.havesomecode.io/");
+  assert.equal(calmly.publisher["@id"], org["@id"]);
+  assert.doesNotMatch(
+    JSON.stringify(data),
+    /review|rating|client|€|testimonial/i,
+  );
+  // Only the public homepage carries it; previews and other pages do not.
+  assert.equal(jsonLd(renderIndex(baseline, { preview: true })).length, 0);
+  assert.equal(jsonLd(renderOffers(baseline)).length, 0);
+});
+test("llms.txt names who, what, for whom and links key pages and notes", () => {
+  const text = renderLlmsTxt(baseline);
+  assert.match(text, /^# HaveSomeCode\n\n> /);
+  for (const needle of [
+    "Zacaria Chtatar",
+    "PME",
+    "https://www.havesomecode.io/offres",
+    "https://www.havesomecode.io/blog",
+    "https://calmly.havesomecode.io/",
+    "https://cv.havesomecode.io/llms.txt",
+    "https://www.linkedin.com/in/zacariachtatar/",
+    "mailto:z@havesomecode.io",
+    ...baseline.articles.map(
+      (a) => `https://www.havesomecode.io/blog/${a.slug}`,
+    ),
+  ])
+    assert.ok(text.includes(needle), needle);
+  assert.doesNotMatch(text, /€|témoignage|avis client/i);
+});
+test("build publishes llms.txt beside robots.txt", () =>
+  sandbox(async (dir) => {
+    const output = path.join(dir, "dist");
+    await build({ output });
+    assert.equal(
+      await readFile(path.join(output, "llms.txt"), "utf8"),
+      renderLlmsTxt(baseline),
     );
   }));

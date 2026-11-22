@@ -16,6 +16,7 @@ import {
   renderArticle,
   renderBlogIndex,
   renderOffers,
+  renderLlmsTxt,
 } from "./render.mjs";
 import { validateSnapshot } from "./schema.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -31,6 +32,7 @@ export async function build({
   const snapshot = validateSnapshot(JSON.parse(raw));
   const index = renderIndex(snapshot);
   const offers = renderOffers(snapshot);
+  const llms = renderLlmsTxt(snapshot);
   const articles = snapshot.articles.map((a) => [
     a.slug,
     renderArticle(a, snapshot),
@@ -100,6 +102,7 @@ export async function build({
       await cp(path.join(root, "client", page), path.join(stage, page));
     await writeFile(path.join(stage, "index.html"), index);
     await writeFile(path.join(stage, "offres.html"), offers);
+    await writeFile(path.join(stage, "llms.txt"), llms);
     if (articles.length) {
       await mkdir(path.join(stage, "blog"));
       await writeFile(
