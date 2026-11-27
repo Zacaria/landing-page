@@ -303,8 +303,8 @@ function structuredData(snapshot) {
         name: "HaveSomeCode",
         url: `${ORIGIN}/`,
         description: ORG_TEXT,
-        logo: `${ORIGIN}/assets/social-card.png`,
-        image: `${ORIGIN}/assets/social-card.png`,
+        logo: `${ORIGIN}/assets/social-card.png?v=2`,
+        image: `${ORIGIN}/assets/social-card.png?v=2`,
         email: "z@havesomecode.io",
         founder: { "@id": person },
         areaServed: { "@type": "Country", name: "France" },
@@ -410,7 +410,7 @@ function document(title, description, path, content, snapshot, options) {
 <html lang="fr"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>${escape(title)}</title><meta name="description" content="${escape(description)}" />
 ${options.preview ? '<meta name="robots" content="noindex, nofollow" />' : `<link rel="canonical" href="${ORIGIN}${escape(path)}" />`}
-<meta property="og:type" content="${path === "/" ? "website" : "article"}" /><meta property="og:title" content="${escape(title)}" /><meta property="og:description" content="${escape(description)}" /><meta property="og:image" content="${ORIGIN}/assets/social-card.png" /><meta name="twitter:card" content="summary_large_image" />
+<meta property="og:type" content="${path === "/" ? "website" : "article"}" /><meta property="og:title" content="${escape(title)}" /><meta property="og:description" content="${escape(description)}" /><meta property="og:image" content="${ORIGIN}/assets/social-card.png?v=2" /><meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" href="/assets/favicon.ico" sizes="any" /><link rel="preload" href="/assets/fonts/instrument-serif-regular.woff2" as="font" type="font/woff2" crossorigin /><link rel="preload" href="/assets/fonts/geist-regular.woff2" as="font" type="font/woff2" crossorigin /><link rel="preload" href="/assets/fonts/geist-mono.woff2" as="font" type="font/woff2" crossorigin /><link rel="stylesheet" href="/assets/styles.css" />
 <link rel="stylesheet" href="/appearance-fallback.css" />${options.preview ? "" : '<link rel="stylesheet" href="/api/appearance?target=site" />'}
 ${path === "/" && !options.preview ? structuredData(snapshot) : ""}<script src="/assets/theme-init.js"></script><script defer src="/assets/site.js"></script>${path === "/" ? '<script defer src="/assets/vendor/motion.js"></script><script defer src="/assets/specimens.js"></script>' : path === "/offres" ? '<script defer src="/assets/vendor/motion.js"></script><script defer src="/assets/offres.js"></script>' : ""}<script defer src="/assets/interest.js"></script>${options.preview ? "" : analyticsSnippet}</head><body>
